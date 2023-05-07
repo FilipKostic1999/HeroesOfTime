@@ -880,29 +880,24 @@ class shopsActivity : AppCompatActivity() {
             } else if (loopStopper == 5) {
                 if (itemId in 43..45) {
                     armorSlot6.setImageResource(R.drawable.knife)
-                    slot6 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 46..47) {
                     armorSlot6.setImageResource(R.drawable.bow)
-                    slot6 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 48) {
                     armorSlot6.setImageResource(R.drawable.rareknife)
-                    slot6 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 49) {
                     armorSlot6.setImageResource(R.drawable.strongbow)
-                    slot6 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 50) {
                     armorSlot6.setImageResource(R.drawable.strongwarknife)
-                    slot6 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 51) {
                     armorSlot6.setImageResource(R.drawable.sword)
-                    slot6 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 52..54) {
                     armorSlot6.setImageResource(R.drawable.throwingknives)
-                    slot6 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 55..56) {
                     armorSlot6.setImageResource(R.drawable.warknife)
-                    slot6 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }
+
+                slot6 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
             } else if (loopStopper == 6) {
                 if (itemId in 43..45) {
                     armorSlot7.setImageResource(R.drawable.knife)
