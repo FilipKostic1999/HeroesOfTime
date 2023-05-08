@@ -3,6 +3,7 @@ package com.example.heroesoftime
 import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import org.w3c.dom.Text
@@ -126,6 +127,7 @@ class shopsActivity : AppCompatActivity() {
     var inventoryAtributesSlot5 = armorClass(0, "", 0, 0, 0, 0, 0, 0, 0)
 
 
+    var isItWeapon = false
 
 
     lateinit var armorSlot1 : ImageView
@@ -443,6 +445,63 @@ class shopsActivity : AppCompatActivity() {
         }
 
 
+        inventorySlot1.setOnClickListener {
+            nameTxt.text = "${inventoryAtributesSlot1.armorName}"
+            armorTxt.text = "Armor: ${inventoryAtributesSlot1.armor}"
+            vitalityTxt.text = "Vitality: ${inventoryAtributesSlot1.vitality}"
+            strenghtTxt.text = "Strenght: ${inventoryAtributesSlot1.strenght}"
+            speedTxt.text = "Speed: ${inventoryAtributesSlot1.speed}"
+            manaTxt.text = "Mana: ${inventoryAtributesSlot1.mana}"
+            priceTxt.text = "Price: ${inventoryAtributesSlot1.price}"
+
+        }
+
+        inventorySlot2.setOnClickListener {
+            nameTxt.text = "${inventoryAtributesSlot2.armorName}"
+            armorTxt.text = "Armor: ${inventoryAtributesSlot2.armor}"
+            vitalityTxt.text = "Vitality: ${inventoryAtributesSlot2.vitality}"
+            strenghtTxt.text = "Strenght: ${inventoryAtributesSlot2.strenght}"
+            speedTxt.text = "Speed: ${inventoryAtributesSlot2.speed}"
+            manaTxt.text = "Mana: ${inventoryAtributesSlot2.mana}"
+            priceTxt.text = "Price: ${inventoryAtributesSlot2.price}"
+
+        }
+
+        inventorySlot3.setOnClickListener {
+            nameTxt.text = "${inventoryAtributesSlot3.armorName}"
+            armorTxt.text = "Armor: ${inventoryAtributesSlot3.armor}"
+            vitalityTxt.text = "Vitality: ${inventoryAtributesSlot3.vitality}"
+            strenghtTxt.text = "Strenght: ${inventoryAtributesSlot3.strenght}"
+            speedTxt.text = "Speed: ${inventoryAtributesSlot3.speed}"
+            manaTxt.text = "Mana: ${inventoryAtributesSlot3.mana}"
+            priceTxt.text = "Price: ${inventoryAtributesSlot3.price}"
+
+        }
+
+        inventorySlot4.setOnClickListener {
+            nameTxt.text = "${inventoryAtributesSlot4.armorName}"
+            armorTxt.text = "Armor: ${inventoryAtributesSlot4.armor}"
+            vitalityTxt.text = "Vitality: ${inventoryAtributesSlot4.vitality}"
+            strenghtTxt.text = "Strenght: ${inventoryAtributesSlot4.strenght}"
+            speedTxt.text = "Speed: ${inventoryAtributesSlot4.speed}"
+            manaTxt.text = "Mana: ${inventoryAtributesSlot4.mana}"
+            priceTxt.text = "Price: ${inventoryAtributesSlot4.price}"
+
+        }
+
+        inventorySlot5.setOnClickListener {
+            nameTxt.text = "${inventoryAtributesSlot5.armorName}"
+            armorTxt.text = "Armor: ${inventoryAtributesSlot5.armor}"
+            vitalityTxt.text = "Vitality: ${inventoryAtributesSlot5.vitality}"
+            strenghtTxt.text = "Strenght: ${inventoryAtributesSlot5.strenght}"
+            speedTxt.text = "Speed: ${inventoryAtributesSlot5.speed}"
+            manaTxt.text = "Mana: ${inventoryAtributesSlot5.mana}"
+            priceTxt.text = "Price: ${inventoryAtributesSlot5.price}"
+
+        }
+
+
+
 
 
 
@@ -525,6 +584,8 @@ class shopsActivity : AppCompatActivity() {
 
 
 
+        showHeroInventory()
+
 
     }
 
@@ -538,8 +599,325 @@ class shopsActivity : AppCompatActivity() {
         var savedItemInventorySlot2 = 7
         var savedItemInventorySlot3 = 18
         var savedItemInventorySlot4 = 19
-        var savedItemInventorySlot5 = 30
+        var savedItemInventorySlot5 = 49
+        var itemForSlot = 0
 
+        var loopStopper = 0
+
+        while (loopStopper < 5) {
+
+            if (loopStopper == 0) {
+                itemForSlot = savedItemInventorySlot1
+            } else if (loopStopper == 1) {
+                itemForSlot = savedItemInventorySlot2
+            } else if (loopStopper == 2) {
+                itemForSlot = savedItemInventorySlot3
+            } else if (loopStopper == 3) {
+                itemForSlot = savedItemInventorySlot4
+            } else if (loopStopper == 4) {
+                itemForSlot = savedItemInventorySlot5
+            }
+
+            for (item in listOfAllArmors) {
+                if (item.itemId == itemForSlot && loopStopper == 0) {
+                    inventoryAtributesSlot1 = armorClass(
+                        item.itemId, item.armorName, item.armor, item.vitality,
+                        item.speed, item.mana, item.strenght, item.price, item.typeItem
+                    )
+                }
+                if (item.itemId == itemForSlot && loopStopper == 1) {
+                    inventoryAtributesSlot2 = armorClass(
+                        item.itemId, item.armorName, item.armor, item.vitality,
+                        item.speed, item.mana, item.strenght, item.price, item.typeItem
+                    )
+                }
+                if (item.itemId == itemForSlot && loopStopper == 2) {
+                    inventoryAtributesSlot3 = armorClass(
+                        item.itemId, item.armorName, item.armor, item.vitality,
+                        item.speed, item.mana, item.strenght, item.price, item.typeItem
+                    )
+                }
+                if (item.itemId == itemForSlot && loopStopper == 3) {
+                    inventoryAtributesSlot4 = armorClass(
+                        item.itemId, item.armorName, item.armor, item.vitality,
+                        item.speed, item.mana, item.strenght, item.price, item.typeItem
+                    )
+                }
+                if (item.itemId == itemForSlot && loopStopper == 4) {
+                    inventoryAtributesSlot5 = armorClass(
+                        item.itemId, item.armorName, item.armor, item.vitality,
+                        item.speed, item.mana, item.strenght, item.price, item.typeItem
+                    )
+                }
+            }
+
+            for (item in listOfAllWeapons) {
+                if (item.itemId == itemForSlot && loopStopper == 0) {
+                    inventoryAtributesSlot1 = armorClass(
+                        item.itemId, item.weaponName, item.damage, item.vitality,
+                        item.speed, item.mana, item.strenght, item.price, item.typeItem
+                    )
+                }
+                if (item.itemId == itemForSlot && loopStopper == 1) {
+                    inventoryAtributesSlot2 = armorClass(
+                        item.itemId, item.weaponName, item.damage, item.vitality,
+                        item.speed, item.mana, item.strenght, item.price, item.typeItem
+                    )
+                }
+                if (item.itemId == itemForSlot && loopStopper == 2) {
+                    inventoryAtributesSlot3 = armorClass(
+                        item.itemId, item.weaponName, item.damage, item.vitality,
+                        item.speed, item.mana, item.strenght, item.price, item.typeItem
+                    )
+                }
+                if (item.itemId == itemForSlot && loopStopper == 3) {
+                    inventoryAtributesSlot4 = armorClass(
+                        item.itemId, item.weaponName, item.damage, item.vitality,
+                        item.speed, item.mana, item.strenght, item.price, item.typeItem
+                    )
+                }
+                if (item.itemId == itemForSlot && loopStopper == 4) {
+                    inventoryAtributesSlot5 = armorClass(
+                        item.itemId, item.weaponName, item.damage, item.vitality,
+                        item.speed, item.mana, item.strenght, item.price, item.typeItem
+                    )
+                }
+            }
+
+            loopStopper ++
+
+        }
+
+        if (savedItemInventorySlot1 in 1..4) {
+            inventorySlot1.setImageResource(R.drawable.leatherarmor)
+        } else if (savedItemInventorySlot1 in 5..6) {
+            inventorySlot1.setImageResource(R.drawable.rareleatherarmor)
+        } else if (savedItemInventorySlot1 in 7..10) {
+            inventorySlot1.setImageResource(R.drawable.leatherrobe)
+        } else if (savedItemInventorySlot1 in 11..12) {
+            inventorySlot1.setImageResource(R.drawable.rareleatherrobe)
+        } else if (savedItemInventorySlot1 in 13..16) {
+            inventorySlot1.setImageResource(R.drawable.leathergloves)
+        } else if (savedItemInventorySlot1 in 17..18) {
+            inventorySlot1.setImageResource(R.drawable.rareleathergloves)
+        } else if (savedItemInventorySlot1 in 19..22) {
+            inventorySlot1.setImageResource(R.drawable.leathershoes)
+        } else if (savedItemInventorySlot1 in 23..24) {
+            inventorySlot1.setImageResource(R.drawable.rareleathershoes)
+        } else if(savedItemInventorySlot1 in 25..28) {
+            inventorySlot1.setImageResource(R.drawable.leathershield)
+        } else if (savedItemInventorySlot1 in 29..30) {
+            inventorySlot1.setImageResource(R.drawable.rareleathershield)
+        } else if (savedItemInventorySlot1 in 31..34) {
+            inventorySlot1.setImageResource(R.drawable.leatherbelt)
+        } else if (savedItemInventorySlot1 in 35..36) {
+            inventorySlot1.setImageResource(R.drawable.rareleatherbelt)
+        } else if (savedItemInventorySlot1 in 37..40) {
+            inventorySlot1.setImageResource(R.drawable.leatherhat)
+        } else if (savedItemInventorySlot1 in 41..42) {
+            inventorySlot1.setImageResource(R.drawable.rareleatherhat)
+        } else if (savedItemInventorySlot1 in 43..45) {
+            inventorySlot1.setImageResource(R.drawable.knife)
+        } else if (savedItemInventorySlot1 in 46..47) {
+            inventorySlot1.setImageResource(R.drawable.bow)
+        } else if (savedItemInventorySlot1 == 48) {
+            inventorySlot1.setImageResource(R.drawable.rareknife)
+        } else if (savedItemInventorySlot1 == 49) {
+            inventorySlot1.setImageResource(R.drawable.strongbow)
+        } else if (savedItemInventorySlot1 == 50) {
+            inventorySlot1.setImageResource(R.drawable.strongwarknife)
+        } else if (savedItemInventorySlot1 == 51) {
+            inventorySlot1.setImageResource(R.drawable.sword)
+        } else if (savedItemInventorySlot1 in 52..54) {
+            inventorySlot1.setImageResource(R.drawable.throwingknives)
+        } else if (savedItemInventorySlot1 in 55..56) {
+            inventorySlot1.setImageResource(R.drawable.warknife)
+        }
+
+
+        if (savedItemInventorySlot2 in 1..4) {
+            inventorySlot2.setImageResource(R.drawable.leatherarmor)
+        } else if (savedItemInventorySlot2 in 5..6) {
+            inventorySlot2.setImageResource(R.drawable.rareleatherarmor)
+        } else if (savedItemInventorySlot2 in 7..10) {
+            inventorySlot2.setImageResource(R.drawable.leatherrobe)
+        } else if (savedItemInventorySlot2 in 11..12) {
+            inventorySlot2.setImageResource(R.drawable.rareleatherrobe)
+        } else if (savedItemInventorySlot2 in 13..16) {
+            inventorySlot2.setImageResource(R.drawable.leathergloves)
+        } else if (savedItemInventorySlot2 in 17..18) {
+            inventorySlot2.setImageResource(R.drawable.rareleathergloves)
+        } else if (savedItemInventorySlot2 in 19..22) {
+            inventorySlot2.setImageResource(R.drawable.leathershoes)
+        } else if (savedItemInventorySlot2 in 23..24) {
+            inventorySlot2.setImageResource(R.drawable.rareleathershoes)
+        } else if(savedItemInventorySlot2 in 25..28) {
+            inventorySlot2.setImageResource(R.drawable.leathershield)
+        } else if (savedItemInventorySlot2 in 29..30) {
+            inventorySlot2.setImageResource(R.drawable.rareleathershield)
+        } else if (savedItemInventorySlot2 in 31..34) {
+            inventorySlot2.setImageResource(R.drawable.leatherbelt)
+        } else if (savedItemInventorySlot2 in 35..36) {
+            inventorySlot2.setImageResource(R.drawable.rareleatherbelt)
+        } else if (savedItemInventorySlot2 in 37..40) {
+            inventorySlot2.setImageResource(R.drawable.leatherhat)
+        } else if (savedItemInventorySlot2 in 41..42) {
+            inventorySlot2.setImageResource(R.drawable.rareleatherhat)
+        } else if (savedItemInventorySlot2 in 43..45) {
+            inventorySlot2.setImageResource(R.drawable.knife)
+        } else if (savedItemInventorySlot2 in 46..47) {
+            inventorySlot2.setImageResource(R.drawable.bow)
+        } else if (savedItemInventorySlot2 == 48) {
+            inventorySlot2.setImageResource(R.drawable.rareknife)
+        } else if (savedItemInventorySlot2 == 49) {
+            inventorySlot2.setImageResource(R.drawable.strongbow)
+        } else if (savedItemInventorySlot2 == 50) {
+            inventorySlot2.setImageResource(R.drawable.strongwarknife)
+        } else if (savedItemInventorySlot2 == 51) {
+            inventorySlot2.setImageResource(R.drawable.sword)
+        } else if (savedItemInventorySlot2 in 52..54) {
+            inventorySlot2.setImageResource(R.drawable.throwingknives)
+        } else if (savedItemInventorySlot2 in 55..56) {
+            inventorySlot2.setImageResource(R.drawable.warknife)
+        }
+
+        if (savedItemInventorySlot3 in 1..4) {
+            inventorySlot3.setImageResource(R.drawable.leatherarmor)
+        } else if (savedItemInventorySlot3 in 5..6) {
+            inventorySlot3.setImageResource(R.drawable.rareleatherarmor)
+        } else if (savedItemInventorySlot3 in 7..10) {
+            inventorySlot3.setImageResource(R.drawable.leatherrobe)
+        } else if (savedItemInventorySlot3 in 11..12) {
+            inventorySlot3.setImageResource(R.drawable.rareleatherrobe)
+        } else if (savedItemInventorySlot3 in 13..16) {
+            inventorySlot3.setImageResource(R.drawable.leathergloves)
+        } else if (savedItemInventorySlot3 in 17..18) {
+            inventorySlot3.setImageResource(R.drawable.rareleathergloves)
+        } else if (savedItemInventorySlot3 in 19..22) {
+            inventorySlot3.setImageResource(R.drawable.leathershoes)
+        } else if (savedItemInventorySlot3 in 23..24) {
+            inventorySlot3.setImageResource(R.drawable.rareleathershoes)
+        } else if(savedItemInventorySlot3 in 25..28) {
+            inventorySlot3.setImageResource(R.drawable.leathershield)
+        } else if (savedItemInventorySlot3 in 29..30) {
+            inventorySlot3.setImageResource(R.drawable.rareleathershield)
+        } else if (savedItemInventorySlot3 in 31..34) {
+            inventorySlot3.setImageResource(R.drawable.leatherbelt)
+        } else if (savedItemInventorySlot3 in 35..36) {
+            inventorySlot3.setImageResource(R.drawable.rareleatherbelt)
+        } else if (savedItemInventorySlot3 in 37..40) {
+            inventorySlot3.setImageResource(R.drawable.leatherhat)
+        } else if (savedItemInventorySlot3 in 41..42) {
+            inventorySlot3.setImageResource(R.drawable.rareleatherhat)
+        } else if (savedItemInventorySlot3 in 43..45) {
+            inventorySlot3.setImageResource(R.drawable.knife)
+        } else if (savedItemInventorySlot3 in 46..47) {
+            inventorySlot3.setImageResource(R.drawable.bow)
+        } else if (savedItemInventorySlot3 == 48) {
+            inventorySlot3.setImageResource(R.drawable.rareknife)
+        } else if (savedItemInventorySlot3 == 49) {
+            inventorySlot3.setImageResource(R.drawable.strongbow)
+        } else if (savedItemInventorySlot3 == 50) {
+            inventorySlot3.setImageResource(R.drawable.strongwarknife)
+        } else if (savedItemInventorySlot3 == 51) {
+            inventorySlot3.setImageResource(R.drawable.sword)
+        } else if (savedItemInventorySlot3 in 52..54) {
+            inventorySlot3.setImageResource(R.drawable.throwingknives)
+        } else if (savedItemInventorySlot3 in 55..56) {
+            inventorySlot3.setImageResource(R.drawable.warknife)
+        }
+
+        if (savedItemInventorySlot4 in 1..4) {
+            inventorySlot4.setImageResource(R.drawable.leatherarmor)
+        } else if (savedItemInventorySlot4 in 5..6) {
+            inventorySlot4.setImageResource(R.drawable.rareleatherarmor)
+        } else if (savedItemInventorySlot4 in 7..10) {
+            inventorySlot4.setImageResource(R.drawable.leatherrobe)
+        } else if (savedItemInventorySlot4 in 11..12) {
+            inventorySlot4.setImageResource(R.drawable.rareleatherrobe)
+        } else if (savedItemInventorySlot4 in 13..16) {
+            inventorySlot4.setImageResource(R.drawable.leathergloves)
+        } else if (savedItemInventorySlot4 in 17..18) {
+            inventorySlot4.setImageResource(R.drawable.rareleathergloves)
+        } else if (savedItemInventorySlot4 in 19..22) {
+            inventorySlot4.setImageResource(R.drawable.leathershoes)
+        } else if (savedItemInventorySlot4 in 23..24) {
+            inventorySlot4.setImageResource(R.drawable.rareleathershoes)
+        } else if(savedItemInventorySlot4 in 25..28) {
+            inventorySlot4.setImageResource(R.drawable.leathershield)
+        } else if (savedItemInventorySlot4 in 29..30) {
+            inventorySlot4.setImageResource(R.drawable.rareleathershield)
+        } else if (savedItemInventorySlot4 in 31..34) {
+            inventorySlot4.setImageResource(R.drawable.leatherbelt)
+        } else if (savedItemInventorySlot4 in 35..36) {
+            inventorySlot4.setImageResource(R.drawable.rareleatherbelt)
+        } else if (savedItemInventorySlot4 in 37..40) {
+            inventorySlot4.setImageResource(R.drawable.leatherhat)
+        } else if (savedItemInventorySlot4 in 41..42) {
+            inventorySlot4.setImageResource(R.drawable.rareleatherhat)
+        } else if (savedItemInventorySlot4 in 43..45) {
+            inventorySlot4.setImageResource(R.drawable.knife)
+        } else if (savedItemInventorySlot4 in 46..47) {
+            inventorySlot4.setImageResource(R.drawable.bow)
+        } else if (savedItemInventorySlot4 == 48) {
+            inventorySlot4.setImageResource(R.drawable.rareknife)
+        } else if (savedItemInventorySlot4 == 49) {
+            inventorySlot4.setImageResource(R.drawable.strongbow)
+        } else if (savedItemInventorySlot4 == 50) {
+            inventorySlot4.setImageResource(R.drawable.strongwarknife)
+        } else if (savedItemInventorySlot4 == 51) {
+            inventorySlot4.setImageResource(R.drawable.sword)
+        } else if (savedItemInventorySlot4 in 52..54) {
+            inventorySlot4.setImageResource(R.drawable.throwingknives)
+        } else if (savedItemInventorySlot4 in 55..56) {
+            inventorySlot4.setImageResource(R.drawable.warknife)
+        }
+
+        if (savedItemInventorySlot5 in 1..4) {
+            inventorySlot5.setImageResource(R.drawable.leatherarmor)
+        } else if (savedItemInventorySlot5 in 5..6) {
+            inventorySlot5.setImageResource(R.drawable.rareleatherarmor)
+        } else if (savedItemInventorySlot5 in 7..10) {
+            inventorySlot5.setImageResource(R.drawable.leatherrobe)
+        } else if (savedItemInventorySlot5 in 11..12) {
+            inventorySlot5.setImageResource(R.drawable.rareleatherrobe)
+        } else if (savedItemInventorySlot5 in 13..16) {
+            inventorySlot5.setImageResource(R.drawable.leathergloves)
+        } else if (savedItemInventorySlot5 in 17..18) {
+            inventorySlot5.setImageResource(R.drawable.rareleathergloves)
+        } else if (savedItemInventorySlot5 in 19..22) {
+            inventorySlot5.setImageResource(R.drawable.leathershoes)
+        } else if (savedItemInventorySlot5 in 23..24) {
+            inventorySlot5.setImageResource(R.drawable.rareleathershoes)
+        } else if(savedItemInventorySlot5 in 25..28) {
+            inventorySlot5.setImageResource(R.drawable.leathershield)
+        } else if (savedItemInventorySlot5 in 29..30) {
+            inventorySlot5.setImageResource(R.drawable.rareleathershield)
+        } else if (savedItemInventorySlot5 in 31..34) {
+            inventorySlot5.setImageResource(R.drawable.leatherbelt)
+        } else if (savedItemInventorySlot5 in 35..36) {
+            inventorySlot5.setImageResource(R.drawable.rareleatherbelt)
+        } else if (savedItemInventorySlot5 in 37..40) {
+            inventorySlot5.setImageResource(R.drawable.leatherhat)
+        } else if (savedItemInventorySlot5 in 41..42) {
+            inventorySlot5.setImageResource(R.drawable.rareleatherhat)
+        } else if (savedItemInventorySlot5 in 43..45) {
+            inventorySlot5.setImageResource(R.drawable.knife)
+        } else if (savedItemInventorySlot5 in 46..47) {
+            inventorySlot5.setImageResource(R.drawable.bow)
+        } else if (savedItemInventorySlot5 == 48) {
+            inventorySlot5.setImageResource(R.drawable.rareknife)
+        } else if (savedItemInventorySlot5 == 49) {
+            inventorySlot5.setImageResource(R.drawable.strongbow)
+        } else if (savedItemInventorySlot5 == 50) {
+            inventorySlot5.setImageResource(R.drawable.strongwarknife)
+        } else if (savedItemInventorySlot5 == 51) {
+            inventorySlot5.setImageResource(R.drawable.sword)
+        } else if (savedItemInventorySlot5 in 52..54) {
+            inventorySlot5.setImageResource(R.drawable.throwingknives)
+        } else if (savedItemInventorySlot5 in 55..56) {
+            inventorySlot5.setImageResource(R.drawable.warknife)
+        }
 
 
 
@@ -750,133 +1128,109 @@ class shopsActivity : AppCompatActivity() {
 
                 if (itemId in 43..45) {
                     armorSlot1.setImageResource(R.drawable.knife)
-                    slot1 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 46..47) {
                     armorSlot1.setImageResource(R.drawable.bow)
-                    slot1 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 48) {
                     armorSlot1.setImageResource(R.drawable.rareknife)
-                    slot1 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 49) {
                     armorSlot1.setImageResource(R.drawable.strongbow)
-                    slot1 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 50) {
                     armorSlot1.setImageResource(R.drawable.strongwarknife)
-                    slot1 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 51) {
                     armorSlot1.setImageResource(R.drawable.sword)
-                    slot1 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 52..54) {
                     armorSlot1.setImageResource(R.drawable.throwingknives)
-                    slot1 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 55..56) {
                     armorSlot1.setImageResource(R.drawable.warknife)
-                    slot1 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }
+
+                slot1 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
             } else if (loopStopper == 1) {
                 if (itemId in 43..45) {
                     armorSlot2.setImageResource(R.drawable.knife)
-                    slot2 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 46..47) {
                     armorSlot2.setImageResource(R.drawable.bow)
-                    slot2 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 48) {
                     armorSlot2.setImageResource(R.drawable.rareknife)
-                    slot2 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 49) {
                     armorSlot2.setImageResource(R.drawable.strongbow)
-                    slot2 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 50) {
                     armorSlot2.setImageResource(R.drawable.strongwarknife)
-                    slot2 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 51) {
                     armorSlot2.setImageResource(R.drawable.sword)
-                    slot2 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 52..54) {
                     armorSlot2.setImageResource(R.drawable.throwingknives)
-                    slot2 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 55..56) {
                     armorSlot2.setImageResource(R.drawable.warknife)
-                    slot2 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }
+
+                slot2 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
             } else if (loopStopper == 2) {
                 if (itemId in 43..45) {
                     armorSlot3.setImageResource(R.drawable.knife)
-                    slot3 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 46..47) {
                     armorSlot3.setImageResource(R.drawable.bow)
-                    slot3 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 48) {
                     armorSlot3.setImageResource(R.drawable.rareknife)
-                    slot3 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 49) {
                     armorSlot3.setImageResource(R.drawable.strongbow)
-                    slot3 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 50) {
                     armorSlot3.setImageResource(R.drawable.strongwarknife)
-                    slot3 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 51) {
                     armorSlot3.setImageResource(R.drawable.sword)
-                    slot3 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 52..54) {
                     armorSlot3.setImageResource(R.drawable.throwingknives)
-                    slot3 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 55..56) {
                     armorSlot3.setImageResource(R.drawable.warknife)
-                    slot3 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }
+
+                slot3 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
             } else if (loopStopper == 3) {
                 if (itemId in 43..45) {
                     armorSlot4.setImageResource(R.drawable.knife)
-                    slot4 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 46..47) {
                     armorSlot4.setImageResource(R.drawable.bow)
-                    slot4 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 48) {
                     armorSlot4.setImageResource(R.drawable.rareknife)
-                    slot4 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 49) {
                     armorSlot4.setImageResource(R.drawable.strongbow)
-                    slot4 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 50) {
                     armorSlot4.setImageResource(R.drawable.strongwarknife)
-                    slot4 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 51) {
                     armorSlot4.setImageResource(R.drawable.sword)
-                    slot4 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 52..54) {
                     armorSlot4.setImageResource(R.drawable.throwingknives)
-                    slot4 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 55..56) {
                     armorSlot4.setImageResource(R.drawable.warknife)
-                    slot4 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }
+
+                slot4 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
             } else if (loopStopper == 4) {
                 if (itemId in 43..45) {
                     armorSlot5.setImageResource(R.drawable.knife)
-                    slot5 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 46..47) {
                     armorSlot5.setImageResource(R.drawable.bow)
-                    slot5 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 48) {
                     armorSlot5.setImageResource(R.drawable.rareknife)
-                    slot5 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 49) {
                     armorSlot5.setImageResource(R.drawable.strongbow)
-                    slot5 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 50) {
                     armorSlot5.setImageResource(R.drawable.strongwarknife)
-                    slot5 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId == 51) {
                     armorSlot5.setImageResource(R.drawable.sword)
                     slot5 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 52..54) {
                     armorSlot5.setImageResource(R.drawable.throwingknives)
-                    slot5 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 55..56) {
                     armorSlot5.setImageResource(R.drawable.warknife)
-                    slot5 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }
+
+                slot5 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
             } else if (loopStopper == 5) {
                 if (itemId in 43..45) {
                     armorSlot6.setImageResource(R.drawable.knife)
@@ -964,23 +1318,13 @@ class shopsActivity : AppCompatActivity() {
             }
 
 
-
-
-
             loopStopper++
 
             if (loopStopper == 9) {
                 break
             }
 
-
-
         }
-
-
-
-
-
 
 
     }
@@ -1082,399 +1426,300 @@ class shopsActivity : AppCompatActivity() {
 
                 if (itemId in 1..4) {
                     armorSlot1.setImageResource(R.drawable.leatherarmor)
-                    slot1 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 5..6) {
                     armorSlot1.setImageResource(R.drawable.rareleatherarmor)
-                    slot1 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 7..10) {
                     armorSlot1.setImageResource(R.drawable.leatherrobe)
-                    slot1 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 11..12) {
                     armorSlot1.setImageResource(R.drawable.rareleatherrobe)
-                    slot1 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 13..16) {
                     armorSlot1.setImageResource(R.drawable.leathergloves)
-                    slot1 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 17..18) {
                     armorSlot1.setImageResource(R.drawable.rareleathergloves)
-                    slot1 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 19..22) {
                     armorSlot1.setImageResource(R.drawable.leathershoes)
-                    slot1 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 23..24) {
                     armorSlot1.setImageResource(R.drawable.rareleathershoes)
-                    slot1 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 25..28) {
                     armorSlot1.setImageResource(R.drawable.leathershield)
-                    slot1 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 29..30) {
                     armorSlot1.setImageResource(R.drawable.rareleathershield)
-                    slot1 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 31..34) {
                     armorSlot1.setImageResource(R.drawable.leatherbelt)
-                    slot1 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }  else if (itemId in 35..36) {
                     armorSlot1.setImageResource(R.drawable.rareleatherbelt)
-                    slot1 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 37..40) {
                     armorSlot1.setImageResource(R.drawable.leatherhat)
-                    slot1 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 41..42) {
                     armorSlot1.setImageResource(R.drawable.rareleatherhat)
-                    slot1 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }
+
+                slot1 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
             } else if (loopStopper == 1) {
                 if (itemId in 1..4) {
                     armorSlot2.setImageResource(R.drawable.leatherarmor)
-                    slot2 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 5..6) {
                     armorSlot2.setImageResource(R.drawable.rareleatherarmor)
-                    slot2 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 7..10) {
                     armorSlot2.setImageResource(R.drawable.leatherrobe)
-                    slot2 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 11..12) {
                     armorSlot2.setImageResource(R.drawable.rareleatherrobe)
-                    slot2 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 13..16) {
                     armorSlot2.setImageResource(R.drawable.leathergloves)
-                    slot2 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 17..18) {
                     armorSlot2.setImageResource(R.drawable.rareleathergloves)
-                    slot2 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 19..22) {
                     armorSlot2.setImageResource(R.drawable.leathershoes)
-                    slot2 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 23..24) {
                     armorSlot2.setImageResource(R.drawable.rareleathershoes)
-                    slot2 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 25..28) {
                     armorSlot2.setImageResource(R.drawable.leathershield)
-                    slot2 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 29..30) {
                     armorSlot2.setImageResource(R.drawable.rareleathershield)
-                    slot2 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 31..34) {
                     armorSlot2.setImageResource(R.drawable.leatherbelt)
-                    slot2 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }  else if (itemId in 35..36) {
                     armorSlot2.setImageResource(R.drawable.rareleatherbelt)
-                    slot2 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 37..40) {
                     armorSlot2.setImageResource(R.drawable.leatherhat)
-                    slot2 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 41..42) {
                     armorSlot2.setImageResource(R.drawable.rareleatherhat)
-                    slot2 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }
+
+                slot2 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
             } else if (loopStopper == 2) {
                 if (itemId in 1..4) {
                     armorSlot3.setImageResource(R.drawable.leatherarmor)
-                    slot3 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 5..6) {
                     armorSlot3.setImageResource(R.drawable.rareleatherarmor)
-                    slot3 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 7..10) {
                     armorSlot3.setImageResource(R.drawable.leatherrobe)
-                    slot3 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 11..12) {
                     armorSlot3.setImageResource(R.drawable.rareleatherrobe)
-                    slot3 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 13..16) {
                     armorSlot3.setImageResource(R.drawable.leathergloves)
-                    slot3 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 17..18) {
                     armorSlot3.setImageResource(R.drawable.rareleathergloves)
-                    slot3 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 19..22) {
                     armorSlot3.setImageResource(R.drawable.leathershoes)
-                    slot3 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 23..24) {
                     armorSlot3.setImageResource(R.drawable.rareleathershoes)
-                    slot3 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 25..28) {
                     armorSlot3.setImageResource(R.drawable.leathershield)
-                    slot3 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 29..30) {
                     armorSlot3.setImageResource(R.drawable.rareleathershield)
-                    slot3 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 31..34) {
                     armorSlot3.setImageResource(R.drawable.leatherbelt)
-                    slot3 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }  else if (itemId in 35..36) {
                     armorSlot3.setImageResource(R.drawable.rareleatherbelt)
-                    slot3 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 37..40) {
                     armorSlot3.setImageResource(R.drawable.leatherhat)
-                    slot3 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 41..42) {
                     armorSlot3.setImageResource(R.drawable.rareleatherhat)
-                    slot3 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }
+
+                slot3 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
             } else if (loopStopper == 3) {
                 if (itemId in 1..4) {
                     armorSlot4.setImageResource(R.drawable.leatherarmor)
-                    slot4 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 5..6) {
                     armorSlot4.setImageResource(R.drawable.rareleatherarmor)
-                    slot4 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 7..10) {
                     armorSlot4.setImageResource(R.drawable.leatherrobe)
-                    slot4 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 11..12) {
                     armorSlot4.setImageResource(R.drawable.rareleatherrobe)
-                    slot4 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 13..16) {
                     armorSlot4.setImageResource(R.drawable.leathergloves)
-                    slot4 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 17..18) {
                     armorSlot4.setImageResource(R.drawable.rareleathergloves)
-                    slot4 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 19..22) {
                     armorSlot4.setImageResource(R.drawable.leathershoes)
-                    slot4 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 23..24) {
                     armorSlot4.setImageResource(R.drawable.rareleathershoes)
-                    slot4 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 25..28) {
                     armorSlot4.setImageResource(R.drawable.leathershield)
-                    slot4 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 29..30) {
                     armorSlot4.setImageResource(R.drawable.rareleathershield)
-                    slot4 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 31..34) {
                     armorSlot4.setImageResource(R.drawable.leatherbelt)
-                    slot4 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }  else if (itemId in 35..36) {
                     armorSlot4.setImageResource(R.drawable.rareleatherbelt)
-                    slot4 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 37..40) {
                     armorSlot4.setImageResource(R.drawable.leatherhat)
-                    slot4 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 41..42) {
                     armorSlot4.setImageResource(R.drawable.rareleatherhat)
-                    slot4 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }
+
+                slot4 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
             } else if (loopStopper == 4) {
                 if (itemId in 1..4) {
                     armorSlot5.setImageResource(R.drawable.leatherarmor)
-                    slot5 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 5..6) {
                     armorSlot5.setImageResource(R.drawable.rareleatherarmor)
-                    slot5 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 7..10) {
                     armorSlot5.setImageResource(R.drawable.leatherrobe)
-                    slot5 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 11..12) {
                     armorSlot5.setImageResource(R.drawable.rareleatherrobe)
-                    slot5 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 13..16) {
                     armorSlot5.setImageResource(R.drawable.leathergloves)
-                    slot5 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 17..18) {
                     armorSlot5.setImageResource(R.drawable.rareleathergloves)
-                    slot5 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 19..22) {
                     armorSlot5.setImageResource(R.drawable.leathershoes)
-                    slot5 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 23..24) {
                     armorSlot5.setImageResource(R.drawable.rareleathershoes)
-                    slot5 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 25..28) {
                     armorSlot5.setImageResource(R.drawable.leathershield)
-                    slot5 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 29..30) {
                     armorSlot5.setImageResource(R.drawable.rareleathershield)
-                    slot5 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 31..34) {
                     armorSlot5.setImageResource(R.drawable.leatherbelt)
-                    slot5 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }  else if (itemId in 35..36) {
                     armorSlot5.setImageResource(R.drawable.rareleatherbelt)
-                    slot5 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 37..40) {
                     armorSlot5.setImageResource(R.drawable.leatherhat)
-                    slot5 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 41..42) {
                     armorSlot5.setImageResource(R.drawable.rareleatherhat)
-                    slot5 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }
+
+                slot5 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
             } else if (loopStopper == 5) {
                 if (itemId in 1..4) {
                     armorSlot6.setImageResource(R.drawable.leatherarmor)
-                    slot6 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 5..6) {
                     armorSlot6.setImageResource(R.drawable.rareleatherarmor)
-                    slot6 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 7..10) {
                     armorSlot6.setImageResource(R.drawable.leatherrobe)
-                    slot6 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 11..12) {
                     armorSlot6.setImageResource(R.drawable.rareleatherrobe)
-                    slot6 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 13..16) {
                     armorSlot6.setImageResource(R.drawable.leathergloves)
-                    slot6 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 17..18) {
                     armorSlot6.setImageResource(R.drawable.rareleathergloves)
-                    slot6 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 19..22) {
                     armorSlot6.setImageResource(R.drawable.leathershoes)
-                    slot6 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 23..24) {
                     armorSlot6.setImageResource(R.drawable.rareleathershoes)
-                    slot6 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 25..28) {
                     armorSlot6.setImageResource(R.drawable.leathershield)
-                    slot6 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 29..30) {
                     armorSlot6.setImageResource(R.drawable.rareleathershield)
-                    slot6 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 31..34) {
                     armorSlot6.setImageResource(R.drawable.leatherbelt)
-                    slot6 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }  else if (itemId in 35..36) {
                     armorSlot6.setImageResource(R.drawable.rareleatherbelt)
-                    slot6 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 37..40) {
                     armorSlot6.setImageResource(R.drawable.leatherhat)
-                    slot6 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 41..42) {
                     armorSlot6.setImageResource(R.drawable.rareleatherhat)
-                    slot6 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }
+
+                slot6 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
             } else if (loopStopper == 6) {
                 if (itemId in 1..4) {
                     armorSlot7.setImageResource(R.drawable.leatherarmor)
-                    slot7 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 5..6) {
                     armorSlot7.setImageResource(R.drawable.rareleatherarmor)
-                    slot7 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 7..10) {
                     armorSlot7.setImageResource(R.drawable.leatherrobe)
-                    slot7 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 11..12) {
                     armorSlot7.setImageResource(R.drawable.rareleatherrobe)
-                    slot7 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 13..16) {
                     armorSlot7.setImageResource(R.drawable.leathergloves)
-                    slot7 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 17..18) {
                     armorSlot7.setImageResource(R.drawable.rareleathergloves)
-                    slot7 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 19..22) {
                     armorSlot7.setImageResource(R.drawable.leathershoes)
-                    slot7 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 23..24) {
                     armorSlot7.setImageResource(R.drawable.rareleathershoes)
-                    slot7 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 25..28) {
                     armorSlot7.setImageResource(R.drawable.leathershield)
-                    slot7 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 29..30) {
                     armorSlot7.setImageResource(R.drawable.rareleathershield)
-                    slot7 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 31..34) {
                     armorSlot7.setImageResource(R.drawable.leatherbelt)
-                    slot7 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }  else if (itemId in 35..36) {
                     armorSlot7.setImageResource(R.drawable.rareleatherbelt)
-                    slot7 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 37..40) {
                     armorSlot7.setImageResource(R.drawable.leatherhat)
-                    slot7 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 41..42) {
                     armorSlot7.setImageResource(R.drawable.rareleatherhat)
-                    slot7 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }
+
+                slot7 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
             } else if (loopStopper == 7) {
                 if (itemId in 1..4) {
                     armorSlot8.setImageResource(R.drawable.leatherarmor)
-                    slot8 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 5..6) {
                     armorSlot8.setImageResource(R.drawable.rareleatherarmor)
-                    slot8 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 7..10) {
                     armorSlot8.setImageResource(R.drawable.leatherrobe)
-                    slot8 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 11..12) {
                     armorSlot8.setImageResource(R.drawable.rareleatherrobe)
-                    slot8 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 13..16) {
                     armorSlot8.setImageResource(R.drawable.leathergloves)
-                    slot8 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 17..18) {
                     armorSlot8.setImageResource(R.drawable.rareleathergloves)
-                    slot8 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 19..22) {
                     armorSlot8.setImageResource(R.drawable.leathershoes)
-                    slot8 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 23..24) {
                     armorSlot8.setImageResource(R.drawable.rareleathershoes)
-                    slot8 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 25..28) {
                     armorSlot8.setImageResource(R.drawable.leathershield)
-                    slot8 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 29..30) {
                     armorSlot8.setImageResource(R.drawable.rareleathershield)
-                    slot8 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 31..34) {
                     armorSlot8.setImageResource(R.drawable.leatherbelt)
-                    slot8 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }  else if (itemId in 35..36) {
                     armorSlot8.setImageResource(R.drawable.rareleatherbelt)
-                    slot8 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 37..40) {
                     armorSlot8.setImageResource(R.drawable.leatherhat)
-                    slot8 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 41..42) {
                     armorSlot8.setImageResource(R.drawable.rareleatherhat)
-                    slot8 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }
+
+                slot8 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
             } else if (loopStopper == 8) {
                 if (itemId in 1..4) {
                     armorSlot9.setImageResource(R.drawable.leatherarmor)
-                    slot9 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 5..6) {
                     armorSlot9.setImageResource(R.drawable.rareleatherarmor)
-                    slot9 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 7..10) {
                     armorSlot9.setImageResource(R.drawable.leatherrobe)
-                    slot9 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 11..12) {
                     armorSlot9.setImageResource(R.drawable.rareleatherrobe)
-                    slot9 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 13..16) {
                     armorSlot9.setImageResource(R.drawable.leathergloves)
-                    slot9 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 17..18) {
                     armorSlot9.setImageResource(R.drawable.rareleathergloves)
-                    slot9 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 19..22) {
                     armorSlot9.setImageResource(R.drawable.leathershoes)
-                    slot9 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 23..24) {
                     armorSlot9.setImageResource(R.drawable.rareleathershoes)
-                    slot9 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 25..28) {
                     armorSlot9.setImageResource(R.drawable.leathershield)
-                    slot9 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 29..30) {
                     armorSlot9.setImageResource(R.drawable.rareleathershield)
-                    slot9 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 31..34) {
                     armorSlot9.setImageResource(R.drawable.leatherbelt)
-                    slot9 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }  else if (itemId in 35..36) {
                     armorSlot9.setImageResource(R.drawable.rareleatherbelt)
-                    slot9 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 37..40) {
                     armorSlot9.setImageResource(R.drawable.leatherhat)
-                    slot9 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 } else if (itemId in 41..42) {
                     armorSlot9.setImageResource(R.drawable.rareleatherhat)
-                    slot9 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
                 }
+
+                slot9 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
             }
 
 
