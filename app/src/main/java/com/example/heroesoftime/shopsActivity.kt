@@ -6,6 +6,11 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import org.w3c.dom.Text
 import java.util.*
 import kotlin.collections.ArrayList
@@ -24,14 +29,14 @@ class shopsActivity : AppCompatActivity() {
 
 
     var leatherRobe1 = armorClass(7, "Leather robe", 5, 1, 0, 0, 0, 20, 2)
-    var leatherRobe2 = armorClass(8, "Leather robe", 6, 0,2,0,1, 35, 2)
+    var leatherRobe2 = armorClass(8, "Leather robe", 6, 0,2,0,1, 34, 2)
     var leatherRobe3 = armorClass(9, "Leather robe", 4, 2, 0, 2, 2, 30, 2)
     var leatherRobe4 = armorClass(10, "Leather robe", 8, 2,2,2,0, 50, 2)
     var rareLeatherRobe1 = armorClass(11, "Rare leather robe", 15, 4, 2, 2, 2, 120, 2)
     var rareLeatherRobe2 = armorClass(12, "Rare leather robe", 12, 0,4,0,2, 80, 2)
 
 
-    var leatherGloves1 = armorClass(13, "Leather gloves", 3, 0, 0, 0, 0, 15, 3)
+    var leatherGloves1 = armorClass(13, "Leather gloves", 3, 0, 0, 0, 0, 16, 3)
     var leatherGloves2 = armorClass(14, "Leather gloves", 6, 0,0,2,2, 32, 3)
     var leatherGloves3 = armorClass(15, "Leather gloves", 4, 1, 1, 0, 0, 26, 3)
     var leatherGloves4 = armorClass(16, "Leather gloves", 7, 2,0,2,0, 40, 3)
@@ -59,11 +64,11 @@ class shopsActivity : AppCompatActivity() {
 
 
     var leatherBelt1 = armorClass(31, "Leather belt", 4, 1, 0, 0, 0, 20, 6)
-    var leatherBelt2 = armorClass(32, "Leather belt", 7, 0,0,0,2, 25, 6)
+    var leatherBelt2 = armorClass(32, "Leather belt", 7, 0,0,0,2, 24, 6)
     var leatherBelt3 = armorClass(33, "Leather belt", 8, 2, 0, 0, 2, 40, 6)
-    var leatherBelt4 = armorClass(34, "Leather belt", 10, 0,0,0,0, 35, 6)
-    var rareLeatherBelt1 = armorClass(35, "Rare leather belt", 12, 3, 1, 0, 3, 65, 6)
-    var rareLeatherBelt2 = armorClass(36, "Rare leather belt", 18, 2,6,0,0, 95, 6)
+    var leatherBelt4 = armorClass(34, "Leather belt", 10, 0,0,0,0, 34, 6)
+    var rareLeatherBelt1 = armorClass(35, "Rare leather belt", 12, 3, 1, 0, 3, 64, 6)
+    var rareLeatherBelt2 = armorClass(36, "Rare leather belt", 18, 2,6,0,0, 94, 6)
 
 
 
@@ -170,6 +175,8 @@ class shopsActivity : AppCompatActivity() {
     lateinit var listOfWeaponItems : ArrayList<weaponClass>
 
 
+    lateinit var savedDataOfUser : armorClass
+    lateinit var database : FirebaseFirestore
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -182,6 +189,8 @@ class shopsActivity : AppCompatActivity() {
         listOfArmorItems = arrayListOf()
         listOfWeaponItems = arrayListOf()
 
+
+        database = Firebase.firestore
 
 
         heroArmorSlot = findViewById(R.id.heroArmorSlot)
@@ -219,6 +228,25 @@ class shopsActivity : AppCompatActivity() {
 
 
 
+
+        /*
+
+
+          database.collection("users")  .addSnapshotListener { snapshot, e ->
+                if (snapshot != null) {
+                    for (document in snapshot.documents) {
+
+                        savedDataOfUser = document.toObject()!!
+
+
+
+                    }
+                }
+            }
+
+
+
+         */
 
 
         val sharedSelectorShopType = getSharedPreferences("SelectorShopType", AppCompatActivity.MODE_PRIVATE)
@@ -589,6 +617,26 @@ class shopsActivity : AppCompatActivity() {
 
     }
 
+
+
+
+    fun send() {
+
+
+        slot1 = armorClass(0, "", 1000, 0, 0,0,0,0,0)
+
+        database.collection("users").add(slot1)
+
+
+            .addOnCompleteListener {
+
+
+
+            }
+
+
+
+    }
 
 
 

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "958795404074",
+    "project_id": "heoresoftime",
+    "storage_bucket": "heoresoftime.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:958795404074:android:8fca7000ebc2ad4fca0453",
+        "android_client_info": {
+          "package_name": "com.example.heroesoftime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "958795404074-163ppousnvctv6ov1sfg3s91lb1lmg8v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6buPd3E20c_kgqKvKkLOUNoGA3qHAlhM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "958795404074-163ppousnvctv6ov1sfg3s91lb1lmg8v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
