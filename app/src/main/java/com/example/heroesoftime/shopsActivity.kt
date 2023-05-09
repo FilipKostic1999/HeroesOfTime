@@ -4,6 +4,7 @@ import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
@@ -123,8 +124,6 @@ class shopsActivity : AppCompatActivity() {
 
 
 
-
-
     var inventoryAtributesSlot1 = armorClass(0, "", 0, 0, 0, 0, 0, 0, 0)
     var inventoryAtributesSlot2 = armorClass(0, "", 0, 0, 0, 0, 0, 0, 0)
     var inventoryAtributesSlot3 = armorClass(0, "", 0, 0, 0, 0, 0, 0, 0)
@@ -132,6 +131,9 @@ class shopsActivity : AppCompatActivity() {
     var inventoryAtributesSlot5 = armorClass(0, "", 0, 0, 0, 0, 0, 0, 0)
 
 
+    var selectedItemInShopPrice = 0
+    var heroGold = 0
+    var selectedSlotInShopView = 0
     var isItWeapon = false
 
 
@@ -167,6 +169,12 @@ class shopsActivity : AppCompatActivity() {
     lateinit var heroShieldSlot : ImageView
     lateinit var heroGloveSlot : ImageView
     lateinit var heroWeaponSlot : ImageView
+
+
+    lateinit var buyButton : Button
+    lateinit var equipButton : Button
+    lateinit var sellButton : Button
+
 
 
     lateinit var listOfAllArmors : ArrayList<armorClass>
@@ -226,6 +234,10 @@ class shopsActivity : AppCompatActivity() {
         priceTxt = findViewById(R.id.priceTxt)
         nameTxt = findViewById(R.id.nameTxt)
 
+        buyButton = findViewById(R.id.buyButton)
+        equipButton = findViewById(R.id.equipButton)
+        sellButton = findViewById(R.id.sellButton)
+
 
 
 
@@ -262,6 +274,83 @@ class shopsActivity : AppCompatActivity() {
         }
 
 
+        buyButton.isEnabled = false
+        equipButton.isEnabled = false
+        sellButton.isEnabled = false
+
+
+
+
+        buyButton.setOnClickListener {
+
+
+
+
+        }
+
+        equipButton.setOnClickListener {
+
+            if (selectedSlotInShopView == 12) {
+                /*
+                if (itemTypeOfSelectedSlot == 1 && heroArmorSlot == 0) {
+                // heroArmorSlot == IdSelectedItem
+                } else if (itemTypeOfSelectedSlot == 1 && heroArmorSlot > 0) {
+                // heroArmorSlot == IdSelectedItem
+                // inventorySlot == heroArmorSlot
+                }
+                 */
+            } else if (selectedSlotInShopView == 13) {
+                // inventorySlot2 = 0     snapshot will set the view of armor on xml
+            } else if (selectedSlotInShopView == 14) {
+                // inventorySlot3 = 0     snapshot will set the view of armor on xml
+            } else if (selectedSlotInShopView == 15) {
+                // inventorySlot4 = 0     snapshot will set the view of armor on xml
+            } else if (selectedSlotInShopView == 16) {
+                // inventorySlot5 = 0     snapshot will set the view of armor on xml
+            }
+
+
+        }
+
+
+        sellButton.setOnClickListener {
+
+            heroGold += selectedItemInShopPrice
+
+            if (selectedSlotInShopView == 1) {
+                // heroArmorId = 0     snapshot will set the view of armor on xml
+            } else if (selectedSlotInShopView == 2) {
+                // heroRobeId = 0     snapshot will set the view of armor on xml
+            } else if (selectedSlotInShopView == 3) {
+                // heroGloveId = 0     snapshot will set the view of armor on xml
+            } else if (selectedSlotInShopView == 4) {
+                // heroShoesId = 0     snapshot will set the view of armor on xml
+            } else if (selectedSlotInShopView == 5) {
+               // heroShieldId = 0     snapshot will set the view of armor on xml
+            } else if (selectedSlotInShopView == 6) {
+                // heroBeltId = 0     snapshot will set the view of armor on xml
+            } else if (selectedSlotInShopView == 7) {
+               // heroHelmetId = 0     snapshot will set the view of armor on xml
+            } else if (selectedSlotInShopView == 8) {
+              // heroWeaponId = 0     snapshot will set the view of armor on xml
+            } else if (selectedSlotInShopView == 12) {
+                // inventorySlot1 = 0     snapshot will set the view of armor on xml
+            } else if (selectedSlotInShopView == 13) {
+              // inventorySlot2 = 0     snapshot will set the view of armor on xml
+            } else if (selectedSlotInShopView == 14) {
+                // inventorySlot3 = 0     snapshot will set the view of armor on xml
+            } else if (selectedSlotInShopView == 15) {
+                 // inventorySlot4 = 0     snapshot will set the view of armor on xml
+            } else if (selectedSlotInShopView == 16) {
+               // inventorySlot5 = 0     snapshot will set the view of armor on xml
+            }
+
+            // save in db
+
+
+        }
+
+
 
         heroArmorSlot.setOnClickListener {
             nameTxt.text = "${heroArmorSlotAtributes.armorName}"
@@ -271,6 +360,14 @@ class shopsActivity : AppCompatActivity() {
             speedTxt.text = "Speed: ${heroArmorSlotAtributes.speed}"
             manaTxt.text = "Mana: ${heroArmorSlotAtributes.mana}"
             priceTxt.text = "Price: ${heroArmorSlotAtributes.price}"
+
+            selectedSlotInShopView = 1
+
+            selectedItemInShopPrice = heroArmorSlotAtributes.price
+
+            sellButton.isEnabled = true
+            equipButton.isEnabled = false
+            buyButton.isEnabled = false
 
         }
 
@@ -283,6 +380,14 @@ class shopsActivity : AppCompatActivity() {
             manaTxt.text = "Mana: ${heroRobeSlotAtributes.mana}"
             priceTxt.text = "Price: ${heroRobeSlotAtributes.price}"
 
+            selectedSlotInShopView = 2
+
+            selectedItemInShopPrice = heroRobeSlotAtributes.price
+
+            sellButton.isEnabled = true
+            equipButton.isEnabled = false
+            buyButton.isEnabled = false
+
         }
 
         heroGloveSlot.setOnClickListener {
@@ -293,6 +398,14 @@ class shopsActivity : AppCompatActivity() {
             speedTxt.text = "Speed: ${heroGloveSlotAtributes.speed}"
             manaTxt.text = "Mana: ${heroGloveSlotAtributes.mana}"
             priceTxt.text = "Price: ${heroGloveSlotAtributes.price}"
+
+            selectedSlotInShopView = 3
+
+            selectedItemInShopPrice = heroGloveSlotAtributes.price
+
+            sellButton.isEnabled = true
+            equipButton.isEnabled = false
+            buyButton.isEnabled = false
 
         }
 
@@ -305,6 +418,14 @@ class shopsActivity : AppCompatActivity() {
             manaTxt.text = "Mana: ${heroShoesSlotAtributes.mana}"
             priceTxt.text = "Price: ${heroShoesSlotAtributes.price}"
 
+            selectedSlotInShopView = 4
+
+            selectedItemInShopPrice = heroShoesSlotAtributes.price
+
+            sellButton.isEnabled = true
+            equipButton.isEnabled = false
+            buyButton.isEnabled = false
+
         }
 
         heroShieldSlot.setOnClickListener {
@@ -315,6 +436,14 @@ class shopsActivity : AppCompatActivity() {
             speedTxt.text = "Speed: ${heroShieldSlotAtributes.speed}"
             manaTxt.text = "Mana: ${heroShieldSlotAtributes.mana}"
             priceTxt.text = "Price: ${heroShieldSlotAtributes.price}"
+
+            selectedSlotInShopView = 5
+
+            selectedItemInShopPrice = heroShieldSlotAtributes.price
+
+            sellButton.isEnabled = true
+            equipButton.isEnabled = false
+            buyButton.isEnabled = false
 
         }
 
@@ -327,6 +456,14 @@ class shopsActivity : AppCompatActivity() {
             manaTxt.text = "Mana: ${heroBeltSlotAtributes.mana}"
             priceTxt.text = "Price: ${heroBeltSlotAtributes.price}"
 
+            selectedSlotInShopView = 6
+
+            selectedItemInShopPrice = heroBeltSlotAtributes.price
+
+            sellButton.isEnabled = true
+            equipButton.isEnabled = false
+            buyButton.isEnabled = false
+
         }
 
         heroHelmetSlot.setOnClickListener {
@@ -338,6 +475,14 @@ class shopsActivity : AppCompatActivity() {
             manaTxt.text = "Mana: ${heroHelmetSlotAtributes.mana}"
             priceTxt.text = "Price: ${heroHelmetSlotAtributes.price}"
 
+            selectedSlotInShopView = 7
+
+            selectedItemInShopPrice = heroHelmetSlotAtributes.price
+
+            sellButton.isEnabled = true
+            equipButton.isEnabled = false
+            buyButton.isEnabled = false
+
         }
 
         heroWeaponSlot.setOnClickListener {
@@ -348,6 +493,14 @@ class shopsActivity : AppCompatActivity() {
             speedTxt.text = "Speed: ${heroWeaponSlotAtributes.speed}"
             manaTxt.text = "Mana: ${heroWeaponSlotAtributes.mana}"
             priceTxt.text = "Price: ${heroWeaponSlotAtributes.price}"
+
+            selectedSlotInShopView = 8
+
+            selectedItemInShopPrice = heroWeaponSlotAtributes.price
+
+            sellButton.isEnabled = true
+            equipButton.isEnabled = false
+            buyButton.isEnabled = false
 
         }
 
@@ -366,6 +519,10 @@ class shopsActivity : AppCompatActivity() {
              if (selectedShopType == 2) {
                 armorTxt.text = "Damage: ${slot1.armor}"
             }
+
+            sellButton.isEnabled = false
+            equipButton.isEnabled = false
+            buyButton.isEnabled = true
         }
 
         armorSlot2.setOnClickListener {
@@ -379,6 +536,10 @@ class shopsActivity : AppCompatActivity() {
             if (selectedShopType == 2) {
                 armorTxt.text = "Damage: ${slot2.armor}"
             }
+
+            sellButton.isEnabled = false
+            equipButton.isEnabled = false
+            buyButton.isEnabled = true
         }
 
         armorSlot3.setOnClickListener {
@@ -392,6 +553,10 @@ class shopsActivity : AppCompatActivity() {
             if (selectedShopType == 2) {
                 armorTxt.text = "Damage: ${slot3.armor}"
             }
+
+            sellButton.isEnabled = false
+            equipButton.isEnabled = false
+            buyButton.isEnabled = true
         }
 
         armorSlot4.setOnClickListener {
@@ -405,6 +570,10 @@ class shopsActivity : AppCompatActivity() {
             if (selectedShopType == 2) {
                 armorTxt.text = "Damage: ${slot4.armor}"
             }
+
+            sellButton.isEnabled = false
+            equipButton.isEnabled = false
+            buyButton.isEnabled = true
         }
 
         armorSlot5.setOnClickListener {
@@ -418,6 +587,10 @@ class shopsActivity : AppCompatActivity() {
             if (selectedShopType == 2) {
                 armorTxt.text = "Damage: ${slot5.armor}"
             }
+
+            sellButton.isEnabled = false
+            equipButton.isEnabled = false
+            buyButton.isEnabled = true
         }
 
         armorSlot6.setOnClickListener {
@@ -431,6 +604,10 @@ class shopsActivity : AppCompatActivity() {
             if (selectedShopType == 2) {
                 armorTxt.text = "Damage: ${slot6.armor}"
             }
+
+            sellButton.isEnabled = false
+            equipButton.isEnabled = false
+            buyButton.isEnabled = true
         }
 
         armorSlot7.setOnClickListener {
@@ -444,6 +621,10 @@ class shopsActivity : AppCompatActivity() {
             if (selectedShopType == 2) {
                 armorTxt.text = "Damage: ${slot7.armor}"
             }
+
+            sellButton.isEnabled = false
+            equipButton.isEnabled = false
+            buyButton.isEnabled = true
         }
 
         armorSlot8.setOnClickListener {
@@ -457,6 +638,10 @@ class shopsActivity : AppCompatActivity() {
             if (selectedShopType == 2) {
                 armorTxt.text = "Damage: ${slot8.armor}"
             }
+
+            sellButton.isEnabled = false
+            equipButton.isEnabled = false
+            buyButton.isEnabled = true
         }
 
         armorSlot9.setOnClickListener {
@@ -470,6 +655,10 @@ class shopsActivity : AppCompatActivity() {
             if (selectedShopType == 2) {
                 armorTxt.text = "Damage: ${slot9.armor}"
             }
+
+            sellButton.isEnabled = false
+            equipButton.isEnabled = false
+            buyButton.isEnabled = true
         }
 
 
@@ -482,6 +671,14 @@ class shopsActivity : AppCompatActivity() {
             manaTxt.text = "Mana: ${inventoryAtributesSlot1.mana}"
             priceTxt.text = "Price: ${inventoryAtributesSlot1.price}"
 
+            selectedSlotInShopView = 12
+
+            selectedItemInShopPrice = inventoryAtributesSlot1.price
+
+            sellButton.isEnabled = true
+            equipButton.isEnabled = true
+            buyButton.isEnabled = false
+
         }
 
         inventorySlot2.setOnClickListener {
@@ -492,6 +689,14 @@ class shopsActivity : AppCompatActivity() {
             speedTxt.text = "Speed: ${inventoryAtributesSlot2.speed}"
             manaTxt.text = "Mana: ${inventoryAtributesSlot2.mana}"
             priceTxt.text = "Price: ${inventoryAtributesSlot2.price}"
+
+            selectedSlotInShopView = 13
+
+            selectedItemInShopPrice = inventoryAtributesSlot2.price
+
+            sellButton.isEnabled = true
+            equipButton.isEnabled = true
+            buyButton.isEnabled = false
 
         }
 
@@ -504,6 +709,14 @@ class shopsActivity : AppCompatActivity() {
             manaTxt.text = "Mana: ${inventoryAtributesSlot3.mana}"
             priceTxt.text = "Price: ${inventoryAtributesSlot3.price}"
 
+            selectedSlotInShopView = 14
+
+            selectedItemInShopPrice = inventoryAtributesSlot3.price
+
+            sellButton.isEnabled = true
+            equipButton.isEnabled = true
+            buyButton.isEnabled = false
+
         }
 
         inventorySlot4.setOnClickListener {
@@ -515,6 +728,14 @@ class shopsActivity : AppCompatActivity() {
             manaTxt.text = "Mana: ${inventoryAtributesSlot4.mana}"
             priceTxt.text = "Price: ${inventoryAtributesSlot4.price}"
 
+            selectedSlotInShopView = 15
+
+            selectedItemInShopPrice = inventoryAtributesSlot4.price
+
+            sellButton.isEnabled = true
+            equipButton.isEnabled = true
+            buyButton.isEnabled = false
+
         }
 
         inventorySlot5.setOnClickListener {
@@ -525,6 +746,14 @@ class shopsActivity : AppCompatActivity() {
             speedTxt.text = "Speed: ${inventoryAtributesSlot5.speed}"
             manaTxt.text = "Mana: ${inventoryAtributesSlot5.mana}"
             priceTxt.text = "Price: ${inventoryAtributesSlot5.price}"
+
+            selectedSlotInShopView = 16
+
+            selectedItemInShopPrice = inventoryAtributesSlot5.price
+
+            sellButton.isEnabled = true
+            equipButton.isEnabled = true
+            buyButton.isEnabled = false
 
         }
 
