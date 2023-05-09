@@ -8,6 +8,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -183,8 +185,24 @@ class shopsActivity : AppCompatActivity() {
     lateinit var listOfWeaponItems : ArrayList<weaponClass>
 
 
-    lateinit var savedDataOfUser : armorClass
+
+    lateinit var auth : FirebaseAuth
     lateinit var database : FirebaseFirestore
+    lateinit var savedDataOfUser : heroDataClass
+
+    var savedHeroArmor = 0
+    var savedHeroRobe = 0
+    var savedHeroGloves = 0
+    var savedHeroShoes = 0
+    var savedHeroShield = 0
+    var savedHeroBelt = 0
+    var savedHeroHelmet = 0
+    var savedHeroWeapon = 0
+    var savedHeroInventorySlot1 = 0
+    var savedHeroInventorySlot2 = 0
+    var savedHeroInventorySlot3 = 0
+    var savedHeroInventorySlot4 = 0
+    var savedHeroInventorySlot5 = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -198,7 +216,11 @@ class shopsActivity : AppCompatActivity() {
         listOfWeaponItems = arrayListOf()
 
 
+
+
         database = Firebase.firestore
+        auth = Firebase.auth
+        val user = auth.currentUser
 
 
         heroArmorSlot = findViewById(R.id.heroArmorSlot)
@@ -241,24 +263,45 @@ class shopsActivity : AppCompatActivity() {
 
 
 
-        /*
 
 
-          database.collection("users")  .addSnapshotListener { snapshot, e ->
-                if (snapshot != null) {
-                    for (document in snapshot.documents) {
+        if (user != null) {
 
-                        savedDataOfUser = document.toObject()!!
+            database.collection("users").document(user.uid).collection("userData")
+                .addSnapshotListener { snapshot, e ->
+                    if (snapshot != null) {
+                        for (document in snapshot.documents) {
+
+                            savedDataOfUser = document.toObject()!!
+
+                            savedHeroArmor = savedDataOfUser.heroArmorId
+                            savedHeroRobe = savedDataOfUser.heroRobeId
+                            savedHeroGloves = savedDataOfUser.heroGloveId
+                            savedHeroShoes = savedDataOfUser.heroShoesId
+                            savedHeroShield = savedDataOfUser.heroShieldId
+                            savedHeroBelt = savedDataOfUser.heroBeltId
+                            savedHeroHelmet = savedDataOfUser.heroHelmetId
+                            savedHeroWeapon = savedDataOfUser.heroWeaponId
+
+                            savedHeroInventorySlot1 = savedDataOfUser.heroInventorySlot1
+                            savedHeroInventorySlot2 = savedDataOfUser.heroInventorySlot2
+                            savedHeroInventorySlot3 = savedDataOfUser.heroInventorySlot3
+                            savedHeroInventorySlot4 = savedDataOfUser.heroInventorySlot4
+                            savedHeroInventorySlot5 = savedDataOfUser.heroInventorySlot5
 
 
+                            showHeroItems()
+                            showHeroInventory()
 
+
+                        }
                     }
                 }
-            }
+        }
 
 
 
-         */
+
 
 
         val sharedSelectorShopType = getSharedPreferences("SelectorShopType", AppCompatActivity.MODE_PRIVATE)
@@ -837,12 +880,6 @@ class shopsActivity : AppCompatActivity() {
 
 
 
-        showHeroItems()
-
-
-
-        showHeroInventory()
-
 
     }
 
@@ -852,16 +889,26 @@ class shopsActivity : AppCompatActivity() {
     fun send() {
 
 
-        slot1 = armorClass(0, "", 1000, 0, 0,0,0,0,0)
 
-        database.collection("users").add(slot1)
+        auth = Firebase.auth
+        val user = auth.currentUser
+
+        var heroData = heroDataClass(heroIconId = 0, heroLevel = 1, heroExperience = 1, heroArmorId = 6, heroRobeId = 7,
+        heroGloveId = 18, heroShoesId = 19, heroShieldId = 30, heroBeltId = 32, heroHelmetId = 41, heroWeaponId = 49,
+        heroInventorySlot1 = 6, heroInventorySlot2 = 7, heroInventorySlot3 = 18, heroInventorySlot4 = 19,
+        heroInventorySlot5 = 49)
 
 
-            .addOnCompleteListener {
+        if (user != null) {
+            database.collection("users").document(user.uid).collection("userData").
+                document("Hero").set(heroData)
 
 
+                .addOnCompleteListener {
 
-            }
+
+                }
+        }
 
 
 
@@ -872,11 +919,17 @@ class shopsActivity : AppCompatActivity() {
     fun showHeroInventory() {
 
         // snapshot saved items that hero has in inventory
-        var savedItemInventorySlot1 = 6
-        var savedItemInventorySlot2 = 7
-        var savedItemInventorySlot3 = 18
-        var savedItemInventorySlot4 = 19
-        var savedItemInventorySlot5 = 49
+
+
+
+
+        var savedItemInventorySlot1 = savedHeroInventorySlot1
+        var savedItemInventorySlot2 = savedHeroInventorySlot2
+        var savedItemInventorySlot3 = savedHeroInventorySlot3
+        var savedItemInventorySlot4 = savedHeroInventorySlot4
+        var savedItemInventorySlot5 = savedHeroInventorySlot5
+
+
         var itemForSlot = 0
 
         var loopStopper = 0
@@ -1210,14 +1263,18 @@ class shopsActivity : AppCompatActivity() {
     fun showHeroItems() {
 
         // snapshot saved items that hero is wearing
-        var savedArmor = 6
-        var savedRobe = 7
-        var savedGloves = 18
-        var savedShoes = 19
-        var savedShield = 30
-        var savedBelt = 32
-        var savedHelmet = 41
-        var savedWeapon = 49
+
+
+
+
+        var savedArmor = savedHeroArmor
+        var savedRobe = savedHeroRobe
+        var savedGloves = savedHeroGloves
+        var savedShoes = savedHeroShoes
+        var savedShield = savedHeroShield
+        var savedBelt = savedHeroBelt
+        var savedHelmet = savedHeroHelmet
+        var savedWeapon = savedHeroWeapon
 
 
 
