@@ -337,6 +337,7 @@ class shopsActivity : AppCompatActivity() {
 
             performShop()
             save()
+            buyButton.isEnabled = false
 
         }
 
