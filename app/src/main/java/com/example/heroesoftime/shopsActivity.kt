@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.isVisible
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -107,6 +108,7 @@ class shopsActivity : AppCompatActivity() {
 
 
     var selectedItem = armorClass(0, "", 0, 0, 0, 0, 0, 0, 0)
+    var selectedItemToBuy = armorClass(0, "", 0, 0, 0, 0, 0, 0, 0)
     var heroArmorSlotAtributes = armorClass(0, "", 0, 0, 0, 0, 0, 0, 0)
     var heroRobeSlotAtributes = armorClass(0, "", 0, 0, 0, 0, 0, 0, 0)
     var heroGloveSlotAtributes = armorClass(0, "", 0, 0, 0, 0, 0, 0, 0)
@@ -139,6 +141,7 @@ class shopsActivity : AppCompatActivity() {
     var selectedItemInShopPrice = 0
     var heroGold = 0
     var selectedSlotInShopView = 0
+    var selectedItemToShop = 0
     var isItWeapon = false
 
 
@@ -332,8 +335,8 @@ class shopsActivity : AppCompatActivity() {
 
         buyButton.setOnClickListener {
 
-
-
+            performShop()
+            save()
 
         }
 
@@ -527,6 +530,7 @@ class shopsActivity : AppCompatActivity() {
                 armorTxt.text = "Damage: ${slot1.armor}"
             }
 
+            selectedItemToShop = 1
             sellButton.isEnabled = false
             equipButton.isEnabled = false
             buyButton.isEnabled = true
@@ -544,6 +548,7 @@ class shopsActivity : AppCompatActivity() {
                 armorTxt.text = "Damage: ${slot2.armor}"
             }
 
+            selectedItemToShop = 2
             sellButton.isEnabled = false
             equipButton.isEnabled = false
             buyButton.isEnabled = true
@@ -561,6 +566,7 @@ class shopsActivity : AppCompatActivity() {
                 armorTxt.text = "Damage: ${slot3.armor}"
             }
 
+            selectedItemToShop = 3
             sellButton.isEnabled = false
             equipButton.isEnabled = false
             buyButton.isEnabled = true
@@ -578,6 +584,7 @@ class shopsActivity : AppCompatActivity() {
                 armorTxt.text = "Damage: ${slot4.armor}"
             }
 
+            selectedItemToShop = 4
             sellButton.isEnabled = false
             equipButton.isEnabled = false
             buyButton.isEnabled = true
@@ -595,6 +602,7 @@ class shopsActivity : AppCompatActivity() {
                 armorTxt.text = "Damage: ${slot5.armor}"
             }
 
+            selectedItemToShop = 5
             sellButton.isEnabled = false
             equipButton.isEnabled = false
             buyButton.isEnabled = true
@@ -612,6 +620,7 @@ class shopsActivity : AppCompatActivity() {
                 armorTxt.text = "Damage: ${slot6.armor}"
             }
 
+            selectedItemToShop = 6
             sellButton.isEnabled = false
             equipButton.isEnabled = false
             buyButton.isEnabled = true
@@ -629,6 +638,7 @@ class shopsActivity : AppCompatActivity() {
                 armorTxt.text = "Damage: ${slot7.armor}"
             }
 
+            selectedItemToShop = 7
             sellButton.isEnabled = false
             equipButton.isEnabled = false
             buyButton.isEnabled = true
@@ -646,6 +656,7 @@ class shopsActivity : AppCompatActivity() {
                 armorTxt.text = "Damage: ${slot8.armor}"
             }
 
+            selectedItemToShop = 8
             sellButton.isEnabled = false
             equipButton.isEnabled = false
             buyButton.isEnabled = true
@@ -663,6 +674,7 @@ class shopsActivity : AppCompatActivity() {
                 armorTxt.text = "Damage: ${slot9.armor}"
             }
 
+            selectedItemToShop = 9
             sellButton.isEnabled = false
             equipButton.isEnabled = false
             buyButton.isEnabled = true
@@ -2574,6 +2586,198 @@ class shopsActivity : AppCompatActivity() {
 
         }
 
+
+
+
+
+
+    }
+
+
+    fun performShop() {
+
+
+        if (selectedItemToShop == 1) {
+            if (savedHeroInventorySlot1 == 0) {
+                savedHeroGold -= slot1.price
+                savedHeroInventorySlot1 = slot1.itemId
+            } else if (savedHeroInventorySlot2 == 0) {
+                savedHeroGold -= slot1.price
+                savedHeroInventorySlot2 = slot1.itemId
+            } else if (savedHeroInventorySlot3 == 0) {
+                savedHeroGold -= slot1.price
+                savedHeroInventorySlot3 = slot1.itemId
+            } else if (savedHeroInventorySlot4 == 0) {
+                savedHeroGold -= slot1.price
+                savedHeroInventorySlot4 = slot1.itemId
+            } else if (savedHeroInventorySlot5 == 0) {
+                savedHeroGold -= slot1.price
+                savedHeroInventorySlot5 = slot1.itemId
+            } else if (savedHeroInventorySlot1 > 0 && savedHeroInventorySlot2 > 0 && savedHeroInventorySlot3 > 0
+                && savedHeroInventorySlot4 > 0 && savedHeroInventorySlot5 > 0) {
+                Toast.makeText(this, "Your inventory is full!", Toast.LENGTH_SHORT).show()
+            }
+        } else if (selectedItemToShop == 2) {
+            if (savedHeroInventorySlot1 == 0) {
+                savedHeroGold -= slot2.price
+                savedHeroInventorySlot1 = slot2.itemId
+            } else if (savedHeroInventorySlot2 == 0) {
+                savedHeroGold -= slot2.price
+                savedHeroInventorySlot2 = slot2.itemId
+            } else if (savedHeroInventorySlot3 == 0) {
+                savedHeroGold -= slot2.price
+                savedHeroInventorySlot3 = slot2.itemId
+            } else if (savedHeroInventorySlot4 == 0) {
+                savedHeroGold -= slot2.price
+                savedHeroInventorySlot4 = slot2.itemId
+            } else if (savedHeroInventorySlot5 == 0) {
+                savedHeroGold -= slot2.price
+                savedHeroInventorySlot5 = slot2.itemId
+            } else if (savedHeroInventorySlot1 > 0 && savedHeroInventorySlot2 > 0 && savedHeroInventorySlot3 > 0
+                && savedHeroInventorySlot4 > 0 && savedHeroInventorySlot5 > 0) {
+                Toast.makeText(this, "Your inventory is full!", Toast.LENGTH_SHORT).show()
+            }
+        } else if (selectedItemToShop == 3) {
+            if (savedHeroInventorySlot1 == 0) {
+                savedHeroGold -= slot3.price
+                savedHeroInventorySlot1 = slot3.itemId
+            } else if (savedHeroInventorySlot2 == 0) {
+                savedHeroGold -= slot3.price
+                savedHeroInventorySlot2 = slot3.itemId
+            } else if (savedHeroInventorySlot3 == 0) {
+                savedHeroGold -= slot3.price
+                savedHeroInventorySlot3 = slot3.itemId
+            } else if (savedHeroInventorySlot4 == 0) {
+                savedHeroGold -= slot3.price
+                savedHeroInventorySlot4 = slot3.itemId
+            } else if (savedHeroInventorySlot5 == 0) {
+                savedHeroGold -= slot3.price
+                savedHeroInventorySlot5 = slot3.itemId
+            } else if (savedHeroInventorySlot1 > 0 && savedHeroInventorySlot2 > 0 && savedHeroInventorySlot3 > 0
+                && savedHeroInventorySlot4 > 0 && savedHeroInventorySlot5 > 0) {
+                Toast.makeText(this, "Your inventory is full!", Toast.LENGTH_SHORT).show()
+            }
+        } else if (selectedItemToShop == 4) {
+            if (savedHeroInventorySlot1 == 0) {
+                savedHeroGold -= slot4.price
+                savedHeroInventorySlot1 = slot4.itemId
+            } else if (savedHeroInventorySlot2 == 0) {
+                savedHeroGold -= slot4.price
+                savedHeroInventorySlot2 = slot4.itemId
+            } else if (savedHeroInventorySlot3 == 0) {
+                savedHeroGold -= slot4.price
+                savedHeroInventorySlot3 = slot4.itemId
+            } else if (savedHeroInventorySlot4 == 0) {
+                savedHeroGold -= slot4.price
+                savedHeroInventorySlot4 = slot4.itemId
+            } else if (savedHeroInventorySlot5 == 0) {
+                savedHeroGold -= slot4.price
+                savedHeroInventorySlot5 = slot4.itemId
+            } else if (savedHeroInventorySlot1 > 0 && savedHeroInventorySlot2 > 0 && savedHeroInventorySlot3 > 0
+                && savedHeroInventorySlot4 > 0 && savedHeroInventorySlot5 > 0) {
+                Toast.makeText(this, "Your inventory is full!", Toast.LENGTH_SHORT).show()
+            }
+        } else if (selectedItemToShop == 5) {
+            if (savedHeroInventorySlot1 == 0) {
+                savedHeroGold -= slot5.price
+                savedHeroInventorySlot1 = slot5.itemId
+            } else if (savedHeroInventorySlot2 == 0) {
+                savedHeroGold -= slot5.price
+                savedHeroInventorySlot2 = slot5.itemId
+            } else if (savedHeroInventorySlot3 == 0) {
+                savedHeroGold -= slot5.price
+                savedHeroInventorySlot3 = slot5.itemId
+            } else if (savedHeroInventorySlot4 == 0) {
+                savedHeroGold -= slot5.price
+                savedHeroInventorySlot4 = slot5.itemId
+            } else if (savedHeroInventorySlot5 == 0) {
+                savedHeroGold -= slot5.price
+                savedHeroInventorySlot5 = slot5.itemId
+            } else if (savedHeroInventorySlot1 > 0 && savedHeroInventorySlot2 > 0 && savedHeroInventorySlot3 > 0
+                && savedHeroInventorySlot4 > 0 && savedHeroInventorySlot5 > 0) {
+                Toast.makeText(this, "Your inventory is full!", Toast.LENGTH_SHORT).show()
+            }
+        } else if (selectedItemToShop == 6) {
+            if (savedHeroInventorySlot1 == 0) {
+                savedHeroGold -= slot6.price
+                savedHeroInventorySlot1 = slot6.itemId
+            } else if (savedHeroInventorySlot2 == 0) {
+                savedHeroGold -= slot6.price
+                savedHeroInventorySlot2 = slot6.itemId
+            } else if (savedHeroInventorySlot3 == 0) {
+                savedHeroGold -= slot6.price
+                savedHeroInventorySlot3 = slot6.itemId
+            } else if (savedHeroInventorySlot4 == 0) {
+                savedHeroGold -= slot6.price
+                savedHeroInventorySlot4 = slot6.itemId
+            } else if (savedHeroInventorySlot5 == 0) {
+                savedHeroGold -= slot6.price
+                savedHeroInventorySlot5 = slot6.itemId
+            } else if (savedHeroInventorySlot1 > 0 && savedHeroInventorySlot2 > 0 && savedHeroInventorySlot3 > 0
+                && savedHeroInventorySlot4 > 0 && savedHeroInventorySlot5 > 0) {
+                Toast.makeText(this, "Your inventory is full!", Toast.LENGTH_SHORT).show()
+            }
+        } else if (selectedItemToShop == 7) {
+            if (savedHeroInventorySlot1 == 0) {
+                savedHeroGold -= slot7.price
+                savedHeroInventorySlot1 = slot7.itemId
+            } else if (savedHeroInventorySlot2 == 0) {
+                savedHeroGold -= slot7.price
+                savedHeroInventorySlot2 = slot7.itemId
+            } else if (savedHeroInventorySlot3 == 0) {
+                savedHeroGold -= slot7.price
+                savedHeroInventorySlot3 = slot7.itemId
+            } else if (savedHeroInventorySlot4 == 0) {
+                savedHeroGold -= slot7.price
+                savedHeroInventorySlot4 = slot7.itemId
+            } else if (savedHeroInventorySlot5 == 0) {
+                savedHeroGold -= slot7.price
+                savedHeroInventorySlot5 = slot7.itemId
+            } else if (savedHeroInventorySlot1 > 0 && savedHeroInventorySlot2 > 0 && savedHeroInventorySlot3 > 0
+                && savedHeroInventorySlot4 > 0 && savedHeroInventorySlot5 > 0) {
+                Toast.makeText(this, "Your inventory is full!", Toast.LENGTH_SHORT).show()
+            }
+        } else if (selectedItemToShop == 8) {
+            if (savedHeroInventorySlot1 == 0) {
+                savedHeroGold -= slot8.price
+                savedHeroInventorySlot1 = slot8.itemId
+            } else if (savedHeroInventorySlot2 == 0) {
+                savedHeroGold -= slot8.price
+                savedHeroInventorySlot2 = slot8.itemId
+            } else if (savedHeroInventorySlot3 == 0) {
+                savedHeroGold -= slot8.price
+                savedHeroInventorySlot3 = slot8.itemId
+            } else if (savedHeroInventorySlot4 == 0) {
+                savedHeroGold -= slot8.price
+                savedHeroInventorySlot4 = slot8.itemId
+            } else if (savedHeroInventorySlot5 == 0) {
+                savedHeroGold -= slot8.price
+                savedHeroInventorySlot5 = slot8.itemId
+            } else if (savedHeroInventorySlot1 > 0 && savedHeroInventorySlot2 > 0 && savedHeroInventorySlot3 > 0
+                && savedHeroInventorySlot4 > 0 && savedHeroInventorySlot5 > 0) {
+                Toast.makeText(this, "Your inventory is full!", Toast.LENGTH_SHORT).show()
+            }
+        } else if (selectedItemToShop == 9) {
+            if (savedHeroInventorySlot1 == 0) {
+                savedHeroGold -= slot9.price
+                savedHeroInventorySlot1 = slot9.itemId
+            } else if (savedHeroInventorySlot2 == 0) {
+                savedHeroGold -= slot9.price
+                savedHeroInventorySlot2 = slot9.itemId
+            } else if (savedHeroInventorySlot3 == 0) {
+                savedHeroGold -= slot9.price
+                savedHeroInventorySlot3 = slot9.itemId
+            } else if (savedHeroInventorySlot4 == 0) {
+                savedHeroGold -= slot9.price
+                savedHeroInventorySlot4 = slot9.itemId
+            } else if (savedHeroInventorySlot5 == 0) {
+                savedHeroGold -= slot9.price
+                savedHeroInventorySlot5 = slot9.itemId
+            } else if (savedHeroInventorySlot1 > 0 && savedHeroInventorySlot2 > 0 && savedHeroInventorySlot3 > 0
+                && savedHeroInventorySlot4 > 0 && savedHeroInventorySlot5 > 0) {
+                Toast.makeText(this, "Your inventory is full!", Toast.LENGTH_SHORT).show()
+            }
+        }
 
 
 
