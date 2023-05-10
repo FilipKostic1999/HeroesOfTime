@@ -22,6 +22,9 @@ class shopsActivity : AppCompatActivity() {
 
 
 
+    var noIdArmor = armorClass(0, "", 0, 0, 0, 0, 0, 0, 0)
+    var noIdWeapon = weaponClass(0, "", 0, 0, 0, 0, 0, 0, 0)
+
 
     var leatherArmor1 = armorClass(1, "Leather armor", 18, 0, 0, 0, 0, 60, 1)
     var leatherArmor2 = armorClass(2, "Leather armor", 22, 0,0,2,2, 100, 1)
@@ -190,6 +193,7 @@ class shopsActivity : AppCompatActivity() {
     lateinit var database : FirebaseFirestore
     lateinit var savedDataOfUser : heroDataClass
 
+    var savedHeroGold : Int = 0
     var savedHeroArmor = 0
     var savedHeroRobe = 0
     var savedHeroGloves = 0
@@ -274,6 +278,8 @@ class shopsActivity : AppCompatActivity() {
 
                             savedDataOfUser = document.toObject()!!
 
+                            savedHeroGold = savedDataOfUser.heroGold
+
                             savedHeroArmor = savedDataOfUser.heroArmorId
                             savedHeroRobe = savedDataOfUser.heroRobeId
                             savedHeroGloves = savedDataOfUser.heroGloveId
@@ -333,24 +339,9 @@ class shopsActivity : AppCompatActivity() {
 
         equipButton.setOnClickListener {
 
-            if (selectedSlotInShopView == 12) {
-                /*
-                if (itemTypeOfSelectedSlot == 1 && heroArmorSlot == 0) {
-                // heroArmorSlot == IdSelectedItem
-                } else if (itemTypeOfSelectedSlot == 1 && heroArmorSlot > 0) {
-                // heroArmorSlot == IdSelectedItem
-                // inventorySlot == heroArmorSlot
-                }
-                 */
-            } else if (selectedSlotInShopView == 13) {
-                // inventorySlot2 = 0     snapshot will set the view of armor on xml
-            } else if (selectedSlotInShopView == 14) {
-                // inventorySlot3 = 0     snapshot will set the view of armor on xml
-            } else if (selectedSlotInShopView == 15) {
-                // inventorySlot4 = 0     snapshot will set the view of armor on xml
-            } else if (selectedSlotInShopView == 16) {
-                // inventorySlot5 = 0     snapshot will set the view of armor on xml
-            }
+            equip()
+
+            save()
 
 
         }
@@ -358,37 +349,10 @@ class shopsActivity : AppCompatActivity() {
 
         sellButton.setOnClickListener {
 
-            heroGold += selectedItemInShopPrice
+            sell()
 
-            if (selectedSlotInShopView == 1) {
-                // heroArmorId = 0     snapshot will set the view of armor on xml
-            } else if (selectedSlotInShopView == 2) {
-                // heroRobeId = 0     snapshot will set the view of armor on xml
-            } else if (selectedSlotInShopView == 3) {
-                // heroGloveId = 0     snapshot will set the view of armor on xml
-            } else if (selectedSlotInShopView == 4) {
-                // heroShoesId = 0     snapshot will set the view of armor on xml
-            } else if (selectedSlotInShopView == 5) {
-               // heroShieldId = 0     snapshot will set the view of armor on xml
-            } else if (selectedSlotInShopView == 6) {
-                // heroBeltId = 0     snapshot will set the view of armor on xml
-            } else if (selectedSlotInShopView == 7) {
-               // heroHelmetId = 0     snapshot will set the view of armor on xml
-            } else if (selectedSlotInShopView == 8) {
-              // heroWeaponId = 0     snapshot will set the view of armor on xml
-            } else if (selectedSlotInShopView == 12) {
-                // inventorySlot1 = 0     snapshot will set the view of armor on xml
-            } else if (selectedSlotInShopView == 13) {
-              // inventorySlot2 = 0     snapshot will set the view of armor on xml
-            } else if (selectedSlotInShopView == 14) {
-                // inventorySlot3 = 0     snapshot will set the view of armor on xml
-            } else if (selectedSlotInShopView == 15) {
-                 // inventorySlot4 = 0     snapshot will set the view of armor on xml
-            } else if (selectedSlotInShopView == 16) {
-               // inventorySlot5 = 0     snapshot will set the view of armor on xml
-            }
+            save()
 
-            // save in db
 
 
         }
@@ -807,6 +771,7 @@ class shopsActivity : AppCompatActivity() {
 
         // All games armors are listed
 
+        listOfAllArmors.add(noIdArmor)
         listOfAllArmors.add(leatherArmor1)
         listOfAllArmors.add(leatherArmor2)
         listOfAllArmors.add(leatherArmor3)
@@ -858,6 +823,7 @@ class shopsActivity : AppCompatActivity() {
 
         // All games weapons are listed
 
+        listOfAllWeapons.add(noIdWeapon)
         listOfAllWeapons.add(knife1)
         listOfAllWeapons.add(knife2)
         listOfAllWeapons.add(knife3)
@@ -881,22 +847,26 @@ class shopsActivity : AppCompatActivity() {
 
 
 
+
     }
 
 
 
 
-    fun send() {
+    fun save() {
 
 
 
         auth = Firebase.auth
         val user = auth.currentUser
 
-        var heroData = heroDataClass(heroIconId = 0, heroLevel = 1, heroExperience = 1, heroArmorId = 6, heroRobeId = 7,
-        heroGloveId = 18, heroShoesId = 19, heroShieldId = 30, heroBeltId = 32, heroHelmetId = 41, heroWeaponId = 49,
-        heroInventorySlot1 = 6, heroInventorySlot2 = 7, heroInventorySlot3 = 18, heroInventorySlot4 = 19,
-        heroInventorySlot5 = 49)
+        var heroData = heroDataClass(heroIconId = 0, heroLevel = 1, heroExperience = 1, heroArmorId = savedHeroArmor,
+            heroRobeId = savedHeroRobe, heroGloveId = savedHeroGloves, heroShoesId = savedHeroShoes,
+            heroShieldId = savedHeroShield, heroBeltId = savedHeroBelt,
+            heroHelmetId = savedHeroHelmet, heroWeaponId = savedHeroWeapon,
+        heroInventorySlot1 = savedHeroInventorySlot1, heroInventorySlot2 = savedHeroInventorySlot2,
+            heroInventorySlot3 = savedHeroInventorySlot3, heroInventorySlot4 = savedHeroInventorySlot4,
+        heroInventorySlot5 = savedHeroInventorySlot5, heroGold = savedHeroGold)
 
 
         if (user != null) {
@@ -1249,6 +1219,26 @@ class shopsActivity : AppCompatActivity() {
             inventorySlot5.setImageResource(R.drawable.warknife)
         }
 
+        if (savedItemInventorySlot1 == 0) {
+            inventorySlot1.setImageResource(R.drawable.foursquare)
+        }
+
+        if (savedItemInventorySlot2 == 0) {
+            inventorySlot2.setImageResource(R.drawable.foursquare)
+        }
+
+        if (savedItemInventorySlot3 == 0) {
+            inventorySlot3.setImageResource(R.drawable.foursquare)
+        }
+
+        if (savedItemInventorySlot4 == 0) {
+            inventorySlot4.setImageResource(R.drawable.foursquare)
+        }
+
+        if (savedItemInventorySlot5 == 0) {
+            inventorySlot5.setImageResource(R.drawable.foursquare)
+        }
+
 
 
 
@@ -1324,42 +1314,56 @@ class shopsActivity : AppCompatActivity() {
             heroArmorSlot.setImageResource(R.drawable.leatherarmor)
         } else if (savedArmor in 5..6) {
             heroArmorSlot.setImageResource(R.drawable.rareleatherarmor)
+        } else if (savedArmor == 0) {
+                heroArmorSlot.setImageResource(R.drawable.foursquare)
         }
 
         if (savedRobe in 7..10) {
             heroRobeSlot.setImageResource(R.drawable.leatherrobe)
         } else if (savedRobe in 11..12) {
             heroRobeSlot.setImageResource(R.drawable.rareleatherrobe)
+        } else if (savedRobe == 0) {
+            heroRobeSlot.setImageResource(R.drawable.foursquare)
         }
 
         if (savedGloves in 13..16) {
             heroGloveSlot.setImageResource(R.drawable.leathergloves)
         } else if (savedGloves in 17..18) {
             heroGloveSlot.setImageResource(R.drawable.rareleathergloves)
+        } else if (savedGloves == 0) {
+            heroGloveSlot.setImageResource(R.drawable.foursquare)
         }
 
         if (savedShoes in 19..22) {
             heroShoesSlot.setImageResource(R.drawable.leathershoes)
         } else if (savedShoes in 23..24) {
             heroShoesSlot.setImageResource(R.drawable.rareleathershoes)
+        } else if (savedShoes == 0) {
+            heroShoesSlot.setImageResource(R.drawable.foursquare)
         }
 
         if (savedShield in 25..28) {
             heroShieldSlot.setImageResource(R.drawable.leathershield)
         } else if (savedShield in 29..30) {
             heroShieldSlot.setImageResource(R.drawable.rareleathershield)
+        } else if (savedShield == 0) {
+            heroShieldSlot.setImageResource(R.drawable.foursquare)
         }
 
         if (savedBelt in 31..34) {
             heroBeltSlot.setImageResource(R.drawable.leatherbelt)
         } else if (savedBelt in 35..36) {
             heroBeltSlot.setImageResource(R.drawable.rareleatherbelt)
+        } else if (savedBelt == 0) {
+            heroBeltSlot.setImageResource(R.drawable.foursquare)
         }
 
         if (savedHelmet in 37..40) {
             heroHelmetSlot.setImageResource(R.drawable.leatherhat)
         } else if (savedHelmet in 41..42) {
             heroHelmetSlot.setImageResource(R.drawable.rareleatherhat)
+        } else if (savedHelmet == 0) {
+            heroHelmetSlot.setImageResource(R.drawable.foursquare)
         }
 
 
@@ -1393,6 +1397,10 @@ class shopsActivity : AppCompatActivity() {
 
         if (savedWeapon in 55..56) {
             heroWeaponSlot.setImageResource(R.drawable.warknife)
+        }
+
+        if (savedWeapon == 0) {
+            heroWeaponSlot.setImageResource(R.drawable.foursquare)
         }
 
 
@@ -1478,6 +1486,10 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot1.setImageResource(R.drawable.warknife)
                 }
 
+                if (itemId == 0) {
+                    armorSlot1.setImageResource(R.drawable.foursquare)
+                }
+
                 slot1 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
 
             } else if (loopStopper == 1) {
@@ -1497,6 +1509,10 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot2.setImageResource(R.drawable.throwingknives)
                 } else if (itemId in 55..56) {
                     armorSlot2.setImageResource(R.drawable.warknife)
+                }
+
+                if (itemId == 0) {
+                    armorSlot2.setImageResource(R.drawable.foursquare)
                 }
 
                 slot2 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
@@ -1520,6 +1536,10 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot3.setImageResource(R.drawable.warknife)
                 }
 
+                if (itemId == 0) {
+                    armorSlot3.setImageResource(R.drawable.foursquare)
+                }
+
                 slot3 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
 
             } else if (loopStopper == 3) {
@@ -1539,6 +1559,10 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot4.setImageResource(R.drawable.throwingknives)
                 } else if (itemId in 55..56) {
                     armorSlot4.setImageResource(R.drawable.warknife)
+                }
+
+                if (itemId == 0) {
+                    armorSlot4.setImageResource(R.drawable.foursquare)
                 }
 
                 slot4 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
@@ -1563,6 +1587,10 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot5.setImageResource(R.drawable.warknife)
                 }
 
+                if (itemId == 0) {
+                    armorSlot5.setImageResource(R.drawable.foursquare)
+                }
+
                 slot5 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
 
             } else if (loopStopper == 5) {
@@ -1582,6 +1610,10 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot6.setImageResource(R.drawable.throwingknives)
                 } else if (itemId in 55..56) {
                     armorSlot6.setImageResource(R.drawable.warknife)
+                }
+
+                if (itemId == 0) {
+                    armorSlot6.setImageResource(R.drawable.foursquare)
                 }
 
                 slot6 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
@@ -1605,6 +1637,10 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot7.setImageResource(R.drawable.warknife)
                 }
 
+                if (itemId == 0) {
+                    armorSlot7.setImageResource(R.drawable.foursquare)
+                }
+
                 slot7 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
 
             } else if (loopStopper == 7) {
@@ -1626,6 +1662,10 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot8.setImageResource(R.drawable.warknife)
                 }
 
+                if (itemId == 0) {
+                    armorSlot8.setImageResource(R.drawable.foursquare)
+                }
+
                 slot8 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
 
             } else if (loopStopper == 8) {
@@ -1645,6 +1685,10 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot9.setImageResource(R.drawable.throwingknives)
                 } else if (itemId in 55..56) {
                     armorSlot9.setImageResource(R.drawable.warknife)
+                }
+
+                if (itemId == 0) {
+                    armorSlot9.setImageResource(R.drawable.foursquare)
                 }
 
                 slot9 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
@@ -1788,6 +1832,10 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot1.setImageResource(R.drawable.rareleatherhat)
                 }
 
+                if (itemId == 0) {
+                    armorSlot1.setImageResource(R.drawable.foursquare)
+                }
+
                 slot1 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
 
             } else if (loopStopper == 1) {
@@ -1819,6 +1867,10 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot2.setImageResource(R.drawable.leatherhat)
                 } else if (itemId in 41..42) {
                     armorSlot2.setImageResource(R.drawable.rareleatherhat)
+                }
+
+                if (itemId == 0) {
+                    armorSlot2.setImageResource(R.drawable.foursquare)
                 }
 
                 slot2 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
@@ -1854,6 +1906,10 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot3.setImageResource(R.drawable.rareleatherhat)
                 }
 
+                if (itemId == 0) {
+                    armorSlot3.setImageResource(R.drawable.foursquare)
+                }
+
                 slot3 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
 
             } else if (loopStopper == 3) {
@@ -1885,6 +1941,10 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot4.setImageResource(R.drawable.leatherhat)
                 } else if (itemId in 41..42) {
                     armorSlot4.setImageResource(R.drawable.rareleatherhat)
+                }
+
+                if (itemId == 0) {
+                    armorSlot4.setImageResource(R.drawable.foursquare)
                 }
 
                 slot4 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
@@ -1920,6 +1980,10 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot5.setImageResource(R.drawable.rareleatherhat)
                 }
 
+                if (itemId == 0) {
+                    armorSlot5.setImageResource(R.drawable.foursquare)
+                }
+
                 slot5 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
 
             } else if (loopStopper == 5) {
@@ -1951,6 +2015,10 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot6.setImageResource(R.drawable.leatherhat)
                 } else if (itemId in 41..42) {
                     armorSlot6.setImageResource(R.drawable.rareleatherhat)
+                }
+
+                if (itemId == 0) {
+                    armorSlot6.setImageResource(R.drawable.foursquare)
                 }
 
                 slot6 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
@@ -1986,6 +2054,10 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot7.setImageResource(R.drawable.rareleatherhat)
                 }
 
+                if (itemId == 0) {
+                    armorSlot7.setImageResource(R.drawable.foursquare)
+                }
+
                 slot7 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
 
             } else if (loopStopper == 7) {
@@ -2017,6 +2089,10 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot8.setImageResource(R.drawable.leatherhat)
                 } else if (itemId in 41..42) {
                     armorSlot8.setImageResource(R.drawable.rareleatherhat)
+                }
+
+                if (itemId == 0) {
+                    armorSlot8.setImageResource(R.drawable.foursquare)
                 }
 
                 slot8 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
@@ -2052,6 +2128,10 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot9.setImageResource(R.drawable.rareleatherhat)
                 }
 
+                if (itemId == 0) {
+                    armorSlot9.setImageResource(R.drawable.foursquare)
+                }
+
                 slot9 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
 
             }
@@ -2072,6 +2152,437 @@ class shopsActivity : AppCompatActivity() {
 
 
     }
+
+
+    fun sell() {
+
+        savedHeroGold += selectedItemInShopPrice
+        selectedItemInShopPrice = 0
+
+        if (selectedSlotInShopView == 1) {
+            savedHeroArmor = 0
+        } else if (selectedSlotInShopView == 2) {
+            savedHeroRobe = 0
+        } else if (selectedSlotInShopView == 3) {
+            savedHeroGloves = 0
+        } else if (selectedSlotInShopView == 4) {
+            savedHeroShoes = 0
+        } else if (selectedSlotInShopView == 5) {
+            savedHeroShield = 0
+        } else if (selectedSlotInShopView == 6) {
+            savedHeroBelt = 0
+        } else if (selectedSlotInShopView == 7) {
+            savedHeroHelmet = 0
+        } else if (selectedSlotInShopView == 8) {
+            savedHeroWeapon = 0
+        } else if (selectedSlotInShopView == 12) {
+            savedHeroInventorySlot1 = 0
+        } else if (selectedSlotInShopView == 13) {
+            savedHeroInventorySlot2 = 0
+        } else if (selectedSlotInShopView == 14) {
+            savedHeroInventorySlot3 = 0
+        } else if (selectedSlotInShopView == 15) {
+            savedHeroInventorySlot4 = 0
+        } else if (selectedSlotInShopView == 16) {
+            savedHeroInventorySlot5 = 0
+        }
+
+
+
+    }
+
+
+
+
+    fun equip() {
+
+        if (selectedSlotInShopView == 12) {
+
+            if (inventoryAtributesSlot1.typeItem == 1 && savedHeroArmor == 0) {
+                savedHeroArmor = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot1.typeItem == 1 && savedHeroArmor > 0) {
+                val rememberer = savedHeroArmor
+                savedHeroArmor = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = rememberer
+            }
+
+            if (inventoryAtributesSlot1.typeItem == 2 && savedHeroRobe == 0) {
+                savedHeroRobe = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot1.typeItem == 2 && savedHeroRobe > 0) {
+                val rememberer = savedHeroRobe
+                savedHeroRobe = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = rememberer
+            }
+
+            if (inventoryAtributesSlot1.typeItem == 3 && savedHeroGloves == 0) {
+                savedHeroGloves = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot1.typeItem == 3 && savedHeroGloves > 0) {
+                val rememberer = savedHeroGloves
+                savedHeroGloves = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = rememberer
+            }
+
+            if (inventoryAtributesSlot1.typeItem == 4 && savedHeroShoes == 0) {
+                savedHeroShoes = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot1.typeItem == 4 && savedHeroShoes > 0) {
+                val rememberer = savedHeroShoes
+                savedHeroShoes = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = rememberer
+            }
+
+            if (inventoryAtributesSlot1.typeItem == 5 && savedHeroShield == 0) {
+                savedHeroShield = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot1.typeItem == 5 && savedHeroShield > 0) {
+                val rememberer = savedHeroShield
+                savedHeroShield = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = rememberer
+            }
+
+            if (inventoryAtributesSlot1.typeItem == 6 && savedHeroBelt == 0) {
+                savedHeroBelt = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot1.typeItem == 6 && savedHeroBelt > 0) {
+                val rememberer = savedHeroBelt
+                savedHeroBelt = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = rememberer
+            }
+
+            if (inventoryAtributesSlot1.typeItem == 7 && savedHeroHelmet == 0) {
+                savedHeroHelmet = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot1.typeItem == 7 && savedHeroHelmet > 0) {
+                val rememberer = savedHeroHelmet
+                savedHeroHelmet = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = rememberer
+            }
+
+            if (inventoryAtributesSlot1.typeItem == 8 && savedHeroWeapon == 0) {
+                savedHeroWeapon = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot1.typeItem == 8 && savedHeroWeapon > 0) {
+                val rememberer = savedHeroWeapon
+                savedHeroWeapon = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = rememberer
+            }
+
+
+
+
+
+
+        } else if (selectedSlotInShopView == 13) {
+
+            if (inventoryAtributesSlot2.typeItem == 1 && savedHeroArmor == 0) {
+                savedHeroArmor = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot2.typeItem == 1 && savedHeroArmor > 0) {
+                val rememberer = savedHeroArmor
+                savedHeroArmor = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = rememberer
+            }
+
+            if (inventoryAtributesSlot2.typeItem == 2 && savedHeroRobe == 0) {
+                savedHeroRobe = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot2.typeItem == 2 && savedHeroRobe > 0) {
+                val rememberer = savedHeroRobe
+                savedHeroRobe = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = rememberer
+            }
+
+            if (inventoryAtributesSlot2.typeItem == 3 && savedHeroGloves == 0) {
+                savedHeroGloves = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot2.typeItem == 3 && savedHeroGloves > 0) {
+                val rememberer = savedHeroGloves
+                savedHeroGloves = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = rememberer
+            }
+
+            if (inventoryAtributesSlot2.typeItem == 4 && savedHeroShoes == 0) {
+                savedHeroShoes = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot2.typeItem == 4 && savedHeroShoes > 0) {
+                val rememberer = savedHeroShoes
+                savedHeroShoes = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = rememberer
+            }
+
+            if (inventoryAtributesSlot2.typeItem == 5 && savedHeroShield == 0) {
+                savedHeroShield = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot2.typeItem == 5 && savedHeroShield > 0) {
+                val rememberer = savedHeroShield
+                savedHeroShield = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = rememberer
+            }
+
+            if (inventoryAtributesSlot2.typeItem == 6 && savedHeroBelt == 0) {
+                savedHeroBelt = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot2.typeItem == 6 && savedHeroBelt > 0) {
+                val rememberer = savedHeroBelt
+                savedHeroBelt = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = rememberer
+            }
+
+            if (inventoryAtributesSlot2.typeItem == 7 && savedHeroHelmet == 0) {
+                savedHeroHelmet = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot2.typeItem == 7 && savedHeroHelmet > 0) {
+                val rememberer = savedHeroHelmet
+                savedHeroHelmet = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = rememberer
+            }
+
+            if (inventoryAtributesSlot2.typeItem == 8 && savedHeroWeapon == 0) {
+                savedHeroWeapon = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot2.typeItem == 8 && savedHeroWeapon > 0) {
+                val rememberer = savedHeroWeapon
+                savedHeroWeapon = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = rememberer
+            }
+
+        } else if (selectedSlotInShopView == 14) {
+
+            if (inventoryAtributesSlot3.typeItem == 1 && savedHeroArmor == 0) {
+                savedHeroArmor = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot3.typeItem == 1 && savedHeroArmor > 0) {
+                val rememberer = savedHeroArmor
+                savedHeroArmor = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = rememberer
+            }
+
+            if (inventoryAtributesSlot3.typeItem == 2 && savedHeroRobe == 0) {
+                savedHeroRobe = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot3.typeItem == 2 && savedHeroRobe > 0) {
+                val rememberer = savedHeroRobe
+                savedHeroRobe = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = rememberer
+                Log.d("!!!", "This is the Id of the slots robe: $savedHeroInventorySlot3")
+            }
+
+            if (inventoryAtributesSlot3.typeItem == 3 && savedHeroGloves == 0) {
+                savedHeroGloves = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot3.typeItem == 3 && savedHeroGloves > 0) {
+                val rememberer = savedHeroGloves
+                savedHeroGloves = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = rememberer
+            }
+
+            if (inventoryAtributesSlot3.typeItem == 4 && savedHeroShoes == 0) {
+                savedHeroShoes = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot3.typeItem == 4 && savedHeroShoes > 0) {
+                val rememberer = savedHeroShoes
+                savedHeroShoes = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = rememberer
+            }
+
+            if (inventoryAtributesSlot3.typeItem == 5 && savedHeroShield == 0) {
+                savedHeroShield = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot3.typeItem == 5 && savedHeroShield > 0) {
+                val rememberer = savedHeroShield
+                savedHeroShield = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = rememberer
+            }
+
+            if (inventoryAtributesSlot3.typeItem == 6 && savedHeroBelt == 0) {
+                savedHeroBelt = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot3.typeItem == 6 && savedHeroBelt > 0) {
+                val rememberer = savedHeroBelt
+                savedHeroBelt = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = rememberer
+            }
+
+            if (inventoryAtributesSlot3.typeItem == 7 && savedHeroHelmet == 0) {
+                savedHeroHelmet = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot3.typeItem == 7 && savedHeroHelmet > 0) {
+                val rememberer = savedHeroHelmet
+                savedHeroHelmet = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = rememberer
+            }
+
+            if (inventoryAtributesSlot3.typeItem == 8 && savedHeroWeapon == 0) {
+                savedHeroWeapon = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot3.typeItem == 8 && savedHeroWeapon > 0) {
+                val rememberer = savedHeroWeapon
+                savedHeroWeapon = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = rememberer
+            }
+
+        } else if (selectedSlotInShopView == 15) {
+
+            if (inventoryAtributesSlot4.typeItem == 1 && savedHeroArmor == 0) {
+                savedHeroArmor = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot4.typeItem == 1 && savedHeroArmor > 0) {
+                val rememberer = savedHeroArmor
+                savedHeroArmor = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = rememberer
+            }
+
+            if (inventoryAtributesSlot4.typeItem == 2 && savedHeroRobe == 0) {
+                savedHeroRobe = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot4.typeItem == 2 && savedHeroRobe > 0) {
+                val rememberer = savedHeroRobe
+                savedHeroRobe = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = rememberer
+            }
+
+            if (inventoryAtributesSlot4.typeItem == 3 && savedHeroGloves == 0) {
+                savedHeroGloves = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot4.typeItem == 3 && savedHeroGloves > 0) {
+                val rememberer = savedHeroGloves
+                savedHeroGloves = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = rememberer
+            }
+
+            if (inventoryAtributesSlot4.typeItem == 4 && savedHeroShoes == 0) {
+                savedHeroShoes = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot4.typeItem == 4 && savedHeroShoes > 0) {
+                val rememberer = savedHeroShoes
+                savedHeroShoes = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = rememberer
+            }
+
+            if (inventoryAtributesSlot4.typeItem == 5 && savedHeroShield == 0) {
+                savedHeroShield = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot4.typeItem == 5 && savedHeroShield > 0) {
+                val rememberer = savedHeroShield
+                savedHeroShield = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = rememberer
+            }
+
+            if (inventoryAtributesSlot4.typeItem == 6 && savedHeroBelt == 0) {
+                savedHeroBelt = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot4.typeItem == 6 && savedHeroBelt > 0) {
+                val rememberer = savedHeroBelt
+                savedHeroBelt = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = rememberer
+            }
+
+            if (inventoryAtributesSlot4.typeItem == 7 && savedHeroHelmet == 0) {
+                savedHeroHelmet = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot4.typeItem == 7 && savedHeroHelmet > 0) {
+                val rememberer = savedHeroHelmet
+                savedHeroHelmet = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = rememberer
+            }
+
+            if (inventoryAtributesSlot4.typeItem == 8 && savedHeroWeapon == 0) {
+                savedHeroWeapon = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot4.typeItem == 8 && savedHeroWeapon > 0) {
+                val rememberer = savedHeroWeapon
+                savedHeroWeapon = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = rememberer
+            }
+
+        } else if (selectedSlotInShopView == 16) {
+
+            if (inventoryAtributesSlot5.typeItem == 1 && savedHeroArmor == 0) {
+                savedHeroArmor = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot5.typeItem == 1 && savedHeroArmor > 0) {
+                val rememberer = savedHeroArmor
+                savedHeroArmor = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = rememberer
+            }
+
+            if (inventoryAtributesSlot5.typeItem == 2 && savedHeroRobe == 0) {
+                savedHeroRobe = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot5.typeItem == 2 && savedHeroRobe > 0) {
+                val rememberer = savedHeroRobe
+                savedHeroRobe = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = rememberer
+            }
+
+            if (inventoryAtributesSlot5.typeItem == 3 && savedHeroGloves == 0) {
+                savedHeroGloves = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot5.typeItem == 3 && savedHeroGloves > 0) {
+                val rememberer = savedHeroGloves
+                savedHeroGloves = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = rememberer
+            }
+
+            if (inventoryAtributesSlot5.typeItem == 4 && savedHeroShoes == 0) {
+                savedHeroShoes = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot5.typeItem == 4 && savedHeroShoes > 0) {
+                val rememberer = savedHeroShoes
+                savedHeroShoes = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = rememberer
+            }
+
+            if (inventoryAtributesSlot5.typeItem == 5 && savedHeroShield == 0) {
+                savedHeroShield = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot5.typeItem == 5 && savedHeroShield > 0) {
+                val rememberer = savedHeroShield
+                savedHeroShield = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = rememberer
+            }
+
+            if (inventoryAtributesSlot5.typeItem == 6 && savedHeroBelt == 0) {
+                savedHeroBelt = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot5.typeItem == 6 && savedHeroBelt > 0) {
+                val rememberer = savedHeroBelt
+                savedHeroBelt = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = rememberer
+            }
+
+            if (inventoryAtributesSlot5.typeItem == 7 && savedHeroHelmet == 0) {
+                savedHeroHelmet = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot5.typeItem == 7 && savedHeroHelmet > 0) {
+                val rememberer = savedHeroHelmet
+                savedHeroHelmet = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = rememberer
+            }
+
+            if (inventoryAtributesSlot5.typeItem == 8 && savedHeroWeapon == 0) {
+                savedHeroWeapon = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot5.typeItem == 8 && savedHeroWeapon > 0) {
+                val rememberer = savedHeroWeapon
+                savedHeroWeapon = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = rememberer
+            }
+
+        }
+
+
+
+
+
+
+    }
+
+
+
 
 
 

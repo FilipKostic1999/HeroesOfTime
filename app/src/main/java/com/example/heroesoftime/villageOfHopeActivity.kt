@@ -4,6 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 
 class villageOfHopeActivity : AppCompatActivity() {
 
@@ -12,6 +18,19 @@ class villageOfHopeActivity : AppCompatActivity() {
     lateinit var villageOfHopeWeaponShop : TextView
 
 
+    lateinit var goldTxt : TextView
+
+
+
+
+    lateinit var villageOfHopeEntrance : TextView
+    lateinit var auth : FirebaseAuth
+    lateinit var database : FirebaseFirestore
+    lateinit var savedDataOfUser : heroDataClass
+
+
+    var savedHeroGold = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_village_of_hope)
@@ -19,6 +38,13 @@ class villageOfHopeActivity : AppCompatActivity() {
 
         villageOfHopeArmorShop = findViewById(R.id.villageOfHopeArmorShop)
         villageOfHopeWeaponShop = findViewById(R.id.villageOfHopeWeaponShop)
+        goldTxt = findViewById(R.id.goldTxt)
+
+
+
+        database = Firebase.firestore
+        auth = Firebase.auth
+        val user = auth.currentUser
 
 
         val sharedSelectorShopType = getSharedPreferences("SelectorShopType", AppCompatActivity.MODE_PRIVATE)
@@ -53,6 +79,26 @@ class villageOfHopeActivity : AppCompatActivity() {
             startActivity(intent)
 
 
+        }
+
+
+
+
+        if (user != null) {
+
+            database.collection("users").document(user.uid).collection("userData")
+                .addSnapshotListener { snapshot, e ->
+                    if (snapshot != null) {
+                        for (document in snapshot.documents) {
+
+                            savedDataOfUser = document.toObject()!!
+
+                            savedHeroGold = savedDataOfUser.heroGold
+                            goldTxt.text = "$savedHeroGold"
+
+                        }
+                    }
+                }
         }
 
 

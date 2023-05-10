@@ -23,7 +23,7 @@
         app:layout_constraintVertical_bias="0.335" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/goldTxt"
         android:layout_width="89dp"
         android:layout_height="19dp"
         android:text="0"
