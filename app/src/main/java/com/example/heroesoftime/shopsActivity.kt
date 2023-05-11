@@ -182,6 +182,7 @@ class shopsActivity : AppCompatActivity() {
     lateinit var buyButton : Button
     lateinit var equipButton : Button
     lateinit var sellButton : Button
+    lateinit var removeButton : Button
 
 
 
@@ -189,6 +190,7 @@ class shopsActivity : AppCompatActivity() {
     lateinit var listOfAllWeapons : ArrayList<weaponClass>
     lateinit var listOfArmorItems : ArrayList<armorClass>
     lateinit var listOfWeaponItems : ArrayList<weaponClass>
+
 
 
 
@@ -210,11 +212,14 @@ class shopsActivity : AppCompatActivity() {
     var savedHeroInventorySlot3 = 0
     var savedHeroInventorySlot4 = 0
     var savedHeroInventorySlot5 = 0
+    var isButtonLogicActive = true
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shops)
+
 
 
         listOfAllArmors = arrayListOf()
@@ -266,6 +271,7 @@ class shopsActivity : AppCompatActivity() {
         buyButton = findViewById(R.id.buyButton)
         equipButton = findViewById(R.id.equipButton)
         sellButton = findViewById(R.id.sellButton)
+        removeButton = findViewById(R.id.removeButton)
 
 
 
@@ -326,10 +332,24 @@ class shopsActivity : AppCompatActivity() {
         }
 
 
+        removeButton.isEnabled = false
         buyButton.isEnabled = false
         equipButton.isEnabled = false
         sellButton.isEnabled = false
 
+
+
+
+
+
+        removeButton.setOnClickListener {
+
+            moveToIn()
+
+            removeButton.isEnabled = false
+
+
+        }
 
 
 
@@ -376,6 +396,7 @@ class shopsActivity : AppCompatActivity() {
 
             selectedItemInShopPrice = heroArmorSlotAtributes.price
 
+            removeButton.isEnabled = true
             sellButton.isEnabled = true
             equipButton.isEnabled = false
             buyButton.isEnabled = false
@@ -395,6 +416,7 @@ class shopsActivity : AppCompatActivity() {
 
             selectedItemInShopPrice = heroRobeSlotAtributes.price
 
+            removeButton.isEnabled = true
             sellButton.isEnabled = true
             equipButton.isEnabled = false
             buyButton.isEnabled = false
@@ -414,6 +436,7 @@ class shopsActivity : AppCompatActivity() {
 
             selectedItemInShopPrice = heroGloveSlotAtributes.price
 
+            removeButton.isEnabled = true
             sellButton.isEnabled = true
             equipButton.isEnabled = false
             buyButton.isEnabled = false
@@ -433,6 +456,7 @@ class shopsActivity : AppCompatActivity() {
 
             selectedItemInShopPrice = heroShoesSlotAtributes.price
 
+            removeButton.isEnabled = true
             sellButton.isEnabled = true
             equipButton.isEnabled = false
             buyButton.isEnabled = false
@@ -452,6 +476,7 @@ class shopsActivity : AppCompatActivity() {
 
             selectedItemInShopPrice = heroShieldSlotAtributes.price
 
+            removeButton.isEnabled = true
             sellButton.isEnabled = true
             equipButton.isEnabled = false
             buyButton.isEnabled = false
@@ -471,6 +496,7 @@ class shopsActivity : AppCompatActivity() {
 
             selectedItemInShopPrice = heroBeltSlotAtributes.price
 
+            removeButton.isEnabled = true
             sellButton.isEnabled = true
             equipButton.isEnabled = false
             buyButton.isEnabled = false
@@ -490,6 +516,7 @@ class shopsActivity : AppCompatActivity() {
 
             selectedItemInShopPrice = heroHelmetSlotAtributes.price
 
+            removeButton.isEnabled = true
             sellButton.isEnabled = true
             equipButton.isEnabled = false
             buyButton.isEnabled = false
@@ -509,6 +536,7 @@ class shopsActivity : AppCompatActivity() {
 
             selectedItemInShopPrice = heroWeaponSlotAtributes.price
 
+            removeButton.isEnabled = true
             sellButton.isEnabled = true
             equipButton.isEnabled = false
             buyButton.isEnabled = false
@@ -2786,6 +2814,304 @@ class shopsActivity : AppCompatActivity() {
 
     }
 
+
+
+
+
+    fun moveToIn() {
+
+
+
+        if (savedHeroInventorySlot1 > 0 && savedHeroInventorySlot2 > 0 && savedHeroInventorySlot3 > 0
+            && savedHeroInventorySlot4 > 0 && savedHeroInventorySlot5 > 0) {
+            Toast.makeText(this, "Your inventory is full!", Toast.LENGTH_SHORT).show()
+        }
+
+
+
+        if (selectedSlotInShopView == 1) {
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroArmor
+                savedHeroArmor = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroArmor
+                savedHeroArmor = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroArmor
+                savedHeroArmor = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroArmor
+                savedHeroArmor = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroArmor
+                savedHeroArmor = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+        } else if (selectedSlotInShopView == 2) {
+
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroRobe
+                savedHeroRobe = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroRobe
+                savedHeroRobe = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroRobe
+                savedHeroRobe = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroRobe
+                savedHeroRobe = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroRobe
+                savedHeroRobe = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+        } else if (selectedSlotInShopView == 3) {
+
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroGloves
+                savedHeroGloves = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroGloves
+                savedHeroGloves = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroGloves
+                savedHeroGloves = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroGloves
+                savedHeroGloves = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroGloves
+                savedHeroGloves = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+
+        } else if (selectedSlotInShopView == 4) {
+
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroShoes
+                savedHeroShoes = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroShoes
+                savedHeroShoes = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroShoes
+                savedHeroShoes = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroShoes
+                savedHeroShoes = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroShoes
+                savedHeroShoes = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+
+        } else if (selectedSlotInShopView == 5) {
+
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroShield
+                savedHeroShield = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroShield
+                savedHeroShield = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroShield
+                savedHeroShield = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroShield
+                savedHeroShield = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroShield
+                savedHeroShield = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+
+        } else if (selectedSlotInShopView == 6) {
+
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroBelt
+                savedHeroBelt = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroBelt
+                savedHeroBelt = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroBelt
+                savedHeroBelt = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroBelt
+                savedHeroBelt = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroBelt
+                savedHeroBelt = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+
+        } else if (selectedSlotInShopView == 7) {
+
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroHelmet
+                savedHeroHelmet = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroHelmet
+                savedHeroHelmet = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroHelmet
+                savedHeroHelmet = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroHelmet
+                savedHeroHelmet = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroHelmet
+                savedHeroHelmet = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+
+        } else if (selectedSlotInShopView == 8) {
+
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroWeapon
+                savedHeroWeapon = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroWeapon
+                savedHeroWeapon = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroWeapon
+                savedHeroWeapon = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroWeapon
+                savedHeroWeapon = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroWeapon
+                savedHeroWeapon = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+
+        }
+
+
+
+
+        save()
+
+        isButtonLogicActive = true
+
+
+
+
+
+    }
 
 
 

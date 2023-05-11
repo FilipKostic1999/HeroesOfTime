@@ -406,7 +406,7 @@
         app:layout_constraintVertical_bias="0.137" />
 
     <Button
-        android:id="@+id/buyButton2"
+        android:id="@+id/removeButton"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
