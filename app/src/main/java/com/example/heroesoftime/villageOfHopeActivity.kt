@@ -16,6 +16,7 @@ class villageOfHopeActivity : AppCompatActivity() {
 
     lateinit var villageOfHopeArmorShop : TextView
     lateinit var villageOfHopeWeaponShop : TextView
+    lateinit var villageOfHopeRingShop : TextView
 
 
     lateinit var goldTxt : TextView
@@ -38,6 +39,7 @@ class villageOfHopeActivity : AppCompatActivity() {
 
         villageOfHopeArmorShop = findViewById(R.id.villageOfHopeArmorShop)
         villageOfHopeWeaponShop = findViewById(R.id.villageOfHopeWeaponShop)
+        villageOfHopeRingShop = findViewById(R.id.villageOfHopeRingShop)
         goldTxt = findViewById(R.id.goldTxt)
 
 
@@ -70,6 +72,20 @@ class villageOfHopeActivity : AppCompatActivity() {
         villageOfHopeWeaponShop.setOnClickListener {
 
             selectedShopType = 2
+
+            val editShopType = sharedSelectorShopType.edit()
+            editShopType.putInt("SelectorShopType", selectedShopType)
+            editShopType.commit()
+
+            val intent = Intent(this, shopsActivity :: class.java)
+            startActivity(intent)
+
+
+        }
+
+        villageOfHopeRingShop.setOnClickListener {
+
+            selectedShopType = 3
 
             val editShopType = sharedSelectorShopType.edit()
             editShopType.putInt("SelectorShopType", selectedShopType)

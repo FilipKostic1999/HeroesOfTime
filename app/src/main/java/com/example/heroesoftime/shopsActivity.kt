@@ -103,6 +103,18 @@ class shopsActivity : AppCompatActivity() {
     var warKnife2 = weaponClass(56, "War knife", 8, 1,0,0,0, 92, 8)
 
 
+    var pinkRing1 = armorClass(57, "Villagers´ Ring", 0, 2, 1, 0, 0, 50, 9)
+    var pinkRing2 = armorClass(58, "Villagers´ Ring", 0, 3, 0, 0, 0, 60, 9)
+    var pinkRing3 = armorClass(59, "Villagers´ Ring", 0, 0, 5, 0, 0, 80, 9)
+    var rarePinkRing1 = armorClass(60, "Rare Ring", 0, 3, 3, 2, 0, 164, 9)
+    var rarePinkRing2 = armorClass(61, "Rare´ Ring", 0, 4, 0, 0, 4, 224, 9)
+
+
+    var amulet1 = armorClass(62, "Amulet", 0, 0, 2, 2, 0, 80, 10)
+    var amulet2 = armorClass(63, "Amulet", 0, 0, 6, 0, 0, 90, 10)
+    var amulet3 = armorClass(64, "Amulet", 0, 4, 0, 0, 0, 88, 10)
+    var rareAmulet1 = armorClass(65, "Rare Amulet", 0, 0, 0, 0, 6, 120, 10)
+    var rareAmulet2 = armorClass(66, "Rare Amulet", 0, 2, 0, 4, 0, 110, 10)
 
 
 
@@ -117,6 +129,10 @@ class shopsActivity : AppCompatActivity() {
     var heroHelmetSlotAtributes = armorClass(0, "", 0, 0, 0, 0, 0, 0, 0)
     var heroBeltSlotAtributes = armorClass(0, "", 0, 0, 0, 0, 0, 0, 0)
     var heroWeaponSlotAtributes = weaponClass(0, "", 0, 0, 0, 0, 0, 0, 0)
+    var heroRingSlot1Attributes = armorClass(0, "", 0, 0, 0, 0, 0, 0, 0)
+    var heroRingSlot2Attributes = armorClass(0, "", 0, 0, 0, 0, 0, 0, 0)
+    var heroAmuletSlotAttributes = armorClass(0, "", 0, 0, 0, 0, 0, 0, 0)
+
 
 
     var slot1 = armorClass(0, "", 0, 0, 0, 0, 0, 0, 0)
@@ -177,6 +193,9 @@ class shopsActivity : AppCompatActivity() {
     lateinit var heroShieldSlot : ImageView
     lateinit var heroGloveSlot : ImageView
     lateinit var heroWeaponSlot : ImageView
+    lateinit var heroRingSlot1 : ImageView
+    lateinit var heroRingSlot2 : ImageView
+    lateinit var heroAmuletSlot : ImageView
 
 
     lateinit var buyButton : Button
@@ -186,8 +205,12 @@ class shopsActivity : AppCompatActivity() {
 
 
 
+    lateinit var listOfAllAmulets : ArrayList<armorClass>
+    lateinit var listOfAllRings : ArrayList<armorClass>
     lateinit var listOfAllArmors : ArrayList<armorClass>
     lateinit var listOfAllWeapons : ArrayList<weaponClass>
+    lateinit var listOfRingItems : ArrayList<armorClass>
+    lateinit var listOfAmuletItems : ArrayList<armorClass>
     lateinit var listOfArmorItems : ArrayList<armorClass>
     lateinit var listOfWeaponItems : ArrayList<weaponClass>
 
@@ -198,6 +221,9 @@ class shopsActivity : AppCompatActivity() {
     lateinit var database : FirebaseFirestore
     lateinit var savedDataOfUser : heroDataClass
 
+
+
+
     var savedHeroGold : Int = 0
     var savedHeroArmor = 0
     var savedHeroRobe = 0
@@ -207,6 +233,9 @@ class shopsActivity : AppCompatActivity() {
     var savedHeroBelt = 0
     var savedHeroHelmet = 0
     var savedHeroWeapon = 0
+    var savedHeroRing1 = 0
+    var savedHeroRing2 = 0
+    var savedHeroAmulet = 0
     var savedHeroInventorySlot1 = 0
     var savedHeroInventorySlot2 = 0
     var savedHeroInventorySlot3 = 0
@@ -222,6 +251,10 @@ class shopsActivity : AppCompatActivity() {
 
 
 
+        listOfRingItems = arrayListOf()
+        listOfAmuletItems = arrayListOf()
+        listOfAllAmulets = arrayListOf()
+        listOfAllRings = arrayListOf()
         listOfAllArmors = arrayListOf()
         listOfAllWeapons = arrayListOf()
         listOfArmorItems = arrayListOf()
@@ -243,6 +276,9 @@ class shopsActivity : AppCompatActivity() {
         heroShieldSlot = findViewById(R.id.heroShieldSlot)
         heroGloveSlot = findViewById(R.id.heroesGloveSlot)
         heroWeaponSlot = findViewById(R.id.heroWeaponSlot)
+        heroRingSlot1 = findViewById(R.id.heroRingSlot1)
+        heroRingSlot2 = findViewById(R.id.heroRingSlot2)
+        heroAmuletSlot = findViewById(R.id.heroAmuletSlot)
 
         armorSlot1 = findViewById(R.id.armorSlot1)
         armorSlot2 = findViewById(R.id.armorSlot2)
@@ -253,6 +289,7 @@ class shopsActivity : AppCompatActivity() {
         armorSlot7 = findViewById(R.id.armorSlot7)
         armorSlot8 = findViewById(R.id.armorSlot8)
         armorSlot9 = findViewById(R.id.armorSlot9)
+
 
         inventorySlot1 = findViewById(R.id.inventorySlot1)
         inventorySlot2 = findViewById(R.id.inventorySlot2)
@@ -297,6 +334,9 @@ class shopsActivity : AppCompatActivity() {
                             savedHeroBelt = savedDataOfUser.heroBeltId
                             savedHeroHelmet = savedDataOfUser.heroHelmetId
                             savedHeroWeapon = savedDataOfUser.heroWeaponId
+                            savedHeroRing1 = savedDataOfUser.heroRingId1
+                            savedHeroRing2 = savedDataOfUser.heroRingId2
+                            savedHeroAmulet = savedDataOfUser.heroAmuletId
 
                             savedHeroInventorySlot1 = savedDataOfUser.heroInventorySlot1
                             savedHeroInventorySlot2 = savedDataOfUser.heroInventorySlot2
@@ -305,8 +345,8 @@ class shopsActivity : AppCompatActivity() {
                             savedHeroInventorySlot5 = savedDataOfUser.heroInventorySlot5
 
 
-                            showHeroItems()
-                            showHeroInventory()
+                            showHeroItems()   // always update the view ifs when new items are added in game
+                            showHeroInventory()  // always update the view ifs when new items are added in game
 
 
                         }
@@ -329,6 +369,9 @@ class shopsActivity : AppCompatActivity() {
             generateRandomArmorItems()
         } else if (selectedShopType == 2) {
             generateRandomWeaponItems()
+        } else if (selectedShopType == 3) {
+            generateRandomAmulets()
+            generateRandomRings()
         }
 
 
@@ -342,9 +385,10 @@ class shopsActivity : AppCompatActivity() {
 
 
 
+
         removeButton.setOnClickListener {
 
-            moveToIn()
+            moveToIn()    // no updates
 
             removeButton.isEnabled = false
 
@@ -355,7 +399,7 @@ class shopsActivity : AppCompatActivity() {
 
         buyButton.setOnClickListener {
 
-            performShop()
+            performShop()   // no updates
             save()
             buyButton.isEnabled = false
 
@@ -363,7 +407,7 @@ class shopsActivity : AppCompatActivity() {
 
         equipButton.setOnClickListener {
 
-            equip()
+            equip()  // no updates
 
             save()
 
@@ -373,7 +417,7 @@ class shopsActivity : AppCompatActivity() {
 
         sellButton.setOnClickListener {
 
-            sell()
+            sell()   // no updates
 
             save()
 
@@ -543,6 +587,74 @@ class shopsActivity : AppCompatActivity() {
 
         }
 
+
+        heroRingSlot1.setOnClickListener {
+
+
+            nameTxt.text = "${heroRingSlot1Attributes.armorName}"
+            armorTxt.text = "Armor: ${heroRingSlot1Attributes.armor}"
+            vitalityTxt.text = "Vitality: ${heroRingSlot1Attributes.vitality}"
+            strenghtTxt.text = "Strenght: ${heroRingSlot1Attributes.strenght}"
+            speedTxt.text = "Speed: ${heroRingSlot1Attributes.speed}"
+            manaTxt.text = "Mana: ${heroRingSlot1Attributes.mana}"
+            priceTxt.text = "Price: ${heroRingSlot1Attributes.price}"
+
+            selectedSlotInShopView = 9
+
+            selectedItemInShopPrice = heroRingSlot1Attributes.price
+
+            removeButton.isEnabled = true
+            sellButton.isEnabled = true
+            equipButton.isEnabled = false
+            buyButton.isEnabled = false
+
+        }
+
+
+
+        heroRingSlot2.setOnClickListener {
+
+            nameTxt.text = "${heroRingSlot2Attributes.armorName}"
+            armorTxt.text = "Armor: ${heroRingSlot2Attributes.armor}"
+            vitalityTxt.text = "Vitality: ${heroRingSlot2Attributes.vitality}"
+            strenghtTxt.text = "Strenght: ${heroRingSlot2Attributes.strenght}"
+            speedTxt.text = "Speed: ${heroRingSlot2Attributes.speed}"
+            manaTxt.text = "Mana: ${heroRingSlot2Attributes.mana}"
+            priceTxt.text = "Price: ${heroRingSlot2Attributes.price}"
+
+            selectedSlotInShopView = 10
+
+            selectedItemInShopPrice = heroRingSlot2Attributes.price
+
+            removeButton.isEnabled = true
+            sellButton.isEnabled = true
+            equipButton.isEnabled = false
+            buyButton.isEnabled = false
+
+        }
+
+
+
+        heroAmuletSlot.setOnClickListener {
+
+            nameTxt.text = "${heroAmuletSlotAttributes.armorName}"
+            armorTxt.text = "Armor: ${heroAmuletSlotAttributes.armor}"
+            vitalityTxt.text = "Vitality: ${heroAmuletSlotAttributes.vitality}"
+            strenghtTxt.text = "Strenght: ${heroAmuletSlotAttributes.strenght}"
+            speedTxt.text = "Speed: ${heroAmuletSlotAttributes.speed}"
+            manaTxt.text = "Mana: ${heroAmuletSlotAttributes.mana}"
+            priceTxt.text = "Price: ${heroAmuletSlotAttributes.price}"
+
+            selectedSlotInShopView = 11
+
+            selectedItemInShopPrice = heroAmuletSlotAttributes.price
+
+            removeButton.isEnabled = true
+            sellButton.isEnabled = true
+            equipButton.isEnabled = false
+            buyButton.isEnabled = false
+
+        }
 
 
 
@@ -807,82 +919,10 @@ class shopsActivity : AppCompatActivity() {
 
 
 
+        listAllItems()
 
 
 
-        // All games armors are listed
-
-        listOfAllArmors.add(noIdArmor)
-        listOfAllArmors.add(leatherArmor1)
-        listOfAllArmors.add(leatherArmor2)
-        listOfAllArmors.add(leatherArmor3)
-        listOfAllArmors.add(leatherArmor4)
-        listOfAllArmors.add(rareLeatherArmor1)
-        listOfAllArmors.add(rareLeatherArmor2)
-
-        listOfAllArmors.add(leatherRobe1)
-        listOfAllArmors.add(leatherRobe2)
-        listOfAllArmors.add(leatherRobe3)
-        listOfAllArmors.add(leatherRobe4)
-        listOfAllArmors.add(rareLeatherRobe1)
-        listOfAllArmors.add(rareLeatherRobe2)
-
-        listOfAllArmors.add(leatherGloves1)
-        listOfAllArmors.add(leatherGloves2)
-        listOfAllArmors.add(leatherGloves3)
-        listOfAllArmors.add(leatherGloves4)
-        listOfAllArmors.add(rareLeatherGloves1)
-        listOfAllArmors.add(rareLeatherGloves2)
-
-        listOfAllArmors.add(leatherShoes1)
-        listOfAllArmors.add(leatherShoes2)
-        listOfAllArmors.add(leatherShoes3)
-        listOfAllArmors.add(leatherShoes4)
-        listOfAllArmors.add(rareLeatherShoes1)
-        listOfAllArmors.add(rareLeatherShoes2)
-
-        listOfAllArmors.add(leatherShield1)
-        listOfAllArmors.add(leatherShield2)
-        listOfAllArmors.add(leatherShield3)
-        listOfAllArmors.add(leatherShield4)
-        listOfAllArmors.add(rareLeatherShield1)
-        listOfAllArmors.add(rareLeatherShield2)
-
-        listOfAllArmors.add(leatherBelt1)
-        listOfAllArmors.add(leatherBelt2)
-        listOfAllArmors.add(leatherBelt3)
-        listOfAllArmors.add(leatherBelt4)
-        listOfAllArmors.add(rareLeatherBelt1)
-        listOfAllArmors.add(rareLeatherBelt2)
-
-        listOfAllArmors.add(leatherHelmet1)
-        listOfAllArmors.add(leatherHelmet2)
-        listOfAllArmors.add(leatherHelmet3)
-        listOfAllArmors.add(leatherHelmet4)
-        listOfAllArmors.add(rareLeatherHelmet1)
-        listOfAllArmors.add(rareLeatherHelmet2)
-
-        // All games weapons are listed
-
-        listOfAllWeapons.add(noIdWeapon)
-        listOfAllWeapons.add(knife1)
-        listOfAllWeapons.add(knife2)
-        listOfAllWeapons.add(knife3)
-        listOfAllWeapons.add(rareKnife)
-
-        listOfAllWeapons.add(bow1)
-        listOfAllWeapons.add(bow2)
-        listOfAllWeapons.add(strongBow)
-
-        listOfAllWeapons.add(throwingKnifes1)
-        listOfAllWeapons.add(throwingKnifes2)
-        listOfAllWeapons.add(throwingKnifes3)
-
-        listOfAllWeapons.add(sword)
-
-        listOfAllWeapons.add(warKnife1)
-        listOfAllWeapons.add(warKnife2)
-        listOfAllWeapons.add(strongWarknife)
 
 
 
@@ -907,7 +947,8 @@ class shopsActivity : AppCompatActivity() {
             heroHelmetId = savedHeroHelmet, heroWeaponId = savedHeroWeapon,
         heroInventorySlot1 = savedHeroInventorySlot1, heroInventorySlot2 = savedHeroInventorySlot2,
             heroInventorySlot3 = savedHeroInventorySlot3, heroInventorySlot4 = savedHeroInventorySlot4,
-        heroInventorySlot5 = savedHeroInventorySlot5, heroGold = savedHeroGold)
+        heroInventorySlot5 = savedHeroInventorySlot5, heroGold = savedHeroGold, heroRingId1 = savedHeroRing1,
+        heroRingId2 = savedHeroRing2, heroAmuletId = savedHeroAmulet)
 
 
         if (user != null) {
@@ -992,6 +1033,83 @@ class shopsActivity : AppCompatActivity() {
                 }
             }
 
+
+
+            for (item in listOfAllRings) {
+
+                if (item.itemId == itemForSlot && loopStopper == 0) {
+                    inventoryAtributesSlot1 = armorClass(
+                        item.itemId, item.armorName, item.armor, item.vitality,
+                        item.speed, item.mana, item.strenght, item.price, item.typeItem
+                    )
+                }
+                if (item.itemId == itemForSlot && loopStopper == 1) {
+                    inventoryAtributesSlot2 = armorClass(
+                        item.itemId, item.armorName, item.armor, item.vitality,
+                        item.speed, item.mana, item.strenght, item.price, item.typeItem
+                    )
+                }
+                if (item.itemId == itemForSlot && loopStopper == 2) {
+                    inventoryAtributesSlot3 = armorClass(
+                        item.itemId, item.armorName, item.armor, item.vitality,
+                        item.speed, item.mana, item.strenght, item.price, item.typeItem
+                    )
+                }
+                if (item.itemId == itemForSlot && loopStopper == 3) {
+                    inventoryAtributesSlot4 = armorClass(
+                        item.itemId, item.armorName, item.armor, item.vitality,
+                        item.speed, item.mana, item.strenght, item.price, item.typeItem
+                    )
+                }
+                if (item.itemId == itemForSlot && loopStopper == 4) {
+                    inventoryAtributesSlot5 = armorClass(
+                        item.itemId, item.armorName, item.armor, item.vitality,
+                        item.speed, item.mana, item.strenght, item.price, item.typeItem
+                    )
+                }
+
+            }
+
+
+            for (item in listOfAllAmulets) {
+
+                if (item.itemId == itemForSlot && loopStopper == 0) {
+                    inventoryAtributesSlot1 = armorClass(
+                        item.itemId, item.armorName, item.armor, item.vitality,
+                        item.speed, item.mana, item.strenght, item.price, item.typeItem
+                    )
+                }
+                if (item.itemId == itemForSlot && loopStopper == 1) {
+                    inventoryAtributesSlot2 = armorClass(
+                        item.itemId, item.armorName, item.armor, item.vitality,
+                        item.speed, item.mana, item.strenght, item.price, item.typeItem
+                    )
+                }
+                if (item.itemId == itemForSlot && loopStopper == 2) {
+                    inventoryAtributesSlot3 = armorClass(
+                        item.itemId, item.armorName, item.armor, item.vitality,
+                        item.speed, item.mana, item.strenght, item.price, item.typeItem
+                    )
+                }
+                if (item.itemId == itemForSlot && loopStopper == 3) {
+                    inventoryAtributesSlot4 = armorClass(
+                        item.itemId, item.armorName, item.armor, item.vitality,
+                        item.speed, item.mana, item.strenght, item.price, item.typeItem
+                    )
+                }
+                if (item.itemId == itemForSlot && loopStopper == 4) {
+                    inventoryAtributesSlot5 = armorClass(
+                        item.itemId, item.armorName, item.armor, item.vitality,
+                        item.speed, item.mana, item.strenght, item.price, item.typeItem
+                    )
+                }
+
+            }
+
+
+
+
+
             for (item in listOfAllWeapons) {
                 if (item.itemId == itemForSlot && loopStopper == 0) {
                     inventoryAtributesSlot1 = armorClass(
@@ -1073,6 +1191,14 @@ class shopsActivity : AppCompatActivity() {
             inventorySlot1.setImageResource(R.drawable.throwingknives)
         } else if (savedItemInventorySlot1 in 55..56) {
             inventorySlot1.setImageResource(R.drawable.warknife)
+        } else if (savedItemInventorySlot1 in 57..59) {
+            inventorySlot1.setImageResource(R.drawable.pinkring)
+        } else if (savedItemInventorySlot1 in 60..61) {
+            inventorySlot1.setImageResource(R.drawable.rarepinkring)
+        } else if (savedItemInventorySlot1 in 62..64) {
+            inventorySlot1.setImageResource(R.drawable.amulet)
+        } else if (savedItemInventorySlot1 in 65..66) {
+            inventorySlot1.setImageResource(R.drawable.rareamulet)
         }
 
 
@@ -1120,6 +1246,14 @@ class shopsActivity : AppCompatActivity() {
             inventorySlot2.setImageResource(R.drawable.throwingknives)
         } else if (savedItemInventorySlot2 in 55..56) {
             inventorySlot2.setImageResource(R.drawable.warknife)
+        } else if (savedItemInventorySlot2 in 57..59) {
+            inventorySlot2.setImageResource(R.drawable.pinkring)
+        } else if (savedItemInventorySlot2 in 60..61) {
+            inventorySlot2.setImageResource(R.drawable.rarepinkring)
+        } else if (savedItemInventorySlot2 in 62..64) {
+            inventorySlot2.setImageResource(R.drawable.amulet)
+        } else if (savedItemInventorySlot2 in 65..66) {
+            inventorySlot2.setImageResource(R.drawable.rareamulet)
         }
 
         if (savedItemInventorySlot3 in 1..4) {
@@ -1166,6 +1300,14 @@ class shopsActivity : AppCompatActivity() {
             inventorySlot3.setImageResource(R.drawable.throwingknives)
         } else if (savedItemInventorySlot3 in 55..56) {
             inventorySlot3.setImageResource(R.drawable.warknife)
+        } else if (savedItemInventorySlot3 in 57..59) {
+            inventorySlot3.setImageResource(R.drawable.pinkring)
+        } else if (savedItemInventorySlot3 in 60..61) {
+            inventorySlot3.setImageResource(R.drawable.rarepinkring)
+        } else if (savedItemInventorySlot3 in 62..64) {
+            inventorySlot3.setImageResource(R.drawable.amulet)
+        } else if (savedItemInventorySlot3 in 65..66) {
+            inventorySlot3.setImageResource(R.drawable.rareamulet)
         }
 
         if (savedItemInventorySlot4 in 1..4) {
@@ -1212,6 +1354,14 @@ class shopsActivity : AppCompatActivity() {
             inventorySlot4.setImageResource(R.drawable.throwingknives)
         } else if (savedItemInventorySlot4 in 55..56) {
             inventorySlot4.setImageResource(R.drawable.warknife)
+        } else if (savedItemInventorySlot4 in 57..59) {
+            inventorySlot4.setImageResource(R.drawable.pinkring)
+        } else if (savedItemInventorySlot4 in 60..61) {
+            inventorySlot4.setImageResource(R.drawable.rarepinkring)
+        } else if (savedItemInventorySlot4 in 62..64) {
+            inventorySlot4.setImageResource(R.drawable.amulet)
+        } else if (savedItemInventorySlot4 in 65..66) {
+            inventorySlot4.setImageResource(R.drawable.rareamulet)
         }
 
         if (savedItemInventorySlot5 in 1..4) {
@@ -1258,6 +1408,14 @@ class shopsActivity : AppCompatActivity() {
             inventorySlot5.setImageResource(R.drawable.throwingknives)
         } else if (savedItemInventorySlot5 in 55..56) {
             inventorySlot5.setImageResource(R.drawable.warknife)
+        } else if (savedItemInventorySlot5 in 57..59) {
+            inventorySlot5.setImageResource(R.drawable.pinkring)
+        } else if (savedItemInventorySlot5 in 60..61) {
+            inventorySlot5.setImageResource(R.drawable.rarepinkring)
+        } else if (savedItemInventorySlot5 in 62..64) {
+            inventorySlot5.setImageResource(R.drawable.amulet)
+        } else if (savedItemInventorySlot5 in 65..66) {
+            inventorySlot5.setImageResource(R.drawable.rareamulet)
         }
 
         if (savedItemInventorySlot1 == 0) {
@@ -1305,6 +1463,9 @@ class shopsActivity : AppCompatActivity() {
         var savedShield = savedHeroShield
         var savedBelt = savedHeroBelt
         var savedHelmet = savedHeroHelmet
+        var savedRing1 = savedHeroRing1
+        var savedRing2 = savedHeroRing2
+        var savedAmulet = savedHeroAmulet
         var savedWeapon = savedHeroWeapon
 
 
@@ -1341,6 +1502,31 @@ class shopsActivity : AppCompatActivity() {
             }
 
         }
+
+
+        for (item in listOfAllRings) {
+
+            if (item.itemId == savedRing1) {
+                heroRingSlot1Attributes = armorClass(item.itemId, item.armorName, item.armor, item.vitality,
+                    item.speed, item.mana, item.strenght, item.price, item.typeItem)
+            }
+            if (item.itemId == savedRing2) {
+                heroRingSlot2Attributes = armorClass(item.itemId, item.armorName, item.armor, item.vitality,
+                    item.speed, item.mana, item.strenght, item.price, item.typeItem)
+            }
+
+        }
+
+
+        for (item in listOfAllAmulets) {
+
+            if (item.itemId == savedAmulet) {
+                heroAmuletSlotAttributes = armorClass(item.itemId, item.armorName, item.armor, item.vitality,
+                    item.speed, item.mana, item.strenght, item.price, item.typeItem)
+            }
+
+        }
+
 
         for (item in listOfAllWeapons) {
             if (item.itemId == savedWeapon) {
@@ -1407,6 +1593,30 @@ class shopsActivity : AppCompatActivity() {
             heroHelmetSlot.setImageResource(R.drawable.foursquare)
         }
 
+        if (savedRing1 in 57..59) {
+            heroRingSlot1.setImageResource(R.drawable.pinkring)
+        } else if (savedRing1 in 60..61) {
+            heroRingSlot1.setImageResource(R.drawable.rarepinkring)
+        } else if (savedRing1 == 0) {
+            heroRingSlot1.setImageResource(R.drawable.onesquare)
+        }
+
+        if (savedRing2 in 57..59) {
+            heroRingSlot2.setImageResource(R.drawable.pinkring)
+        } else if (savedRing2 in 60..61) {
+            heroRingSlot2.setImageResource(R.drawable.rarepinkring)
+        } else if (savedRing2 == 0) {
+            heroRingSlot2.setImageResource(R.drawable.onesquare)
+        }
+
+        if (savedAmulet in 62..64) {
+            heroAmuletSlot.setImageResource(R.drawable.amulet)
+        } else if (savedAmulet in 65..66) {
+            heroAmuletSlot.setImageResource(R.drawable.rareamulet)
+        } else if (savedAmulet == 0) {
+            heroAmuletSlot.setImageResource(R.drawable.onesquare)
+        }
+
 
         if (savedWeapon in 43..45) {
             heroWeaponSlot.setImageResource(R.drawable.knife)
@@ -1448,6 +1658,250 @@ class shopsActivity : AppCompatActivity() {
     }
 
 
+
+    fun generateRandomAmulets() {
+
+        listOfAmuletItems.add(amulet1)
+        listOfAmuletItems.add(amulet2)
+        listOfAmuletItems.add(amulet3)
+        listOfAmuletItems.add(rareAmulet1)
+        listOfAmuletItems.add(rareAmulet2)
+
+
+
+        var loopStopper = 0
+
+        while (true) {
+
+            /*
+
+            var random = Random(System.currentTimeMillis())
+            var randomN = random.nextInt(42)
+            var itemId =  listOfArmorItems[randomN].itemId
+
+
+             */
+
+
+            var randomN = (0..4).random()
+            var itemId =  listOfAmuletItems[randomN].itemId
+
+            var itemName = listOfAmuletItems[randomN].armorName
+            var armorItem = listOfAmuletItems[randomN].armor
+            var vitalityItem = listOfAmuletItems[randomN].vitality
+            var speedItem = listOfAmuletItems[randomN].speed
+            var manaItem = listOfAmuletItems[randomN].mana
+            var strenghtItem = listOfAmuletItems[randomN].strenght
+            var priceItem = listOfAmuletItems[randomN].price
+            var typeItem = listOfAmuletItems[randomN].typeItem
+
+
+
+
+
+
+            if (loopStopper == 0) {
+
+                if (itemId in 62..64) {
+                    armorSlot1.setImageResource(R.drawable.amulet)
+                } else if (itemId in 65..66) {
+                    armorSlot1.setImageResource(R.drawable.rareamulet)
+                }
+
+                if (itemId == 0) {
+                    armorSlot1.setImageResource(R.drawable.foursquare)
+                }
+
+                slot1 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
+            } else if (loopStopper == 1) {
+
+                if (itemId in 62..64) {
+                    armorSlot2.setImageResource(R.drawable.amulet)
+                } else if (itemId in 65..66) {
+                    armorSlot2.setImageResource(R.drawable.rareamulet)
+                }
+
+                if (itemId == 0) {
+                    armorSlot2.setImageResource(R.drawable.foursquare)
+                }
+
+                slot2 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
+            } else if (loopStopper == 2) {
+
+                if (itemId in 62..64) {
+                    armorSlot3.setImageResource(R.drawable.amulet)
+                } else if (itemId in 65..66) {
+                    armorSlot3.setImageResource(R.drawable.rareamulet)
+                }
+                if (itemId == 0) {
+                    armorSlot3.setImageResource(R.drawable.foursquare)
+                }
+
+                slot3 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
+            }
+
+
+
+            loopStopper++
+
+            if (loopStopper == 3) {
+                break
+            }
+
+
+
+        }
+
+
+    }
+
+
+
+
+
+
+    fun generateRandomRings() {
+
+
+        listOfRingItems.add(pinkRing1)
+        listOfRingItems.add(pinkRing2)
+        listOfRingItems.add(pinkRing3)
+        listOfRingItems.add(rarePinkRing1)
+        listOfRingItems.add(rarePinkRing2)
+
+
+
+        var loopStopper = 0
+
+        while (true) {
+
+            /*
+
+            var random = Random(System.currentTimeMillis())
+            var randomN = random.nextInt(42)
+            var itemId =  listOfArmorItems[randomN].itemId
+
+
+             */
+
+
+            var randomN = (0..4).random()
+            var itemId =  listOfRingItems[randomN].itemId
+
+            var itemName = listOfRingItems[randomN].armorName
+            var armorItem = listOfRingItems[randomN].armor
+            var vitalityItem = listOfRingItems[randomN].vitality
+            var speedItem = listOfRingItems[randomN].speed
+            var manaItem = listOfRingItems[randomN].mana
+            var strenghtItem = listOfRingItems[randomN].strenght
+            var priceItem = listOfRingItems[randomN].price
+            var typeItem = listOfRingItems[randomN].typeItem
+
+
+
+
+
+
+            if (loopStopper == 0) {
+                if (itemId in 57..59) {
+                    armorSlot4.setImageResource(R.drawable.pinkring)
+                } else if (itemId in 60..61) {
+                    armorSlot4.setImageResource(R.drawable.rarepinkring)
+                }
+
+                if (itemId == 0) {
+                    armorSlot4.setImageResource(R.drawable.foursquare)
+                }
+
+                slot4 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
+            } else if (loopStopper == 1) {
+                if (itemId in 57..59) {
+                    armorSlot5.setImageResource(R.drawable.pinkring)
+                } else if (itemId in 60..61) {
+                    armorSlot5.setImageResource(R.drawable.rarepinkring)
+                }
+                if (itemId == 0) {
+                    armorSlot5.setImageResource(R.drawable.foursquare)
+                }
+
+                slot5 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
+            } else if (loopStopper == 2) {
+
+                if (itemId in 57..59) {
+                    armorSlot6.setImageResource(R.drawable.pinkring)
+                } else if (itemId in 60..61) {
+                    armorSlot6.setImageResource(R.drawable.rarepinkring)
+                }
+
+                if (itemId == 0) {
+                    armorSlot6.setImageResource(R.drawable.foursquare)
+                }
+
+                slot6 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
+            } else if (loopStopper == 3) {
+                if (itemId in 57..59) {
+                    armorSlot7.setImageResource(R.drawable.pinkring)
+                } else if (itemId in 60..61) {
+                    armorSlot7.setImageResource(R.drawable.rarepinkring)
+                }
+                if (itemId == 0) {
+                    armorSlot7.setImageResource(R.drawable.foursquare)
+                }
+
+                slot7 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
+            } else if (loopStopper == 4) {
+
+                if (itemId in 57..59) {
+                    armorSlot8.setImageResource(R.drawable.pinkring)
+                } else if (itemId in 60..61) {
+                    armorSlot8.setImageResource(R.drawable.rarepinkring)
+                }
+
+                if (itemId == 0) {
+                    armorSlot8.setImageResource(R.drawable.foursquare)
+                }
+
+                slot8 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
+            } else if (loopStopper == 5) {
+
+                if (itemId in 57..59) {
+                    armorSlot9.setImageResource(R.drawable.pinkring)
+                } else if (itemId in 60..61) {
+                    armorSlot9.setImageResource(R.drawable.rarepinkring)
+                }
+                if (itemId == 0) {
+                    armorSlot9.setImageResource(R.drawable.foursquare)
+                }
+
+                slot9 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+
+            }
+
+
+
+
+
+            loopStopper++
+
+            if (loopStopper == 6) {
+                break
+            }
+
+
+
+        }
+
+
+
+    }
 
 
 
@@ -2216,6 +2670,12 @@ class shopsActivity : AppCompatActivity() {
             savedHeroHelmet = 0
         } else if (selectedSlotInShopView == 8) {
             savedHeroWeapon = 0
+        } else if (selectedSlotInShopView == 9) {
+            savedHeroRing1 = 0
+        } else if (selectedSlotInShopView == 10) {
+            savedHeroRing2 = 0
+        } else if (selectedSlotInShopView == 11) {
+            savedHeroAmulet = 0
         } else if (selectedSlotInShopView == 12) {
             savedHeroInventorySlot1 = 0
         } else if (selectedSlotInShopView == 13) {
@@ -2311,6 +2771,32 @@ class shopsActivity : AppCompatActivity() {
                 savedHeroInventorySlot1 = rememberer
             }
 
+            if (inventoryAtributesSlot1.typeItem == 9 && savedHeroRing1 == 0) {
+                savedHeroRing1 = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot1.typeItem == 9 && savedHeroRing1 > 0) {
+                if (savedHeroRing2 == 0) {
+                    savedHeroRing2 = inventoryAtributesSlot1.itemId
+                    savedHeroInventorySlot1 = noIdArmor.itemId
+                } else if (savedHeroRing2 > 0) {
+                    val rememberer = savedHeroRing1
+                    savedHeroRing1 = inventoryAtributesSlot1.itemId
+                    savedHeroInventorySlot1 = rememberer
+                }
+
+            }
+
+
+            if (inventoryAtributesSlot1.typeItem == 10 && savedHeroAmulet == 0) {
+                savedHeroAmulet = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot1.typeItem == 10 && savedHeroAmulet > 0) {
+                val rememberer = savedHeroAmulet
+                savedHeroAmulet = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = rememberer
+            }
+
+
 
 
 
@@ -2390,6 +2876,36 @@ class shopsActivity : AppCompatActivity() {
                 savedHeroInventorySlot2 = rememberer
             }
 
+
+            if (inventoryAtributesSlot2.typeItem == 9 && savedHeroRing1 == 0) {
+                savedHeroRing1 = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot2.typeItem == 9 && savedHeroRing1 > 0) {
+                if (savedHeroRing2 == 0) {
+                    savedHeroRing2 = inventoryAtributesSlot2.itemId
+                    savedHeroInventorySlot2 = noIdArmor.itemId
+                } else if (savedHeroRing2 > 0) {
+                    val rememberer = savedHeroRing1
+                    savedHeroRing1 = inventoryAtributesSlot2.itemId
+                    savedHeroInventorySlot2 = rememberer
+                }
+
+            }
+
+
+
+
+            if (inventoryAtributesSlot2.typeItem == 10 && savedHeroAmulet == 0) {
+                savedHeroAmulet = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot2.typeItem == 10 && savedHeroAmulet > 0) {
+                val rememberer = savedHeroAmulet
+                savedHeroAmulet = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = rememberer
+            }
+
+
+
         } else if (selectedSlotInShopView == 14) {
 
             if (inventoryAtributesSlot3.typeItem == 1 && savedHeroArmor == 0) {
@@ -2465,6 +2981,37 @@ class shopsActivity : AppCompatActivity() {
                 savedHeroInventorySlot3 = rememberer
             }
 
+
+            if (inventoryAtributesSlot3.typeItem == 9 && savedHeroRing1 == 0) {
+                savedHeroRing1 = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot3.typeItem == 9 && savedHeroRing1 > 0) {
+                if (savedHeroRing2 == 0) {
+                    savedHeroRing2 = inventoryAtributesSlot3.itemId
+                    savedHeroInventorySlot3 = noIdArmor.itemId
+                } else if (savedHeroRing2 > 0) {
+                    val rememberer = savedHeroRing1
+                    savedHeroRing1 = inventoryAtributesSlot3.itemId
+                    savedHeroInventorySlot3 = rememberer
+                }
+
+            }
+
+
+
+
+            if (inventoryAtributesSlot3.typeItem == 10 && savedHeroAmulet == 0) {
+                savedHeroAmulet = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot3.typeItem == 10 && savedHeroAmulet > 0) {
+                val rememberer = savedHeroAmulet
+                savedHeroAmulet = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = rememberer
+            }
+
+
+
+
         } else if (selectedSlotInShopView == 15) {
 
             if (inventoryAtributesSlot4.typeItem == 1 && savedHeroArmor == 0) {
@@ -2539,6 +3086,36 @@ class shopsActivity : AppCompatActivity() {
                 savedHeroInventorySlot4 = rememberer
             }
 
+
+            if (inventoryAtributesSlot4.typeItem == 9 && savedHeroRing1 == 0) {
+                savedHeroRing1 = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot4.typeItem == 9 && savedHeroRing1 > 0) {
+                if (savedHeroRing2 == 0) {
+                    savedHeroRing2 = inventoryAtributesSlot4.itemId
+                    savedHeroInventorySlot4 = noIdArmor.itemId
+                } else if (savedHeroRing2 > 0) {
+                    val rememberer = savedHeroRing1
+                    savedHeroRing1 = inventoryAtributesSlot4.itemId
+                    savedHeroInventorySlot4 = rememberer
+                }
+
+            }
+
+
+
+            if (inventoryAtributesSlot4.typeItem == 10 && savedHeroAmulet == 0) {
+                savedHeroAmulet = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot4.typeItem == 10 && savedHeroAmulet > 0) {
+                val rememberer = savedHeroAmulet
+                savedHeroAmulet = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = rememberer
+            }
+
+
+
+
         } else if (selectedSlotInShopView == 16) {
 
             if (inventoryAtributesSlot5.typeItem == 1 && savedHeroArmor == 0) {
@@ -2612,6 +3189,35 @@ class shopsActivity : AppCompatActivity() {
                 savedHeroWeapon = inventoryAtributesSlot5.itemId
                 savedHeroInventorySlot5 = rememberer
             }
+
+
+            if (inventoryAtributesSlot5.typeItem == 9 && savedHeroRing1 == 0) {
+                savedHeroRing1 = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot5.typeItem == 9 && savedHeroRing1 > 0) {
+                if (savedHeroRing2 == 0) {
+                    savedHeroRing2 = inventoryAtributesSlot5.itemId
+                    savedHeroInventorySlot5 = noIdArmor.itemId
+                } else if (savedHeroRing2 > 0) {
+                    val rememberer = savedHeroRing1
+                    savedHeroRing1 = inventoryAtributesSlot5.itemId
+                    savedHeroInventorySlot5 = rememberer
+                }
+
+            }
+
+
+
+            if (inventoryAtributesSlot5.typeItem == 10 && savedHeroAmulet == 0) {
+                savedHeroAmulet = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot5.typeItem == 10 && savedHeroAmulet > 0) {
+                val rememberer = savedHeroAmulet
+                savedHeroAmulet = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = rememberer
+            }
+
+
 
         }
 
@@ -3098,6 +3704,108 @@ class shopsActivity : AppCompatActivity() {
             }
 
 
+        } else if (selectedSlotInShopView == 9) {
+
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroRing1
+                savedHeroRing1 = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroRing1
+                savedHeroRing1 = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroRing1
+                savedHeroRing1 = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroRing1
+                savedHeroRing1 = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroRing1
+                savedHeroRing1 = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+
+        } else if (selectedSlotInShopView == 10) {
+
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroRing2
+                savedHeroRing2 = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroRing2
+                savedHeroRing2 = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroRing2
+                savedHeroRing2 = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroRing2
+                savedHeroRing2 = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroRing2
+                savedHeroRing2 = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+
+        } else if (selectedSlotInShopView == 11) {
+
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroAmulet
+                savedHeroAmulet = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroAmulet
+                savedHeroAmulet = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroAmulet
+                savedHeroAmulet = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroAmulet
+                savedHeroAmulet = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedHeroAmulet
+                savedHeroAmulet = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+
         }
 
 
@@ -3107,6 +3815,108 @@ class shopsActivity : AppCompatActivity() {
 
         isButtonLogicActive = true
 
+
+
+
+
+    }
+
+
+
+
+    fun listAllItems() {
+
+        // All games armors are listed
+
+        listOfAllArmors.add(noIdArmor)
+        listOfAllArmors.add(leatherArmor1)
+        listOfAllArmors.add(leatherArmor2)
+        listOfAllArmors.add(leatherArmor3)
+        listOfAllArmors.add(leatherArmor4)
+        listOfAllArmors.add(rareLeatherArmor1)
+        listOfAllArmors.add(rareLeatherArmor2)
+
+        listOfAllArmors.add(leatherRobe1)
+        listOfAllArmors.add(leatherRobe2)
+        listOfAllArmors.add(leatherRobe3)
+        listOfAllArmors.add(leatherRobe4)
+        listOfAllArmors.add(rareLeatherRobe1)
+        listOfAllArmors.add(rareLeatherRobe2)
+
+        listOfAllArmors.add(leatherGloves1)
+        listOfAllArmors.add(leatherGloves2)
+        listOfAllArmors.add(leatherGloves3)
+        listOfAllArmors.add(leatherGloves4)
+        listOfAllArmors.add(rareLeatherGloves1)
+        listOfAllArmors.add(rareLeatherGloves2)
+
+        listOfAllArmors.add(leatherShoes1)
+        listOfAllArmors.add(leatherShoes2)
+        listOfAllArmors.add(leatherShoes3)
+        listOfAllArmors.add(leatherShoes4)
+        listOfAllArmors.add(rareLeatherShoes1)
+        listOfAllArmors.add(rareLeatherShoes2)
+
+        listOfAllArmors.add(leatherShield1)
+        listOfAllArmors.add(leatherShield2)
+        listOfAllArmors.add(leatherShield3)
+        listOfAllArmors.add(leatherShield4)
+        listOfAllArmors.add(rareLeatherShield1)
+        listOfAllArmors.add(rareLeatherShield2)
+
+        listOfAllArmors.add(leatherBelt1)
+        listOfAllArmors.add(leatherBelt2)
+        listOfAllArmors.add(leatherBelt3)
+        listOfAllArmors.add(leatherBelt4)
+        listOfAllArmors.add(rareLeatherBelt1)
+        listOfAllArmors.add(rareLeatherBelt2)
+
+        listOfAllArmors.add(leatherHelmet1)
+        listOfAllArmors.add(leatherHelmet2)
+        listOfAllArmors.add(leatherHelmet3)
+        listOfAllArmors.add(leatherHelmet4)
+        listOfAllArmors.add(rareLeatherHelmet1)
+        listOfAllArmors.add(rareLeatherHelmet2)
+
+        // All games weapons are listed
+
+        listOfAllWeapons.add(noIdWeapon)
+        listOfAllWeapons.add(knife1)
+        listOfAllWeapons.add(knife2)
+        listOfAllWeapons.add(knife3)
+        listOfAllWeapons.add(rareKnife)
+
+        listOfAllWeapons.add(bow1)
+        listOfAllWeapons.add(bow2)
+        listOfAllWeapons.add(strongBow)
+
+        listOfAllWeapons.add(throwingKnifes1)
+        listOfAllWeapons.add(throwingKnifes2)
+        listOfAllWeapons.add(throwingKnifes3)
+
+        listOfAllWeapons.add(sword)
+
+        listOfAllWeapons.add(warKnife1)
+        listOfAllWeapons.add(warKnife2)
+        listOfAllWeapons.add(strongWarknife)
+
+        // All game rings
+
+        listOfAllRings.add(pinkRing1)
+        listOfAllRings.add(pinkRing2)
+        listOfAllRings.add(pinkRing3)
+        listOfAllRings.add(rarePinkRing1)
+        listOfAllRings.add(rarePinkRing2)
+
+
+        // All game amulets
+
+
+        listOfAllAmulets.add(amulet1)
+        listOfAllAmulets.add(amulet2)
+        listOfAllAmulets.add(amulet3)
+        listOfAllAmulets.add(rareAmulet1)
+        listOfAllAmulets.add(rareAmulet2)
 
 
 
