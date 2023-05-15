@@ -3,6 +3,7 @@ package com.example.heroesoftime
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -19,6 +20,7 @@ class villageOfHopeMapActivity : AppCompatActivity() {
 
 
     lateinit var goldTxt : TextView
+    lateinit var heroSavedImg : ImageView
 
 
 
@@ -30,6 +32,7 @@ class villageOfHopeMapActivity : AppCompatActivity() {
 
 
     var savedHeroGold = 0
+    var heroImage = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +42,9 @@ class villageOfHopeMapActivity : AppCompatActivity() {
 
 
 
+        heroSavedImg = findViewById(R.id.heroSavedImg)
         goldTxt = findViewById(R.id.goldTxt)
+
 
 
 
@@ -72,7 +77,20 @@ class villageOfHopeMapActivity : AppCompatActivity() {
                             savedDataOfUser = document.toObject()!!
 
                             savedHeroGold = savedDataOfUser.heroGold
+                            heroImage = savedDataOfUser.heroIconId
                             goldTxt.text = "$savedHeroGold"
+
+                            if (heroImage == 1) {
+                                heroSavedImg.setImageResource(R.drawable.malewarrior)
+                            } else if (heroImage == 2) {
+                                heroSavedImg.setImageResource(R.drawable.femaleasassin)
+                            } else if (heroImage == 3) {
+                                heroSavedImg.setImageResource(R.drawable.femalewarrior)
+                            } else if (heroImage == 4) {
+                                heroSavedImg.setImageResource(R.drawable.hatavatar)
+                            } else if (heroImage == 5) {
+                                heroSavedImg.setImageResource(R.drawable.maleadventurer)
+                            }
 
                         }
                     }

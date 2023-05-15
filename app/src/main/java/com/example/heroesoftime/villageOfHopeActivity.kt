@@ -3,6 +3,7 @@ package com.example.heroesoftime
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -20,6 +21,7 @@ class villageOfHopeActivity : AppCompatActivity() {
 
 
     lateinit var goldTxt : TextView
+    lateinit var heroSavedImage : ImageView
 
 
 
@@ -31,6 +33,7 @@ class villageOfHopeActivity : AppCompatActivity() {
 
 
     var savedHeroGold = 0
+    var heroImage = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +44,7 @@ class villageOfHopeActivity : AppCompatActivity() {
         villageOfHopeWeaponShop = findViewById(R.id.villageOfHopeWeaponShop)
         villageOfHopeRingShop = findViewById(R.id.villageOfHopeRingShop)
         goldTxt = findViewById(R.id.goldTxt)
+        heroSavedImage = findViewById(R.id.heroSavedImage)
 
 
 
@@ -110,7 +114,20 @@ class villageOfHopeActivity : AppCompatActivity() {
                             savedDataOfUser = document.toObject()!!
 
                             savedHeroGold = savedDataOfUser.heroGold
+                            heroImage = savedDataOfUser.heroIconId
                             goldTxt.text = "$savedHeroGold"
+
+                            if (heroImage == 1) {
+                                heroSavedImage.setImageResource(R.drawable.malewarrior)
+                            } else if (heroImage == 2) {
+                                heroSavedImage.setImageResource(R.drawable.femaleasassin)
+                            } else if (heroImage == 3) {
+                                heroSavedImage.setImageResource(R.drawable.femalewarrior)
+                            } else if (heroImage == 4) {
+                                heroSavedImage.setImageResource(R.drawable.hatavatar)
+                            } else if (heroImage == 5) {
+                                heroSavedImage.setImageResource(R.drawable.maleadventurer)
+                            }
 
                         }
                     }

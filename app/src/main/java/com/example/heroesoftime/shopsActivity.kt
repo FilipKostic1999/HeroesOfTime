@@ -224,6 +224,40 @@ class shopsActivity : AppCompatActivity() {
 
 
 
+
+
+    var armorMarketSlot1 : Int = 0
+    var armorMarketSlot2 : Int = 0
+    var armorMarketSlot3 : Int = 0
+    var armorMarketSlot4 : Int = 0
+    var armorMarketSlot5 : Int = 0
+    var armorMarketSlot6 : Int = 0
+    var armorMarketSlot7 : Int = 0
+    var armorMarketSlot8 : Int = 0
+    var armorMarketSlot9 : Int = 0
+    var weaponMarketSlot1 : Int = 0
+    var weaponMarketSlot2 : Int = 0
+    var weaponMarketSlot3 : Int = 0
+    var weaponMarketSlot4 : Int = 0
+    var weaponMarketSlot5 : Int = 0
+    var weaponMarketSlot6 : Int = 0
+    var weaponMarketSlot7 : Int = 0
+    var weaponMarketSlot8 : Int = 0
+    var weaponMarketSlot9 : Int = 0
+    var ringMarketSlot1 : Int = 0
+    var ringMarketSlot2 : Int = 0
+    var ringMarketSlot3 : Int = 0
+    var ringMarketSlot4 : Int = 0
+    var ringMarketSlot5 : Int = 0
+    var ringMarketSlot6 : Int = 0
+    var ringMarketSlot7 : Int = 0
+    var ringMarketSlot8 : Int = 0
+    var ringMarketSlot9 : Int = 0
+
+
+
+
+
     var savedHeroGold : Int = 0
     var savedHeroArmor = 0
     var savedHeroRobe = 0
@@ -241,7 +275,12 @@ class shopsActivity : AppCompatActivity() {
     var savedHeroInventorySlot3 = 0
     var savedHeroInventorySlot4 = 0
     var savedHeroInventorySlot5 = 0
+    var savedHeroLevel = 1
+    var savedHeroImage = 1
     var isButtonLogicActive = true
+
+
+    var isShopRefresh = true
 
 
 
@@ -338,6 +377,9 @@ class shopsActivity : AppCompatActivity() {
                             savedHeroRing2 = savedDataOfUser.heroRingId2
                             savedHeroAmulet = savedDataOfUser.heroAmuletId
 
+                            savedHeroLevel = savedDataOfUser.heroLevel
+                            savedHeroImage = savedDataOfUser.heroIconId
+
                             savedHeroInventorySlot1 = savedDataOfUser.heroInventorySlot1
                             savedHeroInventorySlot2 = savedDataOfUser.heroInventorySlot2
                             savedHeroInventorySlot3 = savedDataOfUser.heroInventorySlot3
@@ -355,6 +397,56 @@ class shopsActivity : AppCompatActivity() {
         }
 
 
+/*
+
+
+
+
+        if (user != null) {
+
+            database.collection("users").document(user.uid).collection("userData")
+                .document("Markets").collection("Village of Hope markets")
+                .addSnapshotListener { snapshot, e ->
+                    if (snapshot != null) {
+                        for (document in snapshot.documents) {
+
+                            armorMarketSlot1
+                            armorMarketSlot2
+                            armorMarketSlot3
+                            armorMarketSlot4
+                            armorMarketSlot5
+                            armorMarketSlot6
+                            armorMarketSlot7
+                            armorMarketSlot8
+                            armorMarketSlot9
+                            weaponMarketSlot1
+                            weaponMarketSlot2
+                            weaponMarketSlot3
+                            weaponMarketSlot4
+                            weaponMarketSlot5
+                            weaponMarketSlot6
+                            weaponMarketSlot7
+                            weaponMarketSlot8
+                            weaponMarketSlot9
+                            ringMarketSlot1
+                            ringMarketSlot2
+                            ringMarketSlot3
+                            ringMarketSlot4
+                            ringMarketSlot5
+                            ringMarketSlot6
+                            ringMarketSlot7
+                            ringMarketSlot8
+                            ringMarketSlot9
+
+
+                        }
+                    }
+                }
+        }
+
+
+
+*/
 
 
 
@@ -366,12 +458,12 @@ class shopsActivity : AppCompatActivity() {
 
 
         if (selectedShopType == 1) {
-            generateRandomArmorItems()
+            generateRandomArmorItems()             // update only in new shops
         } else if (selectedShopType == 2) {
-            generateRandomWeaponItems()
+            generateRandomWeaponItems()                     // update only in new shops
         } else if (selectedShopType == 3) {
-            generateRandomAmulets()
-            generateRandomRings()
+            generateRandomAmulets()              // update only in new shops
+            generateRandomRings()        // update only in new shops
         }
 
 
@@ -399,7 +491,7 @@ class shopsActivity : AppCompatActivity() {
 
         buyButton.setOnClickListener {
 
-            performShop()   // no updates
+            performShop()   // update the level required in new shops
             save()
             buyButton.isEnabled = false
 
@@ -434,7 +526,7 @@ class shopsActivity : AppCompatActivity() {
             strenghtTxt.text = "Strenght: ${heroArmorSlotAtributes.strenght}"
             speedTxt.text = "Speed: ${heroArmorSlotAtributes.speed}"
             manaTxt.text = "Mana: ${heroArmorSlotAtributes.mana}"
-            priceTxt.text = "Price: ${heroArmorSlotAtributes.price}"
+            priceTxt.text = "Price: ${heroArmorSlotAtributes.price/2}"
 
             selectedSlotInShopView = 1
 
@@ -454,7 +546,7 @@ class shopsActivity : AppCompatActivity() {
             strenghtTxt.text = "Strenght: ${heroRobeSlotAtributes.strenght}"
             speedTxt.text = "Speed: ${heroRobeSlotAtributes.speed}"
             manaTxt.text = "Mana: ${heroRobeSlotAtributes.mana}"
-            priceTxt.text = "Price: ${heroRobeSlotAtributes.price}"
+            priceTxt.text = "Price: ${heroRobeSlotAtributes.price/2}"
 
             selectedSlotInShopView = 2
 
@@ -474,7 +566,7 @@ class shopsActivity : AppCompatActivity() {
             strenghtTxt.text = "Strenght: ${heroGloveSlotAtributes.strenght}"
             speedTxt.text = "Speed: ${heroGloveSlotAtributes.speed}"
             manaTxt.text = "Mana: ${heroGloveSlotAtributes.mana}"
-            priceTxt.text = "Price: ${heroGloveSlotAtributes.price}"
+            priceTxt.text = "Price: ${heroGloveSlotAtributes.price/2}"
 
             selectedSlotInShopView = 3
 
@@ -494,7 +586,7 @@ class shopsActivity : AppCompatActivity() {
             strenghtTxt.text = "Strenght: ${heroShoesSlotAtributes.strenght}"
             speedTxt.text = "Speed: ${heroShoesSlotAtributes.speed}"
             manaTxt.text = "Mana: ${heroShoesSlotAtributes.mana}"
-            priceTxt.text = "Price: ${heroShoesSlotAtributes.price}"
+            priceTxt.text = "Price: ${heroShoesSlotAtributes.price/2}"
 
             selectedSlotInShopView = 4
 
@@ -514,7 +606,7 @@ class shopsActivity : AppCompatActivity() {
             strenghtTxt.text = "Strenght: ${heroShieldSlotAtributes.strenght}"
             speedTxt.text = "Speed: ${heroShieldSlotAtributes.speed}"
             manaTxt.text = "Mana: ${heroShieldSlotAtributes.mana}"
-            priceTxt.text = "Price: ${heroShieldSlotAtributes.price}"
+            priceTxt.text = "Price: ${heroShieldSlotAtributes.price/2}"
 
             selectedSlotInShopView = 5
 
@@ -534,7 +626,7 @@ class shopsActivity : AppCompatActivity() {
             strenghtTxt.text = "Strenght: ${heroBeltSlotAtributes.strenght}"
             speedTxt.text = "Speed: ${heroBeltSlotAtributes.speed}"
             manaTxt.text = "Mana: ${heroBeltSlotAtributes.mana}"
-            priceTxt.text = "Price: ${heroBeltSlotAtributes.price}"
+            priceTxt.text = "Price: ${heroBeltSlotAtributes.price/2}"
 
             selectedSlotInShopView = 6
 
@@ -554,7 +646,7 @@ class shopsActivity : AppCompatActivity() {
             strenghtTxt.text = "Strenght: ${heroHelmetSlotAtributes.strenght}"
             speedTxt.text = "Speed: ${heroHelmetSlotAtributes.speed}"
             manaTxt.text = "Mana: ${heroHelmetSlotAtributes.mana}"
-            priceTxt.text = "Price: ${heroHelmetSlotAtributes.price}"
+            priceTxt.text = "Price: ${heroHelmetSlotAtributes.price/2}"
 
             selectedSlotInShopView = 7
 
@@ -574,7 +666,7 @@ class shopsActivity : AppCompatActivity() {
             strenghtTxt.text = "Strenght: ${heroWeaponSlotAtributes.strenght}"
             speedTxt.text = "Speed: ${heroWeaponSlotAtributes.speed}"
             manaTxt.text = "Mana: ${heroWeaponSlotAtributes.mana}"
-            priceTxt.text = "Price: ${heroWeaponSlotAtributes.price}"
+            priceTxt.text = "Price: ${heroWeaponSlotAtributes.price/2}"
 
             selectedSlotInShopView = 8
 
@@ -597,7 +689,7 @@ class shopsActivity : AppCompatActivity() {
             strenghtTxt.text = "Strenght: ${heroRingSlot1Attributes.strenght}"
             speedTxt.text = "Speed: ${heroRingSlot1Attributes.speed}"
             manaTxt.text = "Mana: ${heroRingSlot1Attributes.mana}"
-            priceTxt.text = "Price: ${heroRingSlot1Attributes.price}"
+            priceTxt.text = "Price: ${heroRingSlot1Attributes.price/2}"
 
             selectedSlotInShopView = 9
 
@@ -620,7 +712,7 @@ class shopsActivity : AppCompatActivity() {
             strenghtTxt.text = "Strenght: ${heroRingSlot2Attributes.strenght}"
             speedTxt.text = "Speed: ${heroRingSlot2Attributes.speed}"
             manaTxt.text = "Mana: ${heroRingSlot2Attributes.mana}"
-            priceTxt.text = "Price: ${heroRingSlot2Attributes.price}"
+            priceTxt.text = "Price: ${heroRingSlot2Attributes.price/2}"
 
             selectedSlotInShopView = 10
 
@@ -643,7 +735,7 @@ class shopsActivity : AppCompatActivity() {
             strenghtTxt.text = "Strenght: ${heroAmuletSlotAttributes.strenght}"
             speedTxt.text = "Speed: ${heroAmuletSlotAttributes.speed}"
             manaTxt.text = "Mana: ${heroAmuletSlotAttributes.mana}"
-            priceTxt.text = "Price: ${heroAmuletSlotAttributes.price}"
+            priceTxt.text = "Price: ${heroAmuletSlotAttributes.price/2}"
 
             selectedSlotInShopView = 11
 
@@ -829,7 +921,8 @@ class shopsActivity : AppCompatActivity() {
             strenghtTxt.text = "Strenght: ${inventoryAtributesSlot1.strenght}"
             speedTxt.text = "Speed: ${inventoryAtributesSlot1.speed}"
             manaTxt.text = "Mana: ${inventoryAtributesSlot1.mana}"
-            priceTxt.text = "Price: ${inventoryAtributesSlot1.price}"
+            var shopedItemPrice = inventoryAtributesSlot1.price/2
+            priceTxt.text = "Price: $shopedItemPrice"
 
             selectedSlotInShopView = 12
 
@@ -848,7 +941,8 @@ class shopsActivity : AppCompatActivity() {
             strenghtTxt.text = "Strenght: ${inventoryAtributesSlot2.strenght}"
             speedTxt.text = "Speed: ${inventoryAtributesSlot2.speed}"
             manaTxt.text = "Mana: ${inventoryAtributesSlot2.mana}"
-            priceTxt.text = "Price: ${inventoryAtributesSlot2.price}"
+            var shopedItemPrice = inventoryAtributesSlot2.price/2
+            priceTxt.text = "Price: ${shopedItemPrice}"
 
             selectedSlotInShopView = 13
 
@@ -867,7 +961,8 @@ class shopsActivity : AppCompatActivity() {
             strenghtTxt.text = "Strenght: ${inventoryAtributesSlot3.strenght}"
             speedTxt.text = "Speed: ${inventoryAtributesSlot3.speed}"
             manaTxt.text = "Mana: ${inventoryAtributesSlot3.mana}"
-            priceTxt.text = "Price: ${inventoryAtributesSlot3.price}"
+            var shopedItemPrice = inventoryAtributesSlot3.price/2
+            priceTxt.text = "Price: $shopedItemPrice"
 
             selectedSlotInShopView = 14
 
@@ -886,7 +981,8 @@ class shopsActivity : AppCompatActivity() {
             strenghtTxt.text = "Strenght: ${inventoryAtributesSlot4.strenght}"
             speedTxt.text = "Speed: ${inventoryAtributesSlot4.speed}"
             manaTxt.text = "Mana: ${inventoryAtributesSlot4.mana}"
-            priceTxt.text = "Price: ${inventoryAtributesSlot4.price}"
+            var shopedItemPrice = inventoryAtributesSlot4.price/2
+            priceTxt.text = "Price: $shopedItemPrice"
 
             selectedSlotInShopView = 15
 
@@ -905,7 +1001,8 @@ class shopsActivity : AppCompatActivity() {
             strenghtTxt.text = "Strenght: ${inventoryAtributesSlot5.strenght}"
             speedTxt.text = "Speed: ${inventoryAtributesSlot5.speed}"
             manaTxt.text = "Mana: ${inventoryAtributesSlot5.mana}"
-            priceTxt.text = "Price: ${inventoryAtributesSlot5.price}"
+            var shopedItemPrice = inventoryAtributesSlot5.price/2
+            priceTxt.text = "Price: $shopedItemPrice"
 
             selectedSlotInShopView = 16
 
@@ -919,7 +1016,7 @@ class shopsActivity : AppCompatActivity() {
 
 
 
-        listAllItems()
+        listAllItems()   // update when new items are added in game
 
 
 
@@ -941,7 +1038,7 @@ class shopsActivity : AppCompatActivity() {
         auth = Firebase.auth
         val user = auth.currentUser
 
-        var heroData = heroDataClass(heroIconId = 0, heroLevel = 1, heroExperience = 1, heroArmorId = savedHeroArmor,
+        var heroData = heroDataClass(heroIconId = savedHeroImage, heroLevel = savedHeroLevel, heroExperience = 1, heroArmorId = savedHeroArmor,
             heroRobeId = savedHeroRobe, heroGloveId = savedHeroGloves, heroShoesId = savedHeroShoes,
             heroShieldId = savedHeroShield, heroBeltId = savedHeroBelt,
             heroHelmetId = savedHeroHelmet, heroWeaponId = savedHeroWeapon,
@@ -2651,7 +2748,7 @@ class shopsActivity : AppCompatActivity() {
 
     fun sell() {
 
-        savedHeroGold += selectedItemInShopPrice
+        savedHeroGold += (selectedItemInShopPrice/2)
         selectedItemInShopPrice = 0
 
         if (selectedSlotInShopView == 1) {
@@ -3232,10 +3329,10 @@ class shopsActivity : AppCompatActivity() {
     fun performShop() {
 
 
-        if (selectedItemToShop == 1) {
+        if (selectedItemToShop == 1 && savedHeroGold >= slot1.price && savedHeroLevel >= 1) {
             if (savedHeroInventorySlot1 == 0) {
-                savedHeroGold -= slot1.price
-                savedHeroInventorySlot1 = slot1.itemId
+                    savedHeroGold -= slot1.price
+                    savedHeroInventorySlot1 = slot1.itemId
             } else if (savedHeroInventorySlot2 == 0) {
                 savedHeroGold -= slot1.price
                 savedHeroInventorySlot2 = slot1.itemId
@@ -3252,7 +3349,7 @@ class shopsActivity : AppCompatActivity() {
                 && savedHeroInventorySlot4 > 0 && savedHeroInventorySlot5 > 0) {
                 Toast.makeText(this, "Your inventory is full!", Toast.LENGTH_SHORT).show()
             }
-        } else if (selectedItemToShop == 2) {
+        } else if (selectedItemToShop == 2 && savedHeroGold >= slot2.price && savedHeroLevel >= 1) {
             if (savedHeroInventorySlot1 == 0) {
                 savedHeroGold -= slot2.price
                 savedHeroInventorySlot1 = slot2.itemId
@@ -3272,7 +3369,7 @@ class shopsActivity : AppCompatActivity() {
                 && savedHeroInventorySlot4 > 0 && savedHeroInventorySlot5 > 0) {
                 Toast.makeText(this, "Your inventory is full!", Toast.LENGTH_SHORT).show()
             }
-        } else if (selectedItemToShop == 3) {
+        } else if (selectedItemToShop == 3 && savedHeroGold >= slot3.price && savedHeroLevel >= 1) {
             if (savedHeroInventorySlot1 == 0) {
                 savedHeroGold -= slot3.price
                 savedHeroInventorySlot1 = slot3.itemId
@@ -3292,7 +3389,7 @@ class shopsActivity : AppCompatActivity() {
                 && savedHeroInventorySlot4 > 0 && savedHeroInventorySlot5 > 0) {
                 Toast.makeText(this, "Your inventory is full!", Toast.LENGTH_SHORT).show()
             }
-        } else if (selectedItemToShop == 4) {
+        } else if (selectedItemToShop == 4 && savedHeroGold >= slot4.price && savedHeroLevel >= 1) {
             if (savedHeroInventorySlot1 == 0) {
                 savedHeroGold -= slot4.price
                 savedHeroInventorySlot1 = slot4.itemId
@@ -3312,7 +3409,7 @@ class shopsActivity : AppCompatActivity() {
                 && savedHeroInventorySlot4 > 0 && savedHeroInventorySlot5 > 0) {
                 Toast.makeText(this, "Your inventory is full!", Toast.LENGTH_SHORT).show()
             }
-        } else if (selectedItemToShop == 5) {
+        } else if (selectedItemToShop == 5 && savedHeroGold >= slot5.price && savedHeroLevel >= 1) {
             if (savedHeroInventorySlot1 == 0) {
                 savedHeroGold -= slot5.price
                 savedHeroInventorySlot1 = slot5.itemId
@@ -3332,7 +3429,7 @@ class shopsActivity : AppCompatActivity() {
                 && savedHeroInventorySlot4 > 0 && savedHeroInventorySlot5 > 0) {
                 Toast.makeText(this, "Your inventory is full!", Toast.LENGTH_SHORT).show()
             }
-        } else if (selectedItemToShop == 6) {
+        } else if (selectedItemToShop == 6 && savedHeroGold >= slot6.price && savedHeroLevel >= 1) {
             if (savedHeroInventorySlot1 == 0) {
                 savedHeroGold -= slot6.price
                 savedHeroInventorySlot1 = slot6.itemId
@@ -3352,7 +3449,7 @@ class shopsActivity : AppCompatActivity() {
                 && savedHeroInventorySlot4 > 0 && savedHeroInventorySlot5 > 0) {
                 Toast.makeText(this, "Your inventory is full!", Toast.LENGTH_SHORT).show()
             }
-        } else if (selectedItemToShop == 7) {
+        } else if (selectedItemToShop == 7 && savedHeroGold >= slot7.price && savedHeroLevel >= 1) {
             if (savedHeroInventorySlot1 == 0) {
                 savedHeroGold -= slot7.price
                 savedHeroInventorySlot1 = slot7.itemId
@@ -3372,7 +3469,7 @@ class shopsActivity : AppCompatActivity() {
                 && savedHeroInventorySlot4 > 0 && savedHeroInventorySlot5 > 0) {
                 Toast.makeText(this, "Your inventory is full!", Toast.LENGTH_SHORT).show()
             }
-        } else if (selectedItemToShop == 8) {
+        } else if (selectedItemToShop == 8 && savedHeroGold >= slot8.price && savedHeroLevel >= 1) {
             if (savedHeroInventorySlot1 == 0) {
                 savedHeroGold -= slot8.price
                 savedHeroInventorySlot1 = slot8.itemId
@@ -3392,7 +3489,7 @@ class shopsActivity : AppCompatActivity() {
                 && savedHeroInventorySlot4 > 0 && savedHeroInventorySlot5 > 0) {
                 Toast.makeText(this, "Your inventory is full!", Toast.LENGTH_SHORT).show()
             }
-        } else if (selectedItemToShop == 9) {
+        } else if (selectedItemToShop == 9 && savedHeroGold >= slot9.price && savedHeroLevel >= 1) {
             if (savedHeroInventorySlot1 == 0) {
                 savedHeroGold -= slot9.price
                 savedHeroInventorySlot1 = slot9.itemId
@@ -3412,6 +3509,8 @@ class shopsActivity : AppCompatActivity() {
                 && savedHeroInventorySlot4 > 0 && savedHeroInventorySlot5 > 0) {
                 Toast.makeText(this, "Your inventory is full!", Toast.LENGTH_SHORT).show()
             }
+        } else {
+            Toast.makeText(this, "You do not have enough gold or your level is too low!", Toast.LENGTH_SHORT).show()
         }
 
 

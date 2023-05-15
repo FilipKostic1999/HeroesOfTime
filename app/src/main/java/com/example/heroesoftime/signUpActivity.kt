@@ -3,6 +3,7 @@ package com.example.heroesoftime
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Toast
 import com.example.heroesoftime.databinding.ActivitySignUpBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -56,10 +57,9 @@ class signUpActivity : AppCompatActivity() {
                     firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
                         if (it.isSuccessful) {
 
-                            val intent = Intent(this, logInActivity::class.java)
 
-                            startActivity(intent)
 
+                            waitAsec()
 
 
                         } else {
@@ -101,4 +101,33 @@ class signUpActivity : AppCompatActivity() {
 
 
     }
+
+
+    fun waitAsec() {
+
+
+        Toast.makeText(this, "Wait 5 seconds, your account is being created...", Toast.LENGTH_SHORT).show()
+
+        Handler().postDelayed({
+
+
+
+            val intent = Intent(this, heroAvatarActivity::class.java)
+
+            startActivity(intent)
+
+        }, 5000)
+
+
+
+
+
+
+
+    }
+
+
+
+
+
 }
