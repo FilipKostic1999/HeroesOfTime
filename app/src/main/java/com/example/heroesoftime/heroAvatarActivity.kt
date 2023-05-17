@@ -36,6 +36,7 @@ class heroAvatarActivity : AppCompatActivity() {
 
     var heroId = 1
     var heroNameTxt = ""
+    var shopRefresh = true
 
 
 
@@ -128,6 +129,7 @@ class heroAvatarActivity : AppCompatActivity() {
 
             heroNameTxt = heroName.text.toString()
 
+            shopSetUp()
             save()
 
 
@@ -145,6 +147,69 @@ class heroAvatarActivity : AppCompatActivity() {
 
 
     }
+
+
+    fun shopSetUp() {
+
+
+
+        auth = Firebase.auth
+        val user = auth.currentUser
+
+
+        var shopArmors = shopItemsClass(shopRefresh = shopRefresh)
+
+
+        if (user != null) {
+            database.collection("users").document(user.uid).collection("userData").
+            document("Shop1").collection("ArmorShop").document("ArmorItems").set(shopArmors)
+
+
+                .addOnCompleteListener {
+
+
+                }
+        }
+
+
+
+        var shopWeapons = shopItemsClass(shopRefresh = shopRefresh)
+
+
+        if (user != null) {
+            database.collection("users").document(user.uid).collection("userData").
+            document("Shop1").collection("WeaponShop").document("WeaponItems").set(shopWeapons)
+
+
+                .addOnCompleteListener {
+
+
+                }
+        }
+
+
+
+
+        var shopRings = shopItemsClass(shopRefresh = shopRefresh)
+
+
+        if (user != null) {
+            database.collection("users").document(user.uid).collection("userData").
+            document("Shop1").collection("RingShop").document("RingItems").set(shopRings)
+
+
+                .addOnCompleteListener {
+
+
+                }
+        }
+
+
+
+
+
+    }
+
 
 
 

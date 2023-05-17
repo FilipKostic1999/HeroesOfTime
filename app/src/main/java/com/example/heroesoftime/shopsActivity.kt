@@ -202,6 +202,7 @@ class shopsActivity : AppCompatActivity() {
     lateinit var equipButton : Button
     lateinit var sellButton : Button
     lateinit var removeButton : Button
+    lateinit var refreshBtn : Button
 
 
 
@@ -220,6 +221,7 @@ class shopsActivity : AppCompatActivity() {
     lateinit var auth : FirebaseAuth
     lateinit var database : FirebaseFirestore
     lateinit var savedDataOfUser : heroDataClass
+    lateinit var savedShopData : shopItemsClass
 
 
 
@@ -280,7 +282,9 @@ class shopsActivity : AppCompatActivity() {
     var isButtonLogicActive = true
 
 
-    var isShopRefresh = true
+    var isShopArmorRefresh = false
+    var isShopWeaponsRefresh = false
+    var isShopRingsRefresh = false
 
 
 
@@ -348,9 +352,17 @@ class shopsActivity : AppCompatActivity() {
         equipButton = findViewById(R.id.equipButton)
         sellButton = findViewById(R.id.sellButton)
         removeButton = findViewById(R.id.removeButton)
+        refreshBtn = findViewById(R.id.refreshBtn)
 
 
 
+        val sharedSelectorShopType = getSharedPreferences("SelectorShopType", AppCompatActivity.MODE_PRIVATE)
+        var selectedShopType = sharedSelectorShopType.getInt("SelectorShopType", 0)
+
+
+
+
+        listAllItems()   // update when new items are added in game
 
 
 
@@ -397,7 +409,11 @@ class shopsActivity : AppCompatActivity() {
         }
 
 
-/*
+
+
+
+
+
 
 
 
@@ -405,38 +421,87 @@ class shopsActivity : AppCompatActivity() {
         if (user != null) {
 
             database.collection("users").document(user.uid).collection("userData")
-                .document("Markets").collection("Village of Hope markets")
+                .document("Shop1").collection("ArmorShop")
                 .addSnapshotListener { snapshot, e ->
                     if (snapshot != null) {
                         for (document in snapshot.documents) {
 
-                            armorMarketSlot1
-                            armorMarketSlot2
-                            armorMarketSlot3
-                            armorMarketSlot4
-                            armorMarketSlot5
-                            armorMarketSlot6
-                            armorMarketSlot7
-                            armorMarketSlot8
-                            armorMarketSlot9
-                            weaponMarketSlot1
-                            weaponMarketSlot2
-                            weaponMarketSlot3
-                            weaponMarketSlot4
-                            weaponMarketSlot5
-                            weaponMarketSlot6
-                            weaponMarketSlot7
-                            weaponMarketSlot8
-                            weaponMarketSlot9
-                            ringMarketSlot1
-                            ringMarketSlot2
-                            ringMarketSlot3
-                            ringMarketSlot4
-                            ringMarketSlot5
-                            ringMarketSlot6
-                            ringMarketSlot7
-                            ringMarketSlot8
-                            ringMarketSlot9
+                            savedShopData = document.toObject()!!
+
+                            isShopArmorRefresh = savedShopData.shopRefresh
+
+
+                            if (selectedShopType == 1 && isShopArmorRefresh) {
+                                generateRandomArmorItems() // update only in new shops
+                                saveNewlyGeneratedArmorItems()  // no updates
+                            } else if (selectedShopType == 1 && !isShopArmorRefresh) {
+                                isShopArmorRefresh = savedShopData.shopRefresh
+                                armorMarketSlot1 = savedShopData.shopSlot1
+                                armorMarketSlot2 = savedShopData.shopSlot2
+                                armorMarketSlot3 = savedShopData.shopSlot3
+                                armorMarketSlot4 = savedShopData.shopSlot4
+                                armorMarketSlot5 = savedShopData.shopSlot5
+                                armorMarketSlot6 = savedShopData.shopSlot6
+                                armorMarketSlot7 = savedShopData.shopSlot7
+                                armorMarketSlot8 = savedShopData.shopSlot8
+                                armorMarketSlot9 = savedShopData.shopSlot9
+
+                                if(!isShopArmorRefresh && selectedShopType == 1) {
+                                    generateRandomArmorItems()
+                                }
+
+                            }
+
+
+
+
+
+
+
+                        }
+                    }
+                }
+        }
+
+
+        if (user != null) {
+
+            database.collection("users").document(user.uid).collection("userData")
+                .document("Shop1").collection("WeaponShop")
+                .addSnapshotListener { snapshot, e ->
+                    if (snapshot != null) {
+                        for (document in snapshot.documents) {
+
+                            savedShopData = document.toObject()!!
+
+                            isShopWeaponsRefresh = savedShopData.shopRefresh
+
+
+                            if (selectedShopType == 2 && isShopWeaponsRefresh) {
+                                generateRandomWeaponItems() // update only in new shops
+                                saveNewlyGeneratedWeaponItems()  // no updates
+                            } else if (selectedShopType == 2 && !isShopWeaponsRefresh) {
+                                isShopWeaponsRefresh = savedShopData.shopRefresh
+                                weaponMarketSlot1 = savedShopData.shopSlot1
+                                weaponMarketSlot2 = savedShopData.shopSlot2
+                                weaponMarketSlot3 = savedShopData.shopSlot3
+                                weaponMarketSlot4 = savedShopData.shopSlot4
+                                weaponMarketSlot5 = savedShopData.shopSlot5
+                                weaponMarketSlot6 = savedShopData.shopSlot6
+                                weaponMarketSlot7 = savedShopData.shopSlot7
+                                weaponMarketSlot8 = savedShopData.shopSlot8
+                                weaponMarketSlot9 = savedShopData.shopSlot9
+
+                                if(!isShopWeaponsRefresh && selectedShopType == 2) {
+                                    generateRandomWeaponItems()
+                                }
+
+                            }
+
+
+
+
+
 
 
                         }
@@ -446,25 +511,56 @@ class shopsActivity : AppCompatActivity() {
 
 
 
-*/
+
+
+        if (user != null) {
+
+            database.collection("users").document(user.uid).collection("userData")
+                .document("Shop1").collection("RingShop")
+                .addSnapshotListener { snapshot, e ->
+                    if (snapshot != null) {
+                        for (document in snapshot.documents) {
+
+                            savedShopData = document.toObject()!!
+
+                            isShopRingsRefresh = savedShopData.shopRefresh
+
+
+                            if (selectedShopType == 3 && isShopRingsRefresh) {
+                                generateRandomAmulets()  // update only in new shops
+                                generateRandomRings() // update only in new shops
+                                saveNewlyGeneratedRingItems() // no updates
+                            } else if (selectedShopType == 3 && !isShopRingsRefresh) {
+                                isShopRingsRefresh = savedShopData.shopRefresh
+                                ringMarketSlot1 = savedShopData.shopSlot1
+                                ringMarketSlot2 = savedShopData.shopSlot2
+                                ringMarketSlot3 = savedShopData.shopSlot3
+                                ringMarketSlot4 = savedShopData.shopSlot4
+                                ringMarketSlot5 = savedShopData.shopSlot5
+                                ringMarketSlot6 = savedShopData.shopSlot6
+                                ringMarketSlot7 = savedShopData.shopSlot7
+                                ringMarketSlot8 = savedShopData.shopSlot8
+                                ringMarketSlot9 = savedShopData.shopSlot9
+
+                                if(!isShopRingsRefresh && selectedShopType == 3) {
+                                    generateRandomRings()
+                                    generateRandomAmulets()
+                                }
+
+                            }
 
 
 
 
-        val sharedSelectorShopType = getSharedPreferences("SelectorShopType", AppCompatActivity.MODE_PRIVATE)
-        var selectedShopType = sharedSelectorShopType.getInt("SelectorShopType", 0)
 
 
 
-
-        if (selectedShopType == 1) {
-            generateRandomArmorItems()             // update only in new shops
-        } else if (selectedShopType == 2) {
-            generateRandomWeaponItems()                     // update only in new shops
-        } else if (selectedShopType == 3) {
-            generateRandomAmulets()              // update only in new shops
-            generateRandomRings()        // update only in new shops
+                        }
+                    }
+                }
         }
+
+
 
 
         removeButton.isEnabled = false
@@ -501,7 +597,7 @@ class shopsActivity : AppCompatActivity() {
 
             equip()  // no updates
 
-            save()
+            save() // no updates
 
 
         }
@@ -515,6 +611,24 @@ class shopsActivity : AppCompatActivity() {
 
 
 
+        }
+
+
+
+
+        refreshBtn.setOnClickListener {
+
+            if (savedHeroGold >= 200) {
+                savedHeroGold -= 200
+                if (selectedShopType == 1) {
+                    orderArmorRefresh()
+                } else if (selectedShopType == 2) {
+                    orderWeaponRefresh()
+                } else if (selectedShopType == 3) {
+                    orderRingRefresh()
+                }
+                save()
+            }
         }
 
 
@@ -1016,7 +1130,6 @@ class shopsActivity : AppCompatActivity() {
 
 
 
-        listAllItems()   // update when new items are added in game
 
 
 
@@ -1027,6 +1140,193 @@ class shopsActivity : AppCompatActivity() {
 
 
     }
+
+
+
+
+    fun saveNewlyGeneratedArmorItems() {
+
+        auth = Firebase.auth
+        val user = auth.currentUser
+
+
+        var refresh = shopItemsClass(shopSlot1 = slot1.itemId, shopSlot2 = slot2.itemId,
+            shopSlot3 = slot3.itemId, shopSlot4 = slot4.itemId, shopSlot5 = slot5.itemId,
+            shopSlot6 = slot6.itemId, shopSlot7 = slot7.itemId, shopSlot8 = slot8.itemId,
+            shopSlot9 = slot9.itemId, shopRefresh = false)
+
+
+        if (user != null) {
+            database.collection("users").document(user.uid).collection("userData").
+            document("Shop1").collection("ArmorShop").document("ArmorItems").set(refresh)
+
+
+                .addOnCompleteListener {
+
+
+                }
+        }
+
+
+
+
+
+    }
+
+
+    fun saveNewlyGeneratedWeaponItems() {
+
+        auth = Firebase.auth
+        val user = auth.currentUser
+
+
+        var refresh = shopItemsClass(shopSlot1 = slot1.itemId, shopSlot2 = slot2.itemId,
+            shopSlot3 = slot3.itemId, shopSlot4 = slot4.itemId, shopSlot5 = slot5.itemId,
+            shopSlot6 = slot6.itemId, shopSlot7 = slot7.itemId, shopSlot8 = slot8.itemId,
+            shopSlot9 = slot9.itemId, shopRefresh = false)
+
+
+        if (user != null) {
+            database.collection("users").document(user.uid).collection("userData").
+            document("Shop1").collection("WeaponShop").document("WeaponItems").set(refresh)
+
+
+                .addOnCompleteListener {
+
+
+                }
+        }
+
+
+
+
+
+    }
+
+
+
+
+    fun saveNewlyGeneratedRingItems() {
+
+        auth = Firebase.auth
+        val user = auth.currentUser
+
+
+        var refresh = shopItemsClass(shopSlot1 = slot1.itemId, shopSlot2 = slot2.itemId,
+            shopSlot3 = slot3.itemId, shopSlot4 = slot4.itemId, shopSlot5 = slot5.itemId,
+            shopSlot6 = slot6.itemId, shopSlot7 = slot7.itemId, shopSlot8 = slot8.itemId,
+            shopSlot9 = slot9.itemId, shopRefresh = false)
+
+
+        if (user != null) {
+            database.collection("users").document(user.uid).collection("userData").
+            document("Shop1").collection("RingShop").document("RingItems").set(refresh)
+
+
+                .addOnCompleteListener {
+
+
+                }
+        }
+
+
+
+    }
+
+
+
+
+
+
+
+    fun orderArmorRefresh() {
+
+        auth = Firebase.auth
+        val user = auth.currentUser
+
+
+        var refresh = shopItemsClass(shopSlot1 = slot1.itemId, shopSlot2 = slot2.itemId,
+            shopSlot3 = slot3.itemId, shopSlot4 = slot4.itemId, shopSlot5 = slot5.itemId,
+            shopSlot6 = slot6.itemId, shopSlot7 = slot7.itemId, shopSlot8 = slot8.itemId,
+            shopSlot9 = slot9.itemId, shopRefresh = true)
+
+
+        if (user != null) {
+            database.collection("users").document(user.uid).collection("userData").
+            document("Shop1").collection("ArmorShop").document("ArmorItems").set(refresh)
+
+
+                .addOnCompleteListener {
+
+
+                }
+        }
+
+
+
+    }
+
+
+    fun orderWeaponRefresh() {
+
+        auth = Firebase.auth
+        val user = auth.currentUser
+
+
+        var refresh = shopItemsClass(shopSlot1 = slot1.itemId, shopSlot2 = slot2.itemId,
+            shopSlot3 = slot3.itemId, shopSlot4 = slot4.itemId, shopSlot5 = slot5.itemId,
+            shopSlot6 = slot6.itemId, shopSlot7 = slot7.itemId, shopSlot8 = slot8.itemId,
+            shopSlot9 = slot9.itemId, shopRefresh = true)
+
+
+        if (user != null) {
+            database.collection("users").document(user.uid).collection("userData").
+            document("Shop1").collection("WeaponShop").document("WeaponItems").set(refresh)
+
+
+                .addOnCompleteListener {
+
+
+                }
+        }
+
+
+
+    }
+
+
+
+
+
+
+    fun orderRingRefresh() {
+
+        auth = Firebase.auth
+        val user = auth.currentUser
+
+
+        var refresh = shopItemsClass(shopSlot1 = slot1.itemId, shopSlot2 = slot2.itemId,
+            shopSlot3 = slot3.itemId, shopSlot4 = slot4.itemId, shopSlot5 = slot5.itemId,
+            shopSlot6 = slot6.itemId, shopSlot7 = slot7.itemId, shopSlot8 = slot8.itemId,
+            shopSlot9 = slot9.itemId, shopRefresh = true)
+
+
+        if (user != null) {
+            database.collection("users").document(user.uid).collection("userData").
+            document("Shop1").collection("RingShop").document("RingItems").set(refresh)
+
+
+                .addOnCompleteListener {
+
+
+                }
+        }
+
+
+
+    }
+
+
 
 
 
@@ -1794,6 +2094,14 @@ class shopsActivity : AppCompatActivity() {
 
 
 
+            if (!isShopRingsRefresh && loopStopper == 0) {
+                itemId = ringMarketSlot1
+            } else if (!isShopRingsRefresh && loopStopper == 1) {
+                itemId = ringMarketSlot2
+            } else if (!isShopRingsRefresh && loopStopper == 2) {
+                itemId = ringMarketSlot3
+            }
+
 
 
 
@@ -1809,7 +2117,37 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot1.setImageResource(R.drawable.foursquare)
                 }
 
-                slot1 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+                if (isShopRingsRefresh) {
+                    slot1 = armorClass(
+                        itemId,
+                        itemName,
+                        armorItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopRingsRefresh) {
+
+
+                    for (items in listOfAllAmulets) {
+                        if (items.itemId == itemId) {
+                            slot1 = armorClass(
+                                items.itemId,
+                                items.armorName,
+                                items.armor,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
 
             } else if (loopStopper == 1) {
 
@@ -1823,7 +2161,37 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot2.setImageResource(R.drawable.foursquare)
                 }
 
-                slot2 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+                if (isShopRingsRefresh) {
+                    slot2 = armorClass(
+                        itemId,
+                        itemName,
+                        armorItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopRingsRefresh) {
+
+
+                    for (items in listOfAllAmulets) {
+                        if (items.itemId == itemId) {
+                            slot2 = armorClass(
+                                items.itemId,
+                                items.armorName,
+                                items.armor,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
 
             } else if (loopStopper == 2) {
 
@@ -1836,7 +2204,37 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot3.setImageResource(R.drawable.foursquare)
                 }
 
-                slot3 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+                if (isShopRingsRefresh) {
+                    slot3 = armorClass(
+                        itemId,
+                        itemName,
+                        armorItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopRingsRefresh) {
+
+
+                    for (items in listOfAllAmulets) {
+                        if (items.itemId == itemId) {
+                            slot3 = armorClass(
+                                items.itemId,
+                                items.armorName,
+                                items.armor,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
 
             }
 
@@ -1900,6 +2298,20 @@ class shopsActivity : AppCompatActivity() {
 
 
 
+            if (!isShopRingsRefresh && loopStopper == 0) {
+                itemId = ringMarketSlot4
+            } else if (!isShopRingsRefresh && loopStopper == 1) {
+                itemId = ringMarketSlot5
+            } else if (!isShopRingsRefresh && loopStopper == 2) {
+                itemId = ringMarketSlot6
+            } else if (!isShopRingsRefresh && loopStopper == 3) {
+                itemId = ringMarketSlot7
+            } else if (!isShopRingsRefresh && loopStopper == 4) {
+                itemId = ringMarketSlot8
+            } else if (!isShopRingsRefresh && loopStopper == 5) {
+                itemId = ringMarketSlot9
+            }
+
 
 
             if (loopStopper == 0) {
@@ -1913,7 +2325,37 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot4.setImageResource(R.drawable.foursquare)
                 }
 
-                slot4 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+                if (isShopRingsRefresh) {
+                    slot4 = armorClass(
+                        itemId,
+                        itemName,
+                        armorItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopRingsRefresh) {
+
+
+                    for (items in listOfAllRings) {
+                        if (items.itemId == itemId) {
+                            slot4 = armorClass(
+                                items.itemId,
+                                items.armorName,
+                                items.armor,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
 
             } else if (loopStopper == 1) {
                 if (itemId in 57..59) {
@@ -1925,7 +2367,37 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot5.setImageResource(R.drawable.foursquare)
                 }
 
-                slot5 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+                if (isShopRingsRefresh) {
+                    slot5 = armorClass(
+                        itemId,
+                        itemName,
+                        armorItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopRingsRefresh) {
+
+
+                    for (items in listOfAllRings) {
+                        if (items.itemId == itemId) {
+                            slot5 = armorClass(
+                                items.itemId,
+                                items.armorName,
+                                items.armor,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
 
             } else if (loopStopper == 2) {
 
@@ -1939,7 +2411,37 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot6.setImageResource(R.drawable.foursquare)
                 }
 
-                slot6 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+                if (isShopRingsRefresh) {
+                    slot6 = armorClass(
+                        itemId,
+                        itemName,
+                        armorItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopRingsRefresh) {
+
+
+                    for (items in listOfAllRings) {
+                        if (items.itemId == itemId) {
+                            slot6 = armorClass(
+                                items.itemId,
+                                items.armorName,
+                                items.armor,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
 
             } else if (loopStopper == 3) {
                 if (itemId in 57..59) {
@@ -1951,7 +2453,37 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot7.setImageResource(R.drawable.foursquare)
                 }
 
-                slot7 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+                if (isShopRingsRefresh) {
+                    slot7 = armorClass(
+                        itemId,
+                        itemName,
+                        armorItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopRingsRefresh) {
+
+
+                    for (items in listOfAllRings) {
+                        if (items.itemId == itemId) {
+                            slot7 = armorClass(
+                                items.itemId,
+                                items.armorName,
+                                items.armor,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
 
             } else if (loopStopper == 4) {
 
@@ -1965,7 +2497,37 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot8.setImageResource(R.drawable.foursquare)
                 }
 
-                slot8 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+                if (isShopRingsRefresh) {
+                    slot8 = armorClass(
+                        itemId,
+                        itemName,
+                        armorItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopRingsRefresh) {
+
+
+                    for (items in listOfAllRings) {
+                        if (items.itemId == itemId) {
+                            slot8 = armorClass(
+                                items.itemId,
+                                items.armorName,
+                                items.armor,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
 
             } else if (loopStopper == 5) {
 
@@ -1978,7 +2540,37 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot9.setImageResource(R.drawable.foursquare)
                 }
 
-                slot9 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+                if (isShopRingsRefresh) {
+                    slot9 = armorClass(
+                        itemId,
+                        itemName,
+                        armorItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopRingsRefresh) {
+
+
+                    for (items in listOfAllRings) {
+                        if (items.itemId == itemId) {
+                            slot9 = armorClass(
+                                items.itemId,
+                                items.armorName,
+                                items.armor,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
 
             }
 
@@ -2055,6 +2647,28 @@ class shopsActivity : AppCompatActivity() {
 
 
 
+            if (!isShopWeaponsRefresh && loopStopper == 0) {
+                itemId = weaponMarketSlot1
+            } else if (!isShopWeaponsRefresh && loopStopper == 1) {
+                itemId = weaponMarketSlot2
+            } else if (!isShopWeaponsRefresh && loopStopper == 2) {
+                itemId = weaponMarketSlot3
+            } else if (!isShopWeaponsRefresh && loopStopper == 3) {
+                itemId = weaponMarketSlot4
+            } else if (!isShopWeaponsRefresh && loopStopper == 4) {
+                itemId = weaponMarketSlot5
+            } else if (!isShopWeaponsRefresh && loopStopper == 5) {
+                itemId = weaponMarketSlot6
+            } else if (!isShopWeaponsRefresh && loopStopper == 6) {
+                itemId = weaponMarketSlot7
+            } else if (!isShopWeaponsRefresh && loopStopper == 7) {
+                itemId = weaponMarketSlot8
+            } else if (!isShopWeaponsRefresh && loopStopper == 8) {
+                itemId = weaponMarketSlot9
+            }
+
+
+
 
 
 
@@ -2082,7 +2696,37 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot1.setImageResource(R.drawable.foursquare)
                 }
 
-                slot1 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+                if (isShopWeaponsRefresh) {
+                    slot1 = armorClass(
+                        itemId,
+                        itemName,
+                        damageItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopWeaponsRefresh) {
+
+
+                    for (items in listOfAllWeapons) {
+                        if (items.itemId == itemId) {
+                            slot1 = armorClass(
+                                items.itemId,
+                                items.weaponName,
+                                items.damage,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
 
             } else if (loopStopper == 1) {
                 if (itemId in 43..45) {
@@ -2107,7 +2751,35 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot2.setImageResource(R.drawable.foursquare)
                 }
 
-                slot2 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+                if (isShopWeaponsRefresh) {
+                    slot2 = armorClass(
+                        itemId,
+                        itemName,
+                        damageItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopWeaponsRefresh) {
+                    for (items in listOfAllWeapons) {
+                        if (items.itemId == itemId) {
+                            slot2 = armorClass(
+                                items.itemId,
+                                items.weaponName,
+                                items.damage,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
 
             } else if (loopStopper == 2) {
                 if (itemId in 43..45) {
@@ -2132,7 +2804,35 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot3.setImageResource(R.drawable.foursquare)
                 }
 
-                slot3 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+                if (isShopWeaponsRefresh) {
+                    slot3 = armorClass(
+                        itemId,
+                        itemName,
+                        damageItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopWeaponsRefresh) {
+                    for (items in listOfAllWeapons) {
+                        if (items.itemId == itemId) {
+                            slot3 = armorClass(
+                                items.itemId,
+                                items.weaponName,
+                                items.damage,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
 
             } else if (loopStopper == 3) {
                 if (itemId in 43..45) {
@@ -2157,7 +2857,35 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot4.setImageResource(R.drawable.foursquare)
                 }
 
-                slot4 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+                if (isShopWeaponsRefresh) {
+                    slot4 = armorClass(
+                        itemId,
+                        itemName,
+                        damageItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopWeaponsRefresh) {
+                    for (items in listOfAllWeapons) {
+                        if (items.itemId == itemId) {
+                            slot4 = armorClass(
+                                items.itemId,
+                                items.weaponName,
+                                items.damage,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
 
             } else if (loopStopper == 4) {
                 if (itemId in 43..45) {
@@ -2183,7 +2911,35 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot5.setImageResource(R.drawable.foursquare)
                 }
 
-                slot5 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+                if (isShopWeaponsRefresh) {
+                    slot5 = armorClass(
+                        itemId,
+                        itemName,
+                        damageItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopWeaponsRefresh) {
+                    for (items in listOfAllWeapons) {
+                        if (items.itemId == itemId) {
+                            slot5 = armorClass(
+                                items.itemId,
+                                items.weaponName,
+                                items.damage,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
 
             } else if (loopStopper == 5) {
                 if (itemId in 43..45) {
@@ -2208,7 +2964,35 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot6.setImageResource(R.drawable.foursquare)
                 }
 
-                slot6 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+                if (isShopWeaponsRefresh) {
+                    slot6 = armorClass(
+                        itemId,
+                        itemName,
+                        damageItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopWeaponsRefresh) {
+                    for (items in listOfAllWeapons) {
+                        if (items.itemId == itemId) {
+                            slot6 = armorClass(
+                                items.itemId,
+                                items.weaponName,
+                                items.damage,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
 
             } else if (loopStopper == 6) {
                 if (itemId in 43..45) {
@@ -2233,7 +3017,35 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot7.setImageResource(R.drawable.foursquare)
                 }
 
-                slot7 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+                if (isShopWeaponsRefresh) {
+                    slot7 = armorClass(
+                        itemId,
+                        itemName,
+                        damageItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopWeaponsRefresh) {
+                    for (items in listOfAllWeapons) {
+                        if (items.itemId == itemId) {
+                            slot7 = armorClass(
+                                items.itemId,
+                                items.weaponName,
+                                items.damage,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
 
             } else if (loopStopper == 7) {
                 if (itemId in 43..45) {
@@ -2258,7 +3070,35 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot8.setImageResource(R.drawable.foursquare)
                 }
 
-                slot8 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+                if (isShopWeaponsRefresh) {
+                    slot8 = armorClass(
+                        itemId,
+                        itemName,
+                        damageItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopWeaponsRefresh) {
+                    for (items in listOfAllWeapons) {
+                        if (items.itemId == itemId) {
+                            slot8 = armorClass(
+                                items.itemId,
+                                items.weaponName,
+                                items.damage,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
 
             } else if (loopStopper == 8) {
                 if (itemId in 43..45) {
@@ -2283,7 +3123,35 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot9.setImageResource(R.drawable.foursquare)
                 }
 
-                slot9 = armorClass(itemId, itemName, damageItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+                if (isShopWeaponsRefresh) {
+                    slot9 = armorClass(
+                        itemId,
+                        itemName,
+                        damageItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopWeaponsRefresh) {
+                    for (items in listOfAllWeapons) {
+                        if (items.itemId == itemId) {
+                            slot9 = armorClass(
+                                items.itemId,
+                                items.weaponName,
+                                items.damage,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
 
             }
 
@@ -2390,6 +3258,25 @@ class shopsActivity : AppCompatActivity() {
 
 
 
+            if (!isShopArmorRefresh && loopStopper == 0) {
+                itemId = armorMarketSlot1
+            } else if (!isShopArmorRefresh && loopStopper == 1) {
+                itemId = armorMarketSlot2
+            } else if (!isShopArmorRefresh && loopStopper == 2) {
+                itemId = armorMarketSlot3
+            } else if (!isShopArmorRefresh && loopStopper == 3) {
+                itemId = armorMarketSlot4
+            } else if (!isShopArmorRefresh && loopStopper == 4) {
+                itemId = armorMarketSlot5
+            } else if (!isShopArmorRefresh && loopStopper == 5) {
+                itemId = armorMarketSlot6
+            } else if (!isShopArmorRefresh && loopStopper == 6) {
+                itemId = armorMarketSlot7
+            } else if (!isShopArmorRefresh && loopStopper == 7) {
+                itemId = armorMarketSlot8
+            } else if (!isShopArmorRefresh && loopStopper == 8) {
+                itemId = armorMarketSlot9
+            }
 
 
             if (loopStopper == 0) {
@@ -2428,8 +3315,37 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot1.setImageResource(R.drawable.foursquare)
                 }
 
-                slot1 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
+                if (isShopArmorRefresh) {
+                    slot1 = armorClass(
+                        itemId,
+                        itemName,
+                        armorItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopArmorRefresh) {
 
+                    for (items in listOfAllArmors) {
+                        if (items.itemId == itemId) {
+                            slot1 = armorClass(
+                                items.itemId,
+                                items.armorName,
+                                items.armor,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+
+                }
             } else if (loopStopper == 1) {
                 if (itemId in 1..4) {
                     armorSlot2.setImageResource(R.drawable.leatherarmor)
@@ -2465,8 +3381,35 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot2.setImageResource(R.drawable.foursquare)
                 }
 
-                slot2 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
-
+                if (isShopArmorRefresh) {
+                    slot2 = armorClass(
+                        itemId,
+                        itemName,
+                        armorItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopArmorRefresh) {
+                    for (items in listOfAllArmors) {
+                        if (items.itemId == itemId) {
+                            slot2 = armorClass(
+                                items.itemId,
+                                items.armorName,
+                                items.armor,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
             } else if (loopStopper == 2) {
                 if (itemId in 1..4) {
                     armorSlot3.setImageResource(R.drawable.leatherarmor)
@@ -2502,8 +3445,35 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot3.setImageResource(R.drawable.foursquare)
                 }
 
-                slot3 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
-
+                if(isShopArmorRefresh) {
+                    slot3 = armorClass(
+                        itemId,
+                        itemName,
+                        armorItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopArmorRefresh) {
+                    for (items in listOfAllArmors) {
+                        if (items.itemId == itemId) {
+                            slot3 = armorClass(
+                                items.itemId,
+                                items.armorName,
+                                items.armor,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
             } else if (loopStopper == 3) {
                 if (itemId in 1..4) {
                     armorSlot4.setImageResource(R.drawable.leatherarmor)
@@ -2539,8 +3509,35 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot4.setImageResource(R.drawable.foursquare)
                 }
 
-                slot4 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
-
+                if (isShopArmorRefresh) {
+                    slot4 = armorClass(
+                        itemId,
+                        itemName,
+                        armorItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopArmorRefresh) {
+                    for (items in listOfAllArmors) {
+                        if (items.itemId == itemId) {
+                            slot4 = armorClass(
+                                items.itemId,
+                                items.armorName,
+                                items.armor,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
             } else if (loopStopper == 4) {
                 if (itemId in 1..4) {
                     armorSlot5.setImageResource(R.drawable.leatherarmor)
@@ -2576,8 +3573,35 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot5.setImageResource(R.drawable.foursquare)
                 }
 
-                slot5 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
-
+                if (isShopArmorRefresh) {
+                    slot5 = armorClass(
+                        itemId,
+                        itemName,
+                        armorItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopArmorRefresh) {
+                    for (items in listOfAllArmors) {
+                        if (items.itemId == itemId) {
+                            slot5 = armorClass(
+                                items.itemId,
+                                items.armorName,
+                                items.armor,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
             } else if (loopStopper == 5) {
                 if (itemId in 1..4) {
                     armorSlot6.setImageResource(R.drawable.leatherarmor)
@@ -2613,8 +3637,35 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot6.setImageResource(R.drawable.foursquare)
                 }
 
-                slot6 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
-
+                if (isShopArmorRefresh) {
+                    slot6 = armorClass(
+                        itemId,
+                        itemName,
+                        armorItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopArmorRefresh) {
+                    for (items in listOfAllArmors) {
+                        if (items.itemId == itemId) {
+                            slot6 = armorClass(
+                                items.itemId,
+                                items.armorName,
+                                items.armor,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
             } else if (loopStopper == 6) {
                 if (itemId in 1..4) {
                     armorSlot7.setImageResource(R.drawable.leatherarmor)
@@ -2650,8 +3701,35 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot7.setImageResource(R.drawable.foursquare)
                 }
 
-                slot7 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
-
+                if (isShopArmorRefresh) {
+                    slot7 = armorClass(
+                        itemId,
+                        itemName,
+                        armorItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopArmorRefresh) {
+                    for (items in listOfAllArmors) {
+                        if (items.itemId == itemId) {
+                            slot7 = armorClass(
+                                items.itemId,
+                                items.armorName,
+                                items.armor,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
             } else if (loopStopper == 7) {
                 if (itemId in 1..4) {
                     armorSlot8.setImageResource(R.drawable.leatherarmor)
@@ -2687,8 +3765,35 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot8.setImageResource(R.drawable.foursquare)
                 }
 
-                slot8 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
-
+                if (isShopArmorRefresh) {
+                    slot8 = armorClass(
+                        itemId,
+                        itemName,
+                        armorItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopArmorRefresh) {
+                    for (items in listOfAllArmors) {
+                        if (items.itemId == itemId) {
+                            slot8 = armorClass(
+                                items.itemId,
+                                items.armorName,
+                                items.armor,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
             } else if (loopStopper == 8) {
                 if (itemId in 1..4) {
                     armorSlot9.setImageResource(R.drawable.leatherarmor)
@@ -2724,8 +3829,35 @@ class shopsActivity : AppCompatActivity() {
                     armorSlot9.setImageResource(R.drawable.foursquare)
                 }
 
-                slot9 = armorClass(itemId, itemName, armorItem, vitalityItem, speedItem, manaItem, strenghtItem, priceItem, typeItem)
-
+                if (isShopArmorRefresh) {
+                    slot9 = armorClass(
+                        itemId,
+                        itemName,
+                        armorItem,
+                        vitalityItem,
+                        speedItem,
+                        manaItem,
+                        strenghtItem,
+                        priceItem,
+                        typeItem
+                    )
+                } else if (!isShopArmorRefresh) {
+                    for (items in listOfAllArmors) {
+                        if (items.itemId == itemId) {
+                            slot9 = armorClass(
+                                items.itemId,
+                                items.armorName,
+                                items.armor,
+                                items.vitality,
+                                items.speed,
+                                items.mana,
+                                items.strenght,
+                                items.price,
+                                items.typeItem
+                            )
+                        }
+                    }
+                }
             }
 
 
