@@ -18,6 +18,7 @@ class villageOfHopeActivity : AppCompatActivity() {
     lateinit var villageOfHopeArmorShop : TextView
     lateinit var villageOfHopeWeaponShop : TextView
     lateinit var villageOfHopeRingShop : TextView
+    lateinit var heroViewTxt : TextView
 
 
     lateinit var goldTxt : TextView
@@ -45,6 +46,7 @@ class villageOfHopeActivity : AppCompatActivity() {
         villageOfHopeRingShop = findViewById(R.id.villageOfHopeRingShop)
         goldTxt = findViewById(R.id.goldTxt)
         heroSavedImage = findViewById(R.id.heroSavedImage)
+        heroViewTxt = findViewById(R.id.heroViewTxt)
 
 
 
@@ -96,6 +98,15 @@ class villageOfHopeActivity : AppCompatActivity() {
             editShopType.commit()
 
             val intent = Intent(this, shopsActivity :: class.java)
+            startActivity(intent)
+
+
+        }
+
+
+        heroViewTxt.setOnClickListener {
+
+            val intent = Intent(this, heroViewActivity :: class.java)
             startActivity(intent)
 
 

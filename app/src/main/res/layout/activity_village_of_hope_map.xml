@@ -65,7 +65,7 @@
         app:layout_constraintVertical_bias="0.234" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/heroViewTxt"
         android:layout_width="61dp"
         android:layout_height="24dp"
         android:text="Hero"
@@ -77,6 +77,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.47" />
+
+    <TextView
+        android:id="@+id/heroAttributesTxt"
+        android:layout_width="79dp"
+        android:layout_height="31dp"
+        android:text="Attributes"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.171"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.553" />
 
     <TextView
         android:id="@+id/villageOfHopeEntrance"

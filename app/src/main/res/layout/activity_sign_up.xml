@@ -75,7 +75,7 @@
         app:layout_constraintVertical_bias="0.926" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/heroViewTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="188dp"

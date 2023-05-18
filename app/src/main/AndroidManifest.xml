@@ -13,10 +13,19 @@
         android:theme="@style/Theme.HeroesOfTime"
         tools:targetApi="31">
         <activity
-            android:name=".heroAvatarActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:name=".attributesActivity"
             android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".heroAvatarActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

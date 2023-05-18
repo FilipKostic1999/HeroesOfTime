@@ -20,7 +20,9 @@ class villageOfHopeMapActivity : AppCompatActivity() {
 
 
     lateinit var goldTxt : TextView
+    lateinit var heroViewTxt : TextView
     lateinit var heroSavedImg : ImageView
+    lateinit var heroAttributesTxt : TextView
 
 
 
@@ -44,6 +46,7 @@ class villageOfHopeMapActivity : AppCompatActivity() {
 
         heroSavedImg = findViewById(R.id.heroSavedImg)
         goldTxt = findViewById(R.id.goldTxt)
+        heroViewTxt = findViewById(R.id.heroViewTxt)
 
 
 
@@ -54,6 +57,17 @@ class villageOfHopeMapActivity : AppCompatActivity() {
 
 
         villageOfHopeEntrance = findViewById(R.id.villageOfHopeEntrance)
+        heroAttributesTxt = findViewById(R.id.heroAttributesTxt)
+
+
+        heroAttributesTxt.setOnClickListener {
+
+            val intent = Intent(this, attributesActivity :: class.java)
+            startActivity(intent)
+
+
+        }
+
 
 
         villageOfHopeEntrance.setOnClickListener {
@@ -61,6 +75,15 @@ class villageOfHopeMapActivity : AppCompatActivity() {
             val intent = Intent(this, villageOfHopeActivity :: class.java)
             startActivity(intent)
 
+
+
+        }
+
+
+        heroViewTxt.setOnClickListener {
+
+            val intent = Intent(this, heroViewActivity :: class.java)
+            startActivity(intent)
 
 
         }
