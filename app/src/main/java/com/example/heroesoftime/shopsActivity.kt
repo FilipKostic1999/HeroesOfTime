@@ -285,6 +285,7 @@ class shopsActivity : AppCompatActivity() {
     var isShopArmorRefresh = false
     var isShopWeaponsRefresh = false
     var isShopRingsRefresh = false
+    var updateAllAttributesData = true
 
 
 
@@ -401,6 +402,13 @@ class shopsActivity : AppCompatActivity() {
 
                             showHeroItems()   // always update the view ifs when new items are added in game
                             showHeroInventory()  // always update the view ifs when new items are added in game
+
+
+                            if (updateAllAttributesData) {
+                                save()  // no updates
+                                updateAllAttributesData = false
+                            }
+
 
 
                         }
@@ -576,6 +584,7 @@ class shopsActivity : AppCompatActivity() {
 
         removeButton.setOnClickListener {
 
+            updateAllAttributesData = true
             moveToIn()    // no updates
 
             removeButton.isEnabled = false
@@ -595,6 +604,7 @@ class shopsActivity : AppCompatActivity() {
 
         equipButton.setOnClickListener {
 
+            updateAllAttributesData = true
             equip()  // no updates
 
             save() // no updates
@@ -605,6 +615,7 @@ class shopsActivity : AppCompatActivity() {
 
         sellButton.setOnClickListener {
 
+            updateAllAttributesData = true
             sell()   // no updates
 
             save()
@@ -1331,7 +1342,128 @@ class shopsActivity : AppCompatActivity() {
 
 
 
+    fun updateAllAttributes() {
+
+
+
+
+        var heroTotalArmor = heroArmorSlotAtributes.armor.toDouble() + heroRobeSlotAtributes.armor.toDouble() +
+                heroGloveSlotAtributes.armor.toDouble() + heroShoesSlotAtributes.armor.toDouble() +
+                heroShieldSlotAtributes.armor.toDouble() + heroBeltSlotAtributes.armor.toDouble() +
+                heroHelmetSlotAtributes.armor.toDouble()
+
+        var itemsVitality = heroArmorSlotAtributes.vitality.toDouble() + heroRobeSlotAtributes.vitality.toDouble() +
+                heroGloveSlotAtributes.vitality.toDouble() + heroShoesSlotAtributes.vitality.toDouble() +
+                heroShieldSlotAtributes.vitality.toDouble() + heroBeltSlotAtributes.vitality.toDouble() +
+                heroHelmetSlotAtributes.vitality.toDouble() + heroWeaponSlotAtributes.vitality.toDouble() +
+                heroRingSlot1Attributes.vitality.toDouble() + heroRingSlot2Attributes.vitality.toDouble() +
+                heroAmuletSlotAttributes.vitality.toDouble()
+
+
+        var itemsStrenght = heroArmorSlotAtributes.strenght.toDouble() + heroRobeSlotAtributes.strenght.toDouble() +
+                heroGloveSlotAtributes.strenght.toDouble() + heroShoesSlotAtributes.strenght.toDouble() +
+                heroShieldSlotAtributes.strenght.toDouble() + heroBeltSlotAtributes.strenght.toDouble() +
+                heroHelmetSlotAtributes.strenght.toDouble() + heroWeaponSlotAtributes.strenght.toDouble() +
+                heroRingSlot1Attributes.strenght.toDouble() + heroRingSlot2Attributes.strenght.toDouble() +
+                heroAmuletSlotAttributes.strenght.toDouble()
+
+
+        var itemsMana = heroArmorSlotAtributes.mana.toDouble() + heroRobeSlotAtributes.mana.toDouble() +
+                heroGloveSlotAtributes.mana.toDouble() + heroShoesSlotAtributes.mana.toDouble() +
+                heroShieldSlotAtributes.mana.toDouble() + heroBeltSlotAtributes.mana.toDouble() +
+                heroHelmetSlotAtributes.mana.toDouble() + heroWeaponSlotAtributes.mana.toDouble() +
+                heroRingSlot1Attributes.mana.toDouble() + heroRingSlot2Attributes.mana.toDouble() +
+                heroAmuletSlotAttributes.mana.toDouble()
+
+
+        var itemsSpeed = heroArmorSlotAtributes.speed.toDouble() + heroRobeSlotAtributes.speed.toDouble() +
+                heroGloveSlotAtributes.speed.toDouble() + heroShoesSlotAtributes.speed.toDouble() +
+                heroShieldSlotAtributes.speed.toDouble() + heroBeltSlotAtributes.speed.toDouble() +
+                heroHelmetSlotAtributes.speed.toDouble() + heroWeaponSlotAtributes.speed.toDouble() +
+                heroRingSlot1Attributes.speed.toDouble() + heroRingSlot2Attributes.speed.toDouble() +
+                heroAmuletSlotAttributes.speed.toDouble()
+
+
+
+        var itemDamage = heroWeaponSlotAtributes.damage.toDouble()
+
+
+
+
+        auth = Firebase.auth
+        val user = auth.currentUser
+
+        var heroData = heroAttributesData(heroTotalArmor = heroTotalArmor,
+            itemsAddedVitality = itemsVitality, itemsAddedStrenght = itemsStrenght, itemsAddedMana = itemsMana,
+            itemsAddedSpeed = itemsSpeed, itemWeaponDamage = itemDamage)
+
+
+        if (user != null) {
+            database.collection("users").document(user.uid).collection("userData").
+            document("Attributes").collection("All hero attributes")
+                .document("attributes").set(heroData)
+
+
+                .addOnCompleteListener {
+
+
+                }
+        }
+
+
+
+    }
+
+
+
+
+
+
+
     fun save() {
+
+
+
+        var heroTotalArmor = heroArmorSlotAtributes.armor.toDouble() + heroRobeSlotAtributes.armor.toDouble() +
+                heroGloveSlotAtributes.armor.toDouble() + heroShoesSlotAtributes.armor.toDouble() +
+                heroShieldSlotAtributes.armor.toDouble() + heroBeltSlotAtributes.armor.toDouble() +
+                heroHelmetSlotAtributes.armor.toDouble()
+
+        var itemsVitality = heroArmorSlotAtributes.vitality.toDouble() + heroRobeSlotAtributes.vitality.toDouble() +
+                heroGloveSlotAtributes.vitality.toDouble() + heroShoesSlotAtributes.vitality.toDouble() +
+                heroShieldSlotAtributes.vitality.toDouble() + heroBeltSlotAtributes.vitality.toDouble() +
+                heroHelmetSlotAtributes.vitality.toDouble() + heroWeaponSlotAtributes.vitality.toDouble() +
+                heroRingSlot1Attributes.vitality.toDouble() + heroRingSlot2Attributes.vitality.toDouble() +
+                heroAmuletSlotAttributes.vitality.toDouble()
+
+
+        var itemsStrenght = heroArmorSlotAtributes.strenght.toDouble() + heroRobeSlotAtributes.strenght.toDouble() +
+                heroGloveSlotAtributes.strenght.toDouble() + heroShoesSlotAtributes.strenght.toDouble() +
+                heroShieldSlotAtributes.strenght.toDouble() + heroBeltSlotAtributes.strenght.toDouble() +
+                heroHelmetSlotAtributes.strenght.toDouble() + heroWeaponSlotAtributes.strenght.toDouble() +
+                heroRingSlot1Attributes.strenght.toDouble() + heroRingSlot2Attributes.strenght.toDouble() +
+                heroAmuletSlotAttributes.strenght.toDouble()
+
+
+        var itemsMana = heroArmorSlotAtributes.mana.toDouble() + heroRobeSlotAtributes.mana.toDouble() +
+                heroGloveSlotAtributes.mana.toDouble() + heroShoesSlotAtributes.mana.toDouble() +
+                heroShieldSlotAtributes.mana.toDouble() + heroBeltSlotAtributes.mana.toDouble() +
+                heroHelmetSlotAtributes.mana.toDouble() + heroWeaponSlotAtributes.mana.toDouble() +
+                heroRingSlot1Attributes.mana.toDouble() + heroRingSlot2Attributes.mana.toDouble() +
+                heroAmuletSlotAttributes.mana.toDouble()
+
+
+        var itemsSpeed = heroArmorSlotAtributes.speed.toDouble() + heroRobeSlotAtributes.speed.toDouble() +
+                heroGloveSlotAtributes.speed.toDouble() + heroShoesSlotAtributes.speed.toDouble() +
+                heroShieldSlotAtributes.speed.toDouble() + heroBeltSlotAtributes.speed.toDouble() +
+                heroHelmetSlotAtributes.speed.toDouble() + heroWeaponSlotAtributes.speed.toDouble() +
+                heroRingSlot1Attributes.speed.toDouble() + heroRingSlot2Attributes.speed.toDouble() +
+                heroAmuletSlotAttributes.speed.toDouble()
+
+
+
+        var itemDamage = heroWeaponSlotAtributes.damage.toDouble()
+
 
 
 
@@ -1345,7 +1477,9 @@ class shopsActivity : AppCompatActivity() {
         heroInventorySlot1 = savedHeroInventorySlot1, heroInventorySlot2 = savedHeroInventorySlot2,
             heroInventorySlot3 = savedHeroInventorySlot3, heroInventorySlot4 = savedHeroInventorySlot4,
         heroInventorySlot5 = savedHeroInventorySlot5, heroGold = savedHeroGold, heroRingId1 = savedHeroRing1,
-        heroRingId2 = savedHeroRing2, heroAmuletId = savedHeroAmulet)
+        heroRingId2 = savedHeroRing2, heroAmuletId = savedHeroAmulet, heroTotalArmor = heroTotalArmor,
+        itemsAddedVitality = itemsVitality, itemsAddedStrenght = itemsStrenght, itemsAddedSpeed = itemsSpeed,
+        itemsAddedMana = itemsMana, itemWeaponDamage = itemDamage)
 
 
         if (user != null) {
