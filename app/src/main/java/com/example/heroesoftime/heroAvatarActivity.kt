@@ -149,6 +149,10 @@ class heroAvatarActivity : AppCompatActivity() {
     }
 
 
+
+
+
+
     fun shopSetUp() {
 
 

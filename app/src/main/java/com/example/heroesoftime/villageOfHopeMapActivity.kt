@@ -3,6 +3,7 @@ package com.example.heroesoftime
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
@@ -23,6 +24,9 @@ class villageOfHopeMapActivity : AppCompatActivity() {
     lateinit var heroViewTxt : TextView
     lateinit var heroSavedImg : ImageView
     lateinit var heroAttributesTxt : TextView
+    lateinit var villageOfHopeForest : TextView
+    lateinit var villageOfHopeMapTabTxt : TextView
+    lateinit var villageOfHopeMapTabBtn : Button
 
 
 
@@ -35,6 +39,7 @@ class villageOfHopeMapActivity : AppCompatActivity() {
 
     var savedHeroGold = 0
     var heroImage = 0
+    var selectedDungeon = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +52,8 @@ class villageOfHopeMapActivity : AppCompatActivity() {
         heroSavedImg = findViewById(R.id.heroSavedImg)
         goldTxt = findViewById(R.id.goldTxt)
         heroViewTxt = findViewById(R.id.heroViewTxt)
+        villageOfHopeMapTabTxt = findViewById(R.id.villageOfHopeMapTabTxt)
+        villageOfHopeMapTabBtn = findViewById(R.id.villageOfHopeMapTabBtn)
 
 
 
@@ -58,6 +65,31 @@ class villageOfHopeMapActivity : AppCompatActivity() {
 
         villageOfHopeEntrance = findViewById(R.id.villageOfHopeEntrance)
         heroAttributesTxt = findViewById(R.id.heroAttributesTxt)
+        villageOfHopeForest = findViewById(R.id.villageOfHopeForest)
+
+
+
+
+        villageOfHopeMapTabBtn.setOnClickListener {
+
+            if (selectedDungeon == 1) {
+                val intent = Intent(this, battleView :: class.java)
+                startActivity(intent)
+            }
+
+        }
+
+
+
+        villageOfHopeForest.setOnClickListener {
+
+
+            villageOfHopeMapTabTxt.text = "Forest, there are small boars here"
+            selectedDungeon = 1
+
+
+        }
+
 
 
         heroAttributesTxt.setOnClickListener {
