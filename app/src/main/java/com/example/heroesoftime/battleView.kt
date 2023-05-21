@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -32,7 +34,7 @@ class battleView : AppCompatActivity() {
 
 
     var hero = character(100.0, 10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
-    var boar = character(10000.0, 40.0, 100.0, 10.0, 50.0, 50.0, 0.0, 0.0)
+    var boar = character(100.0, 18.0, 100.0, 9.0, 50.0, 50.0, 0.0, 0.0)
 
     var randomCh = 0
 
@@ -68,6 +70,18 @@ class battleView : AppCompatActivity() {
     lateinit var enemy3HpTxt: TextView
     lateinit var enemy4HpTxt: TextView
     lateinit var enemy5HpTxt: TextView
+
+    lateinit var heroDungeonImg : ImageView
+    lateinit var mercenary1DungeonImg : ImageView
+    lateinit var mercenary2DungeonImg : ImageView
+    lateinit var mercenary3DungeonImg : ImageView
+    lateinit var mercenary4DungeonImg : ImageView
+
+    lateinit var enemy1 : ImageView
+    lateinit var enemy2 : ImageView
+    lateinit var enemy3 : ImageView
+    lateinit var enemy4 : ImageView
+    lateinit var enemy5 : ImageView
 
 
     var savedHeroTotalArmor = 0.0
@@ -135,8 +149,6 @@ class battleView : AppCompatActivity() {
 
 
 
-
-
         heroHpTxt = findViewById(R.id.heroHpTxt)
         mercenary1HpTxt = findViewById(R.id.mercenary1Txt)
         mercenary2HpTxt = findViewById(R.id.mercenary2Txt)
@@ -148,6 +160,18 @@ class battleView : AppCompatActivity() {
         enemy4HpTxt = findViewById(R.id.enemy4HpTxt)
         enemy5HpTxt = findViewById(R.id.enemy5HpTxt)
 
+        heroDungeonImg = findViewById(R.id.heroImg)
+        mercenary1DungeonImg = findViewById(R.id.mercenary1)
+        mercenary2DungeonImg = findViewById(R.id.mercenary2)
+        mercenary3DungeonImg = findViewById(R.id.mercenary3)
+        mercenary4DungeonImg = findViewById(R.id.mercenary4)
+
+        enemy1 = findViewById(R.id.enemy1)
+        enemy2 = findViewById(R.id.enemy2)
+        enemy3 = findViewById(R.id.enemy3)
+        enemy4 = findViewById(R.id.enemy4)
+        enemy5 = findViewById(R.id.enemy5)
+
 
 
 
@@ -156,17 +180,22 @@ class battleView : AppCompatActivity() {
         listOfTeam2 = arrayListOf()
 
 
-        listOfTeam1.add(hero)
-        listOfTeam1.add(character1)
-        listOfTeam1.add(character2)
-        listOfTeam1.add(character3)
-        listOfTeam1.add(character4)
 
-        listOfTeam2.add(boar)
-        listOfTeam2.add(character11)
-        listOfTeam2.add(character22)
-        listOfTeam2.add(character33)
-        listOfTeam2.add(character44)
+        mercenary1DungeonImg.isVisible = false
+        mercenary2DungeonImg.isVisible = false
+        mercenary3DungeonImg.isVisible = false
+        mercenary4DungeonImg.isVisible = false
+
+        enemy2.isVisible = false
+        enemy3.isVisible = false
+        enemy4.isVisible = false
+        enemy5.isVisible = false
+
+
+
+        setDungeon()
+
+
 
 
 
@@ -477,13 +506,44 @@ class battleView : AppCompatActivity() {
 
 
                         if (teamTwoCharacter.hp > 0 && !isTeam1Dead) {
-                            var randomC = (1..100).random()
 
-                            if (randomC <= teamTwoCharacter.criticalChance) {
-                                listOfTeam1[randomCh].hp -= (teamTwoCharacter.damage / ((listOfTeam1[randomCh].totalArmor/100)+1)) * 4
-                            } else if (randomC > teamTwoCharacter.criticalChance) {
-                                listOfTeam1[randomCh].hp -= (teamTwoCharacter.damage / ((listOfTeam1[randomCh].totalArmor / 100) + 1))
+
+                            var x1D = 0.0
+                            var x1Int = 0
+                            var randomH = 0
+
+                            if (teamTwoCharacter.speed >= listOfTeam1[randomCh].speed) {
+                                x1D = (teamTwoCharacter.speed / listOfTeam1[randomCh].speed)
+                                x1Int = round(x1D).toInt()
+                                randomH = (0..x1Int).random()
+                            } else if (teamTwoCharacter.speed < listOfTeam1[randomCh].speed) {
+                                x1D = (listOfTeam1[randomCh].speed / teamTwoCharacter.speed)
+                                x1Int = round(x1D).toInt()
+                                randomH = (0..x1Int).random()
                             }
+
+                            if (randomH > 0 && teamTwoCharacter.speed >= listOfTeam1[randomCh].speed) {
+
+                                val randomC = (1..100).random()
+
+                                if (randomC <= teamTwoCharacter.criticalChance) {
+                                    listOfTeam1[randomCh].hp -= (teamTwoCharacter.damage / ((listOfTeam1[randomCh].totalArmor/100)+1)) * 4
+                                } else if (randomC > teamTwoCharacter.criticalChance) {
+                                    listOfTeam1[randomCh].hp -= (teamTwoCharacter.damage / ((listOfTeam1[randomCh].totalArmor / 100) + 1))
+                                }
+
+                            } else if (randomH == 0 && teamTwoCharacter.speed < listOfTeam1[randomCh].speed) {
+
+                                val randomC = (1..100).random()
+
+                                if (randomC <= teamTwoCharacter.criticalChance) {
+                                    listOfTeam1[randomCh].hp -= (teamTwoCharacter.damage / ((listOfTeam1[randomCh].totalArmor/100)+1)) * 4
+                                } else if (randomC > teamTwoCharacter.criticalChance) {
+                                    listOfTeam1[randomCh].hp -= (teamTwoCharacter.damage / ((listOfTeam1[randomCh].totalArmor / 100) + 1))
+                                }
+
+                            }
+
                         }
 
                     }
@@ -536,9 +596,60 @@ class battleView : AppCompatActivity() {
     }
 
 
-    fun setUpHeroStats() {
+    fun setDungeon() {
 
 
+        // hero and mercenaries
+
+        listOfTeam1.add(hero)
+        listOfTeam1.add(character1)
+        listOfTeam1.add(character2)
+        listOfTeam1.add(character3)
+        listOfTeam1.add(character4)
+
+        if (listOfTeam1[1].hp > 0) {
+            mercenary1DungeonImg.isVisible = true
+        }
+
+        if (listOfTeam1[2].hp > 0) {
+            mercenary2DungeonImg.isVisible = true
+        }
+
+        if (listOfTeam1[3].hp > 0) {
+            mercenary3DungeonImg.isVisible = true
+        }
+
+        if (listOfTeam1[4].hp > 0) {
+            mercenary4DungeonImg.isVisible = true
+        }
+
+
+
+
+        // enemies of forest dungeon
+
+        listOfTeam2.add(boar)
+        enemy1.setImageResource(R.drawable.snalboar)
+        listOfTeam2.add(character11)
+        listOfTeam2.add(character22)
+        listOfTeam2.add(character33)
+        listOfTeam2.add(character44)
+
+        if (listOfTeam2[1].hp > 0) {
+            enemy2.isVisible = true
+        }
+
+        if (listOfTeam2[2].hp > 0) {
+            enemy3.isVisible = true
+        }
+
+        if (listOfTeam2[3].hp > 0) {
+            enemy4.isVisible = true
+        }
+
+        if (listOfTeam2[4].hp > 0) {
+            enemy5.isVisible = true
+        }
 
 
     }
