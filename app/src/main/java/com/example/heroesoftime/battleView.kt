@@ -2,6 +2,7 @@ package com.example.heroesoftime
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
@@ -13,24 +14,25 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.round
 import kotlin.math.roundToInt
 
 class battleView : AppCompatActivity() {
 
 
-    var character1 = character(100.0, 10.0, 100.0, 10.0, 50.0, 50.0, 0.0)
-    var character2 = character(100.0, 10.0, 100.0, 10.0, 50.0, 50.0, 0.0)
-    var character3 = character(100.0, 10.0, 100.0, 10.0, 50.0, 50.0, 0.0)
-    var character4 = character(100.0, 10.0, 100.0, 10.0, 50.0, 50.0, 0.0)
+    var character1 = character(0.0, 10.0, 100.0, 10.0, 50.0, 50.0, 0.0, 0.0)
+    var character2 = character(0.0, 10.0, 100.0, 10.0, 50.0, 50.0, 0.0, 0.0)
+    var character3 = character(0.0, 10.0, 100.0, 10.0, 50.0, 50.0, 0.0, 0.0)
+    var character4 = character(0.0, 10.0, 100.0, 10.0, 50.0, 50.0, 0.0, 0.0)
 
-    var character11 = character(100.0, 10.0, 100.0, 10.0, 50.0, 50.0,0.0)
-    var character22 = character(100.0, 10.0, 100.0, 10.0, 50.0, 50.0,0.0)
-    var character33 = character(100.0, 10.0, 100.0, 10.0, 50.0, 50.0,0.0)
-    var character44 = character(100.0, 10.0, 100.0, 10.0, 50.0, 50.0,0.0)
+    var character11 = character(0.0, 10.0, 100.0, 10.0, 50.0, 50.0,0.0, 0.0)
+    var character22 = character(0.0, 10.0, 100.0, 10.0, 50.0, 50.0,0.0, 0.0)
+    var character33 = character(0.0, 10.0, 100.0, 10.0, 50.0, 50.0,0.0, 0.0)
+    var character44 = character(0.0, 10.0, 100.0, 10.0, 50.0, 50.0,0.0, 0.0)
 
 
-    var hero = character(100.0, 10.0, 0.0, 0.0, 0.0, 0.0, 0.0)
-    var boar = character(100.0, 10.0, 100.0, 10.0, 50.0, 50.0, 0.0)
+    var hero = character(100.0, 10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+    var boar = character(10000.0, 40.0, 100.0, 10.0, 50.0, 50.0, 0.0, 0.0)
 
     var randomCh = 0
 
@@ -231,9 +233,38 @@ class battleView : AppCompatActivity() {
                             listOfTeam1[0].strenght = savedDataOfUser.heroStrenght.toDouble() +
                                     savedDataOfUser.itemsAddedStrenght
 
+                            // apply vitality of hero and mercenaries
+
+                            listOfTeam1[0].vitality = savedDataOfUser.heroVitality.toDouble() +
+                                    savedDataOfUser.itemsAddedVitality
+
+                            // apply speed
+
+                            listOfTeam1[0].speed =  savedDataOfUser.heroSpeed.toDouble() +
+                                    savedDataOfUser.itemsAddedSpeed
+
+                            // apply mana
+
+                            listOfTeam1[0].mana = savedDataOfUser.heroMana.toDouble() +
+                                    savedDataOfUser.itemsAddedMana
+
+
+                            // apply strenght to damage
+
+                            listOfTeam1[0].damage += (listOfTeam1[0].strenght/2)
+
+                            // apply current hp to battle
+
+                            listOfTeam1[0].hp = savedDataOfUser.heroCurrentHp
+
+
+
+
+
                             // apply percentage of critical chance to hero and mercenaries
 
                             listOfTeam1[0].criticalChance = (savedHeroCritical.toDouble()) * 4.0
+
 
                             // apply warcry hp increase to hero
 
@@ -245,7 +276,34 @@ class battleView : AppCompatActivity() {
 
                             // poison
 
-                            listOfTeam1[0].damage += ((listOfTeam1[0].damage * (10.0 * savedHeroFury))/100.0)
+                            listOfTeam1[0].damage += ((listOfTeam1[0].damage * (10.0 * savedHeroPoisonBlade))/100.0)
+
+                            // temerary
+
+                            listOfTeam2[0].damage -= (((savedHeroTemerary.toDouble() * 4) * listOfTeam2[0].damage)/100)
+                            listOfTeam2[1].damage -= (((savedHeroTemerary.toDouble() * 4) * listOfTeam2[1].damage)/100)
+                            listOfTeam2[2].damage -= (((savedHeroTemerary.toDouble() * 4) * listOfTeam2[2].damage)/100)
+                            listOfTeam2[3].damage -= (((savedHeroTemerary.toDouble() * 4) * listOfTeam2[3].damage)/100)
+                            listOfTeam2[4].damage -= (((savedHeroTemerary.toDouble() * 4) * listOfTeam2[4].damage)/100)
+
+
+                            // destructive spirit
+
+                            listOfTeam2[0].speed -= (((savedHeroDestructiveSpirit.toDouble() * 5) * listOfTeam2[0].speed)/100)
+                            listOfTeam2[1].speed -= (((savedHeroDestructiveSpirit.toDouble() * 5) * listOfTeam2[1].speed)/100)
+                            listOfTeam2[2].speed -= (((savedHeroDestructiveSpirit.toDouble() * 5) * listOfTeam2[2].speed)/100)
+                            listOfTeam2[3].speed -= (((savedHeroDestructiveSpirit.toDouble() * 5) * listOfTeam2[3].speed)/100)
+                            listOfTeam2[4].speed -= (((savedHeroDestructiveSpirit.toDouble() * 5) * listOfTeam2[4].speed)/100)
+
+
+                            // hard skin
+
+                            listOfTeam1[0].totalArmor += (((savedDataOfUser.hardSkin * 5) * listOfTeam1[0].totalArmor)/100)
+
+                            heroHpTxt.text = "${listOfTeam1[0].hp.roundToInt()} HP"
+                            enemy1HpTxt.text = "${listOfTeam2[0].hp.roundToInt()} HP"
+
+
 
 
                             snapshotAllow = true
@@ -260,6 +318,7 @@ class battleView : AppCompatActivity() {
 
 
 
+        var handlerOfHandler = true
 
 
         if (user != null) {
@@ -273,7 +332,29 @@ class battleView : AppCompatActivity() {
                             data = document.toObject()!!
 
 
-                            if (snapshotAllow) {
+                            if (snapshotAllow && handlerOfHandler) {
+
+                                Handler().postDelayed({
+
+                                    heroHpTxt.text = "${heroHp.roundToInt()} HP"
+                                    mercenary1HpTxt.text = "${mercenary1Hp.roundToInt()} HP"
+                                    mercenary2HpTxt.text = "${mercenary2Hp.roundToInt()} HP"
+                                    mercenary3HpTxt.text = "${mercenary3Hp.roundToInt()} HP"
+                                    mercenary4HpTxt.text = "${mercenary4Hp.roundToInt()} HP"
+
+                                    enemy1HpTxt.text = "${enemy1Hp.roundToInt()} HP"
+                                    enemy2HpTxt.text = "${enemy2Hp.roundToInt()} HP"
+                                    enemy3HpTxt.text = "${enemy3Hp.roundToInt()} HP"
+                                    enemy4HpTxt.text = "${enemy4Hp.roundToInt()} HP"
+                                    enemy5HpTxt.text = "${enemy5Hp.roundToInt()} HP"
+
+                                    handlerOfHandler = false
+
+                                }, 2000)
+
+
+
+                            } else if (snapshotAllow && !handlerOfHandler) {
 
                                 heroHpTxt.text = "${heroHp.roundToInt()} HP"
                                 mercenary1HpTxt.text = "${mercenary1Hp.roundToInt()} HP"
@@ -297,34 +378,6 @@ class battleView : AppCompatActivity() {
 
 
 
-        /*
-
-        if (user != null) {
-
-            database.collection("users").document(user.uid).collection("userData")
-                .document("Attributes").collection("All hero attributes")
-                .addSnapshotListener { snapshot, e ->
-                    if (snapshot != null) {
-                        for (document in snapshot.documents) {
-
-                            attributes = document.toObject()!!
-
-                            // apply armor to hero and mercenaries
-
-                            listOfTeam1[0].totalArmor = attributes.heroTotalArmor
-
-
-
-
-
-                        }
-                    }
-                }
-        }
-
-
-
-         */
 
 
 
@@ -332,9 +385,7 @@ class battleView : AppCompatActivity() {
 
 
 
-
-
-
+        var isWarriorSpiritActive = true
 
 
 
@@ -345,6 +396,11 @@ class battleView : AppCompatActivity() {
                 starter ++
 
                 if (starter > 1) {
+
+                    if (listOfTeam1[0].hp < (listOfTeam1[0].vitality) && listOfTeam1[0].hp > 0 && isWarriorSpiritActive) {
+                        listOfTeam1[0].hp += ((savedHeroWarriorSpirit.toDouble() * 3) * (listOfTeam1[0].vitality * 10))/100
+                        isWarriorSpiritActive = false
+                    }
 
                     for (teamOneCharacter in listOfTeam1) {
                         while (true) {
@@ -362,13 +418,43 @@ class battleView : AppCompatActivity() {
 
 
                         if (teamOneCharacter.hp > 0 && !isTeam2Dead) {
-                            var randomC = (1..100).random()
 
-                            if (randomC <= teamOneCharacter.criticalChance) {
-                                listOfTeam2[randomCh].hp -= (teamOneCharacter.damage / ((listOfTeam2[randomCh].totalArmor/100)+1)) * 4
-                            } else if (randomC > teamOneCharacter.criticalChance) {
-                                listOfTeam2[randomCh].hp -= (teamOneCharacter.damage / ((listOfTeam2[randomCh].totalArmor / 100) + 1))
+                            var x1D = 0.0
+                            var x1Int = 0
+                            var randomH = 0
+
+                            if (teamOneCharacter.speed >= listOfTeam2[randomCh].speed) {
+                                x1D = (teamOneCharacter.speed / listOfTeam2[randomCh].speed)
+                                x1Int = round(x1D).toInt()
+                                randomH = (0..x1Int).random()
+                            } else if (teamOneCharacter.speed < listOfTeam2[randomCh].speed) {
+                                x1D = (listOfTeam2[randomCh].speed / teamOneCharacter.speed)
+                                x1Int = round(x1D).toInt()
+                                randomH = (0..x1Int).random()
                             }
+
+                            if (randomH > 0 && teamOneCharacter.speed >= listOfTeam2[randomCh].speed) {
+
+                                val randomC = (1..100).random()
+
+                                if (randomC <= teamOneCharacter.criticalChance) {
+                                    listOfTeam2[randomCh].hp -= (teamOneCharacter.damage / ((listOfTeam2[randomCh].totalArmor/100)+1)) * 4
+                                } else if (randomC > teamOneCharacter.criticalChance) {
+                                    listOfTeam2[randomCh].hp -= (teamOneCharacter.damage / ((listOfTeam2[randomCh].totalArmor / 100) + 1))
+                                }
+
+                            } else if (randomH == 0 && teamOneCharacter.speed < listOfTeam2[randomCh].speed) {
+
+                                val randomC = (1..100).random()
+
+                                if (randomC <= teamOneCharacter.criticalChance) {
+                                    listOfTeam2[randomCh].hp -= (teamOneCharacter.damage / ((listOfTeam2[randomCh].totalArmor/100)+1)) * 4
+                                } else if (randomC > teamOneCharacter.criticalChance) {
+                                    listOfTeam2[randomCh].hp -= (teamOneCharacter.damage / ((listOfTeam2[randomCh].totalArmor / 100) + 1))
+                                }
+
+                            }
+
                         }
 
                     }
