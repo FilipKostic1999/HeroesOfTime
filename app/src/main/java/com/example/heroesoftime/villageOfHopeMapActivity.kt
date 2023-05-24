@@ -12,6 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import kotlin.math.roundToInt
 
 class villageOfHopeMapActivity : AppCompatActivity() {
 
@@ -37,7 +38,42 @@ class villageOfHopeMapActivity : AppCompatActivity() {
     lateinit var savedDataOfUser : heroDataClass
 
 
+    var savedHeroTotalArmor = 0.0
+    var savedHeroVitality = 5
+    var savedHeroStrenght = 5
+    var savedHeroMana = 5
+    var savedHeroSpeed = 5
+
+    var savedHeroWarcry = 0
+    var savedHeroCritical = 1
+    var savedHeroFury = 0
+    var savedHeroPoisonBlade = 0
+    var savedHeroWarriorSpirit = 0
+    var savedHeroTemerary = 0
+    var savedHeroDestructiveSpirit = 0
+    var savedHeroHardSkin = 0
+
+
+
+
     var savedHeroGold = 0
+    var savedHeroArmor = 0
+    var savedHeroRobe = 0
+    var savedHeroGloves = 0
+    var savedHeroShoes = 0
+    var savedHeroShield = 0
+    var savedHeroBelt = 0
+    var savedHeroHelmet = 0
+    var savedHeroWeapon = 0
+    var savedHeroRing1 = 0
+    var savedHeroRing2 = 0
+    var savedHeroAmulet = 0
+    var savedHeroInventorySlot1 = 0
+    var savedHeroInventorySlot2 = 0
+    var savedHeroInventorySlot3 = 0
+    var savedHeroInventorySlot4 = 0
+    var savedHeroInventorySlot5 = 0
+    var savedHeroLevel = 1
     var heroImage = 0
     var selectedDungeon = 0
 
@@ -69,10 +105,93 @@ class villageOfHopeMapActivity : AppCompatActivity() {
 
 
 
+        val sharedLocation = getSharedPreferences("Location", AppCompatActivity.MODE_PRIVATE)
+        var Location = sharedLocation.getInt("Location", 0)
+
+
+
+
+
+
+        if (user != null) {
+
+            database.collection("users").document(user.uid).collection("userData")
+                .addSnapshotListener { snapshot, e ->
+                    if (snapshot != null) {
+                        for (document in snapshot.documents) {
+
+                            savedDataOfUser = document.toObject()!!
+
+                            savedHeroGold = savedDataOfUser.heroGold
+
+                            savedHeroArmor = savedDataOfUser.heroArmorId
+                            savedHeroRobe = savedDataOfUser.heroRobeId
+                            savedHeroGloves = savedDataOfUser.heroGloveId
+                            savedHeroShoes = savedDataOfUser.heroShoesId
+                            savedHeroShield = savedDataOfUser.heroShieldId
+                            savedHeroBelt = savedDataOfUser.heroBeltId
+                            savedHeroHelmet = savedDataOfUser.heroHelmetId
+                            savedHeroWeapon = savedDataOfUser.heroWeaponId
+                            savedHeroRing1 = savedDataOfUser.heroRingId1
+                            savedHeroRing2 = savedDataOfUser.heroRingId2
+                            savedHeroAmulet = savedDataOfUser.heroAmuletId
+
+                            savedHeroLevel = savedDataOfUser.heroLevel
+
+                            savedHeroInventorySlot1 = savedDataOfUser.heroInventorySlot1
+                            savedHeroInventorySlot2 = savedDataOfUser.heroInventorySlot2
+                            savedHeroInventorySlot3 = savedDataOfUser.heroInventorySlot3
+                            savedHeroInventorySlot4 = savedDataOfUser.heroInventorySlot4
+                            savedHeroInventorySlot5 = savedDataOfUser.heroInventorySlot5
+
+
+                            savedHeroWarcry = savedDataOfUser.warCry
+                            savedHeroCritical = savedDataOfUser.critical
+                            savedHeroFury = savedDataOfUser.fury
+                            savedHeroPoisonBlade = savedDataOfUser.poisonBlade
+                            savedHeroWarriorSpirit = savedDataOfUser.warriorSpirit
+                            savedHeroTemerary = savedDataOfUser.temerary
+                            savedHeroDestructiveSpirit = savedDataOfUser.destructiveSpirit
+                            savedHeroHardSkin = savedDataOfUser.hardSkin
+
+                            savedHeroVitality = savedDataOfUser.heroVitality
+                            savedHeroStrenght = savedDataOfUser.heroStrenght
+                            savedHeroSpeed = savedDataOfUser.heroSpeed
+                            savedHeroMana = savedDataOfUser.heroMana
+
+
+                            savedHeroGold = savedDataOfUser.heroGold
+                            heroImage = savedDataOfUser.heroIconId
+                            goldTxt.text = "$savedHeroGold"
+
+                            if (heroImage == 1) {
+                                heroSavedImg.setImageResource(R.drawable.malewarrior)
+                            } else if (heroImage == 2) {
+                                heroSavedImg.setImageResource(R.drawable.femaleasassin)
+                            } else if (heroImage == 3) {
+                                heroSavedImg.setImageResource(R.drawable.femalewarrior)
+                            } else if (heroImage == 4) {
+                                heroSavedImg.setImageResource(R.drawable.hatavatar)
+                            } else if (heroImage == 5) {
+                                heroSavedImg.setImageResource(R.drawable.maleadventurer)
+                            }
+
+
+
+                        }
+                    }
+                }
+        }
+
+
+
+
+
+
 
         villageOfHopeMapTabBtn.setOnClickListener {
 
-            if (selectedDungeon == 1) {
+            if (Location == 1) {
                 val intent = Intent(this, battleView :: class.java)
                 startActivity(intent)
             }
@@ -85,7 +204,11 @@ class villageOfHopeMapActivity : AppCompatActivity() {
 
 
             villageOfHopeMapTabTxt.text = "Forest, there are small boars here"
-            selectedDungeon = 1
+            Location = 1
+
+            val editLocation = sharedLocation.edit()
+            editLocation.putInt("Location", Location)
+            editLocation.commit()
 
 
         }
@@ -121,36 +244,6 @@ class villageOfHopeMapActivity : AppCompatActivity() {
         }
 
 
-
-        if (user != null) {
-
-            database.collection("users").document(user.uid).collection("userData")
-                .addSnapshotListener { snapshot, e ->
-                    if (snapshot != null) {
-                        for (document in snapshot.documents) {
-
-                            savedDataOfUser = document.toObject()!!
-
-                            savedHeroGold = savedDataOfUser.heroGold
-                            heroImage = savedDataOfUser.heroIconId
-                            goldTxt.text = "$savedHeroGold"
-
-                            if (heroImage == 1) {
-                                heroSavedImg.setImageResource(R.drawable.malewarrior)
-                            } else if (heroImage == 2) {
-                                heroSavedImg.setImageResource(R.drawable.femaleasassin)
-                            } else if (heroImage == 3) {
-                                heroSavedImg.setImageResource(R.drawable.femalewarrior)
-                            } else if (heroImage == 4) {
-                                heroSavedImg.setImageResource(R.drawable.hatavatar)
-                            } else if (heroImage == 5) {
-                                heroSavedImg.setImageResource(R.drawable.maleadventurer)
-                            }
-
-                        }
-                    }
-                }
-        }
 
 
 

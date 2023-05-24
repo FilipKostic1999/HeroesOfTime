@@ -130,6 +130,7 @@ class heroAvatarActivity : AppCompatActivity() {
             heroNameTxt = heroName.text.toString()
 
             shopSetUp()
+            mercenaries()
             save()
 
 
@@ -147,6 +148,114 @@ class heroAvatarActivity : AppCompatActivity() {
 
 
     }
+
+
+
+
+    fun mercenaries() {
+
+
+
+
+
+            auth = Firebase.auth
+            val user = auth.currentUser
+
+            var heroData = mercenary(heroArmorId = 0,
+                heroRobeId = 0, heroGloveId = 0, heroShoesId = 0,
+                heroShieldId = 0, heroBeltId = 0,
+                heroHelmetId = 0, heroWeaponId = 0, heroRingId1 = 0,
+                heroRingId2 = 0, heroAmuletId = 0, heroCurrentHp = 0.0,
+                heroName = "mercenary1", heroSpeed = 34, heroStrenght = 25, heroVitality = 16,
+            critical = 4)
+
+
+            if (user != null) {
+                database.collection("users").document(user.uid).collection("userData").
+                document("Mercenaries Data").collection("mercenary1").document("Data").set(heroData)
+
+
+                    .addOnCompleteListener {
+
+
+                    }
+            }
+
+
+
+        var heroData2 = mercenary(heroArmorId = 0,
+            heroRobeId = 0, heroGloveId = 0, heroShoesId = 0,
+            heroShieldId = 0, heroBeltId = 0,
+            heroHelmetId = 0, heroWeaponId = 0, heroRingId1 = 0,
+            heroRingId2 = 0, heroAmuletId = 0, heroCurrentHp = 0.0,
+            heroName = "mercenary1", heroSpeed = 34, heroStrenght = 25, heroVitality = 16,
+            critical = 4)
+
+
+        if (user != null) {
+            database.collection("users").document(user.uid).collection("userData").
+            document("Mercenaries Data").collection("mercenary2").document("Data").set(heroData2)
+
+
+                .addOnCompleteListener {
+
+
+                }
+        }
+
+
+
+
+        var heroData3 = mercenary(heroArmorId = 0,
+            heroRobeId = 0, heroGloveId = 0, heroShoesId = 0,
+            heroShieldId = 0, heroBeltId = 0,
+            heroHelmetId = 0, heroWeaponId = 0, heroRingId1 = 0,
+            heroRingId2 = 0, heroAmuletId = 0, heroCurrentHp = 0.0,
+            heroName = "mercenary1", heroSpeed = 34, heroStrenght = 25, heroVitality = 16,
+            critical = 4)
+
+
+        if (user != null) {
+            database.collection("users").document(user.uid).collection("userData").
+            document("Mercenaries Data").collection("mercenary3").document("Data").set(heroData3)
+
+
+                .addOnCompleteListener {
+
+
+                }
+        }
+
+
+
+
+        var heroData4 = mercenary(heroArmorId = 0,
+            heroRobeId = 0, heroGloveId = 0, heroShoesId = 0,
+            heroShieldId = 0, heroBeltId = 0,
+            heroHelmetId = 0, heroWeaponId = 0, heroRingId1 = 0,
+            heroRingId2 = 0, heroAmuletId = 0, heroCurrentHp = 0.0,
+            heroName = "mercenary1", heroSpeed = 34, heroStrenght = 25, heroVitality = 16,
+            critical = 4)
+
+
+        if (user != null) {
+            database.collection("users").document(user.uid).collection("userData").
+            document("Mercenaries Data").collection("mercenary4").document("Data").set(heroData4)
+
+
+                .addOnCompleteListener {
+
+
+                }
+        }
+
+
+
+
+
+
+    }
+
 
 
 
@@ -232,7 +341,7 @@ class heroAvatarActivity : AppCompatActivity() {
             heroInventorySlot3 = 0, heroInventorySlot4 = 0,
             heroInventorySlot5 = 0, heroGold = 0, heroRingId1 = 0,
             heroRingId2 = 0, heroAmuletId = 0, hardSkin = 0, heroCurrentHp = 100.0, heroCurrentMana = 100,
-        heroName = heroNameTxt, heroSpeed = 5, heroStrenght = 5, heroVitality = 10, heroMana = 5)
+        heroName = heroNameTxt, heroSpeed = 10, heroStrenght = 10, heroVitality = 10, heroMana = 10, itemWeaponDamage = 3.0)
 
 
         if (user != null) {

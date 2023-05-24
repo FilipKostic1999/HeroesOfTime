@@ -1,5 +1,6 @@
 package com.example.heroesoftime
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -159,8 +160,28 @@ class heroViewActivity : AppCompatActivity() {
 
 
 
+    var savedMArmor = 0
+    var savedMRobe = 0
+    var savedMGloves = 0
+    var savedMShoes = 0
+    var savedMShield = 0
+    var savedMBelt = 0
+    var savedMHelmet = 0
+    var savedMWeapon = 0
+    var savedMRing1 = 0
+    var savedMRing2 = 0
+    var savedMAmulet = 0
+
+
+
     var selectedSlotInShopView = 0
     var selectedItemInShopPrice = 0
+
+
+    lateinit var m1Btn : Button
+    lateinit var m2Btn : Button
+    lateinit var m3Btn : Button
+    lateinit var m4Btn : Button
 
 
 
@@ -242,6 +263,26 @@ class heroViewActivity : AppCompatActivity() {
         inventorySlot4 = findViewById(R.id.inventorySlot4)
         inventorySlot5 = findViewById(R.id.inventorySlot5)
 
+
+        heroArmorSlot = findViewById(R.id.heroArmorSlot)
+        heroHelmetSlot = findViewById(R.id.heroHelmetSlot)
+        heroBeltSlot = findViewById(R.id.heroBeltSlot)
+        heroShoesSlot = findViewById(R.id.heroShoesSlot)
+        heroRobeSlot = findViewById(R.id.heroRobeSlot)
+        heroShieldSlot = findViewById(R.id.heroShieldSlot)
+        heroGloveSlot = findViewById(R.id.heroesGloveSlot)
+        heroWeaponSlot = findViewById(R.id.heroWeaponSlot)
+        heroRingSlot1 = findViewById(R.id.heroRingSlot1)
+        heroRingSlot2 = findViewById(R.id.heroRingSlot2)
+        heroAmuletSlot = findViewById(R.id.heroAmuletSlot)
+
+
+
+        m1Btn = findViewById(R.id.m1Btn)
+        m2Btn = findViewById(R.id.m2Btn)
+        m3Btn = findViewById(R.id.m3Btn)
+        m4Btn = findViewById(R.id.m4Btn)
+
         armorTxt = findViewById(R.id.armorTxt)
         vitalityTxt = findViewById(R.id.vitalityTxt)
         speedTxt = findViewById(R.id.speedTxt)
@@ -276,6 +317,11 @@ class heroViewActivity : AppCompatActivity() {
         equipButton.isEnabled = false
 
 
+        val sharedCh = getSharedPreferences("Ch", AppCompatActivity.MODE_PRIVATE)
+        var Ch = sharedCh.getInt("Ch", 1)
+
+
+
 
         listAllItems()
 
@@ -289,22 +335,23 @@ class heroViewActivity : AppCompatActivity() {
 
                             savedDataOfUser = document.toObject()!!
 
-                            savedHeroGold = savedDataOfUser.heroGold
 
-                            savedHeroArmor = savedDataOfUser.heroArmorId
-                            savedHeroRobe = savedDataOfUser.heroRobeId
-                            savedHeroGloves = savedDataOfUser.heroGloveId
-                            savedHeroShoes = savedDataOfUser.heroShoesId
-                            savedHeroShield = savedDataOfUser.heroShieldId
-                            savedHeroBelt = savedDataOfUser.heroBeltId
-                            savedHeroHelmet = savedDataOfUser.heroHelmetId
-                            savedHeroWeapon = savedDataOfUser.heroWeaponId
-                            savedHeroRing1 = savedDataOfUser.heroRingId1
-                            savedHeroRing2 = savedDataOfUser.heroRingId2
-                            savedHeroAmulet = savedDataOfUser.heroAmuletId
+                                savedHeroGold = savedDataOfUser.heroGold
 
-                            savedHeroLevel = savedDataOfUser.heroLevel
-                            savedHeroImage = savedDataOfUser.heroIconId
+                                savedHeroArmor = savedDataOfUser.heroArmorId
+                                savedHeroRobe = savedDataOfUser.heroRobeId
+                                savedHeroGloves = savedDataOfUser.heroGloveId
+                                savedHeroShoes = savedDataOfUser.heroShoesId
+                                savedHeroShield = savedDataOfUser.heroShieldId
+                                savedHeroBelt = savedDataOfUser.heroBeltId
+                                savedHeroHelmet = savedDataOfUser.heroHelmetId
+                                savedHeroWeapon = savedDataOfUser.heroWeaponId
+                                savedHeroRing1 = savedDataOfUser.heroRingId1
+                                savedHeroRing2 = savedDataOfUser.heroRingId2
+                                savedHeroAmulet = savedDataOfUser.heroAmuletId
+
+                                savedHeroLevel = savedDataOfUser.heroLevel
+                                savedHeroImage = savedDataOfUser.heroIconId
 
                             savedHeroInventorySlot1 = savedDataOfUser.heroInventorySlot1
                             savedHeroInventorySlot2 = savedDataOfUser.heroInventorySlot2
@@ -324,9 +371,86 @@ class heroViewActivity : AppCompatActivity() {
 
 
 
+
+        if (user != null) {
+
+            database.collection("users").document(user.uid).collection("userData").
+            document("Mercenaries Data").collection("mercenary1")
+                .addSnapshotListener { snapshot, e ->
+                    if (snapshot != null) {
+                        for (document in snapshot.documents) {
+
+                            savedDataOfUser = document.toObject()!!
+
+                            if (Ch == 2) {
+
+                                savedMArmor = savedDataOfUser.heroArmorId
+                                savedMRobe = savedDataOfUser.heroRobeId
+                                savedMGloves = savedDataOfUser.heroGloveId
+                                savedMShoes = savedDataOfUser.heroShoesId
+                                savedMShield = savedDataOfUser.heroShieldId
+                                savedMBelt = savedDataOfUser.heroBeltId
+                                savedMHelmet = savedDataOfUser.heroHelmetId
+                                savedMWeapon = savedDataOfUser.heroWeaponId
+                                savedMRing1 = savedDataOfUser.heroRingId1
+                                savedMRing2 = savedDataOfUser.heroRingId2
+                                savedMAmulet = savedDataOfUser.heroAmuletId
+
+                            }
+
+
+
+                            showMercenaryItems()   // always update the view ifs when new items are added in game
+                            showHeroInventory()  // always update the view ifs when new items are added in game
+
+
+                        }
+                    }
+                }
+        }
+
+
+
+
+
+
+
+
+
+
+        m1Btn.setOnClickListener {
+            Ch = 2
+
+            val editCh = sharedCh.edit()
+            editCh.putInt("Ch", Ch)
+            editCh.commit()
+
+            val intent = Intent(this, heroViewActivity :: class.java)
+            startActivity(intent)
+        }
+
+
+        m2Btn.setOnClickListener {
+
+        }
+
+
+        m3Btn.setOnClickListener {
+
+        }
+
+
+        m4Btn.setOnClickListener {
+
+        }
+
+
+
+
         removeButton.setOnClickListener {
 
             moveToIn()    // no updates
+            save()    // no updates
 
             removeButton.isEnabled = false
 
@@ -666,6 +790,39 @@ class heroViewActivity : AppCompatActivity() {
 
 
     }
+
+
+
+
+
+    fun saveM() {
+
+        auth = Firebase.auth
+        val user = auth.currentUser
+
+        var heroData = mercenary(heroArmorId = savedMArmor,
+            heroRobeId = savedMRobe, heroGloveId = savedMGloves, heroShoesId = savedMShoes,
+            heroShieldId = savedMShield, heroBeltId = savedMBelt,
+            heroHelmetId = savedMHelmet, heroWeaponId = savedMWeapon, heroRingId1 = savedMRing1,
+            heroRingId2 = savedMRing2, heroAmuletId = savedMAmulet)
+
+
+        if (user != null) {
+            database.collection("users").document(user.uid).collection("userData").
+            document("Hero").set(heroData)
+
+
+                .addOnCompleteListener {
+
+
+                }
+        }
+
+
+
+    }
+
+
 
 
 
@@ -1399,6 +1556,220 @@ class heroViewActivity : AppCompatActivity() {
 
 
     }
+
+
+
+
+
+
+    fun showMercenaryItems() {
+
+        // snapshot saved items that hero is wearing
+
+
+
+
+        var savedArmor = savedMArmor
+        var savedRobe = savedMRobe
+        var savedGloves = savedMGloves
+        var savedShoes = savedMShoes
+        var savedShield = savedMShield
+        var savedBelt = savedMBelt
+        var savedHelmet = savedMHelmet
+        var savedRing1 = savedMRing1
+        var savedRing2 = savedMRing2
+        var savedAmulet = savedMAmulet
+        var savedWeapon = savedMWeapon
+
+
+
+
+        for (item in listOfAllArmors) {
+            if (item.itemId == savedArmor) {
+                heroArmorSlotAtributes = armorClass(item.itemId, item.armorName, item.armor, item.vitality,
+                    item.speed, item.mana, item.strenght, item.price, item.typeItem)
+            }
+            if (item.itemId == savedRobe) {
+                heroRobeSlotAtributes = armorClass(item.itemId, item.armorName, item.armor, item.vitality,
+                    item.speed, item.mana, item.strenght, item.price, item.typeItem)
+            }
+            if (item.itemId == savedGloves) {
+                heroGloveSlotAtributes = armorClass(item.itemId, item.armorName, item.armor, item.vitality,
+                    item.speed, item.mana, item.strenght, item.price, item.typeItem)
+            }
+            if (item.itemId == savedShoes) {
+                heroShoesSlotAtributes = armorClass(item.itemId, item.armorName, item.armor, item.vitality,
+                    item.speed, item.mana, item.strenght, item.price, item.typeItem)
+            }
+            if (item.itemId == savedShield) {
+                heroShieldSlotAtributes = armorClass(item.itemId, item.armorName, item.armor, item.vitality,
+                    item.speed, item.mana, item.strenght, item.price, item.typeItem)
+            }
+            if (item.itemId == savedBelt) {
+                heroBeltSlotAtributes = armorClass(item.itemId, item.armorName, item.armor, item.vitality,
+                    item.speed, item.mana, item.strenght, item.price, item.typeItem)
+            }
+            if (item.itemId == savedHelmet) {
+                heroHelmetSlotAtributes = armorClass(item.itemId, item.armorName, item.armor, item.vitality,
+                    item.speed, item.mana, item.strenght, item.price, item.typeItem)
+            }
+
+        }
+
+
+        for (item in listOfAllRings) {
+
+            if (item.itemId == savedRing1) {
+                heroRingSlot1Attributes = armorClass(item.itemId, item.armorName, item.armor, item.vitality,
+                    item.speed, item.mana, item.strenght, item.price, item.typeItem)
+            }
+            if (item.itemId == savedRing2) {
+                heroRingSlot2Attributes = armorClass(item.itemId, item.armorName, item.armor, item.vitality,
+                    item.speed, item.mana, item.strenght, item.price, item.typeItem)
+            }
+
+        }
+
+
+        for (item in listOfAllAmulets) {
+
+            if (item.itemId == savedAmulet) {
+                heroAmuletSlotAttributes = armorClass(item.itemId, item.armorName, item.armor, item.vitality,
+                    item.speed, item.mana, item.strenght, item.price, item.typeItem)
+            }
+
+        }
+
+
+        for (item in listOfAllWeapons) {
+            if (item.itemId == savedWeapon) {
+                heroWeaponSlotAtributes = weaponClass(
+                    item.itemId, item.weaponName, item.damage, item.vitality,
+                    item.speed, item.mana, item.strenght, item.price, item.typeItem)
+            }
+        }
+
+
+        if (savedArmor in 1..4) {
+            heroArmorSlot.setImageResource(R.drawable.leatherarmor)
+        } else if (savedArmor in 5..6) {
+            heroArmorSlot.setImageResource(R.drawable.rareleatherarmor)
+        } else if (savedArmor == 0) {
+            heroArmorSlot.setImageResource(R.drawable.foursquare)
+        }
+
+        if (savedRobe in 7..10) {
+            heroRobeSlot.setImageResource(R.drawable.leatherrobe)
+        } else if (savedRobe in 11..12) {
+            heroRobeSlot.setImageResource(R.drawable.rareleatherrobe)
+        } else if (savedRobe == 0) {
+            heroRobeSlot.setImageResource(R.drawable.foursquare)
+        }
+
+        if (savedGloves in 13..16) {
+            heroGloveSlot.setImageResource(R.drawable.leathergloves)
+        } else if (savedGloves in 17..18) {
+            heroGloveSlot.setImageResource(R.drawable.rareleathergloves)
+        } else if (savedGloves == 0) {
+            heroGloveSlot.setImageResource(R.drawable.foursquare)
+        }
+
+        if (savedShoes in 19..22) {
+            heroShoesSlot.setImageResource(R.drawable.leathershoes)
+        } else if (savedShoes in 23..24) {
+            heroShoesSlot.setImageResource(R.drawable.rareleathershoes)
+        } else if (savedShoes == 0) {
+            heroShoesSlot.setImageResource(R.drawable.foursquare)
+        }
+
+        if (savedShield in 25..28) {
+            heroShieldSlot.setImageResource(R.drawable.leathershield)
+        } else if (savedShield in 29..30) {
+            heroShieldSlot.setImageResource(R.drawable.rareleathershield)
+        } else if (savedShield == 0) {
+            heroShieldSlot.setImageResource(R.drawable.foursquare)
+        }
+
+        if (savedBelt in 31..34) {
+            heroBeltSlot.setImageResource(R.drawable.leatherbelt)
+        } else if (savedBelt in 35..36) {
+            heroBeltSlot.setImageResource(R.drawable.rareleatherbelt)
+        } else if (savedBelt == 0) {
+            heroBeltSlot.setImageResource(R.drawable.foursquare)
+        }
+
+        if (savedHelmet in 37..40) {
+            heroHelmetSlot.setImageResource(R.drawable.leatherhat)
+        } else if (savedHelmet in 41..42) {
+            heroHelmetSlot.setImageResource(R.drawable.rareleatherhat)
+        } else if (savedHelmet == 0) {
+            heroHelmetSlot.setImageResource(R.drawable.foursquare)
+        }
+
+        if (savedRing1 in 57..59) {
+            heroRingSlot1.setImageResource(R.drawable.pinkring)
+        } else if (savedRing1 in 60..61) {
+            heroRingSlot1.setImageResource(R.drawable.rarepinkring)
+        } else if (savedRing1 == 0) {
+            heroRingSlot1.setImageResource(R.drawable.onesquare)
+        }
+
+        if (savedRing2 in 57..59) {
+            heroRingSlot2.setImageResource(R.drawable.pinkring)
+        } else if (savedRing2 in 60..61) {
+            heroRingSlot2.setImageResource(R.drawable.rarepinkring)
+        } else if (savedRing2 == 0) {
+            heroRingSlot2.setImageResource(R.drawable.onesquare)
+        }
+
+        if (savedAmulet in 62..64) {
+            heroAmuletSlot.setImageResource(R.drawable.amulet)
+        } else if (savedAmulet in 65..66) {
+            heroAmuletSlot.setImageResource(R.drawable.rareamulet)
+        } else if (savedAmulet == 0) {
+            heroAmuletSlot.setImageResource(R.drawable.onesquare)
+        }
+
+
+        if (savedWeapon in 43..45) {
+            heroWeaponSlot.setImageResource(R.drawable.knife)
+        }
+
+        if (savedWeapon in 46..47) {
+            heroWeaponSlot.setImageResource(R.drawable.bow)
+        }
+
+        if (savedWeapon == 48) {
+            heroWeaponSlot.setImageResource(R.drawable.rareknife)
+        }
+
+        if (savedWeapon == 49) {
+            heroWeaponSlot.setImageResource(R.drawable.strongbow)
+        }
+
+        if (savedWeapon == 50) {
+            heroWeaponSlot.setImageResource(R.drawable.strongwarknife)
+        }
+
+        if (savedWeapon == 51) {
+            heroWeaponSlot.setImageResource(R.drawable.sword)
+        }
+
+        if (savedWeapon in 52..54) {
+            heroWeaponSlot.setImageResource(R.drawable.throwingknives)
+        }
+
+        if (savedWeapon in 55..56) {
+            heroWeaponSlot.setImageResource(R.drawable.warknife)
+        }
+
+        if (savedWeapon == 0) {
+            heroWeaponSlot.setImageResource(R.drawable.foursquare)
+        }
+
+
+    }
+
 
 
 
@@ -2329,7 +2700,6 @@ class heroViewActivity : AppCompatActivity() {
 
 
 
-        save()
 
         isButtonLogicActive = true
 

@@ -1,9 +1,11 @@
 package com.example.heroesoftime
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
@@ -14,6 +16,10 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.round
@@ -34,7 +40,7 @@ class battleView : AppCompatActivity() {
 
 
     var hero = character(100.0, 10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
-    var boar = character(100.0, 18.0, 100.0, 9.0, 50.0, 50.0, 0.0, 0.0)
+    var boar = character(100.0, 18.0, 100.0, 40.0, 50.0, 50.0, 0.0, 0.0)
 
     var randomCh = 0
 
@@ -64,6 +70,7 @@ class battleView : AppCompatActivity() {
     lateinit var mercenary2HpTxt: TextView
     lateinit var mercenary3HpTxt: TextView
     lateinit var mercenary4HpTxt: TextView
+    lateinit var statsText:  TextView
 
     lateinit var enemy1HpTxt: TextView
     lateinit var enemy2HpTxt: TextView
@@ -84,6 +91,10 @@ class battleView : AppCompatActivity() {
     lateinit var enemy5 : ImageView
 
 
+    lateinit var backBtn: Button
+    lateinit var fightAgainBtn: Button
+
+
     var savedHeroTotalArmor = 0.0
     var savedHeroVitality = 5
     var savedHeroStrenght = 5
@@ -98,9 +109,17 @@ class battleView : AppCompatActivity() {
     var savedHeroTemerary = 0
     var savedHeroDestructiveSpirit = 0
     var savedHeroHardSkin = 0
+    var itemsVitality = 0.0
+    var itemsStrenght = 0.0
+    var itemsSpeed = 0.0
+    var itemsMana = 0.0
+    var itemDamage = 0.0
+    var heroCurrentHp = 0.0
 
 
     var armorCoeficent = 0.0
+    var location = 0
+    var goldVictory = 0
 
 
 
@@ -154,6 +173,7 @@ class battleView : AppCompatActivity() {
         mercenary2HpTxt = findViewById(R.id.mercenary2Txt)
         mercenary3HpTxt = findViewById(R.id.mercenary3Txt)
         mercenary4HpTxt = findViewById(R.id.mercenary4Txt)
+        statsText = findViewById(R.id.statsText)
         enemy1HpTxt = findViewById(R.id.enemy1HpTxt)
         enemy2HpTxt = findViewById(R.id.enemy2HpTxt)
         enemy3HpTxt = findViewById(R.id.enemy3HpTxt)
@@ -172,6 +192,9 @@ class battleView : AppCompatActivity() {
         enemy4 = findViewById(R.id.enemy4)
         enemy5 = findViewById(R.id.enemy5)
 
+        backBtn = findViewById(R.id.backBtn)
+        fightAgainBtn = findViewById(R.id.fightAgainBtn)
+
 
 
 
@@ -181,22 +204,42 @@ class battleView : AppCompatActivity() {
 
 
 
+        statsText.isVisible = false
         mercenary1DungeonImg.isVisible = false
         mercenary2DungeonImg.isVisible = false
         mercenary3DungeonImg.isVisible = false
         mercenary4DungeonImg.isVisible = false
+        mercenary1HpTxt.isVisible = false
+        mercenary2HpTxt.isVisible = false
+        mercenary3HpTxt.isVisible = false
+        mercenary4HpTxt.isVisible = false
 
         enemy2.isVisible = false
         enemy3.isVisible = false
         enemy4.isVisible = false
         enemy5.isVisible = false
+        enemy2HpTxt.isVisible = false
+        enemy3HpTxt.isVisible = false
+        enemy4HpTxt.isVisible = false
+        enemy5HpTxt.isVisible = false
+
+        backBtn.isVisible = false
+        backBtn.isEnabled = false
+        fightAgainBtn.isVisible = false
+        fightAgainBtn.isEnabled = false
+
+
+
+
+        val sharedLocation = getSharedPreferences("Location", AppCompatActivity.MODE_PRIVATE)
+        var Location = sharedLocation.getInt("Location", 0)
+
+
+        location = Location
 
 
 
         setDungeon()
-
-
-
 
 
 
@@ -247,6 +290,14 @@ class battleView : AppCompatActivity() {
                             savedHeroStrenght = savedDataOfUser.heroStrenght
                             savedHeroSpeed = savedDataOfUser.heroSpeed
                             savedHeroMana = savedDataOfUser.heroMana
+
+                            savedHeroTotalArmor = savedDataOfUser.heroTotalArmor
+                            itemsVitality = savedDataOfUser.itemsAddedVitality
+                            itemsStrenght = savedDataOfUser.itemsAddedStrenght
+                            itemsSpeed = savedDataOfUser.itemsAddedSpeed
+                            itemsMana = savedDataOfUser.itemsAddedMana
+                            itemDamage = savedDataOfUser.itemWeaponDamage
+                            heroCurrentHp = savedDataOfUser.heroCurrentHp
 
 
                             // apply armor to hero and mercenaries
@@ -333,6 +384,20 @@ class battleView : AppCompatActivity() {
                             enemy1HpTxt.text = "${listOfTeam2[0].hp.roundToInt()} HP"
 
 
+                            if (savedHeroImage == 1) {
+                                heroDungeonImg.setImageResource(R.drawable.malewarrior)
+                            } else if (savedHeroImage == 2) {
+                                heroDungeonImg.setImageResource(R.drawable.femaleasassin)
+                            } else if (savedHeroImage == 3) {
+                                heroDungeonImg.setImageResource(R.drawable.femalewarrior)
+                            } else if (savedHeroImage == 4) {
+                                heroDungeonImg.setImageResource(R.drawable.hatavatar)
+                            } else if (savedHeroImage == 5) {
+                                heroDungeonImg.setImageResource(R.drawable.maleadventurer)
+                            }
+
+
+
 
 
                             snapshotAllow = true
@@ -400,6 +465,23 @@ class battleView : AppCompatActivity() {
                             }
 
 
+                            if (isTeam1Dead) {
+                                isTimerActive = true
+                                backBtn.isVisible = true
+                                backBtn.isEnabled = true
+                                fightAgainBtn.isVisible = true
+                                fightAgainBtn.isEnabled = true
+                            } else if (isTeam2Dead) {
+                                isTimerActive = true
+                                backBtn.isVisible = true
+                                backBtn.isEnabled = true
+                                fightAgainBtn.isVisible = true
+                                fightAgainBtn.isEnabled = true
+                            }
+
+
+
+
                         }
                     }
                 }
@@ -408,8 +490,53 @@ class battleView : AppCompatActivity() {
 
 
 
+        enemy1.setOnClickListener {
+            statsText.text = "HP: ${listOfTeam2[0].hp.roundToInt()}, Damage: ${listOfTeam2[0].damage.roundToInt()}, Speed: ${listOfTeam2[0].speed.roundToInt()}," +
+                    " Armor: ${listOfTeam2[0].totalArmor.roundToInt()}"
+            statsText.isVisible = true
+        }
 
 
+        enemy2.setOnClickListener {
+            statsText.text = "HP: ${listOfTeam2[1].hp.roundToInt()}, Damage: ${listOfTeam2[1].damage.roundToInt()}, Speed: ${listOfTeam2[1].speed.roundToInt()}," +
+                    " Armor: ${listOfTeam2[1].totalArmor.roundToInt()}"
+            statsText.isVisible = true
+        }
+
+
+        enemy3.setOnClickListener {
+            statsText.text = "HP: ${listOfTeam2[2].hp.roundToInt()}, Damage: ${listOfTeam2[2].damage.roundToInt()}, Speed: ${listOfTeam2[2].speed.roundToInt()}," +
+                    " Armor: ${listOfTeam2[2].totalArmor.roundToInt()}"
+            statsText.isVisible = true
+        }
+
+
+        enemy4.setOnClickListener {
+            statsText.text = "HP: ${listOfTeam2[3].hp.roundToInt()}, Damage: ${listOfTeam2[3].damage.roundToInt()}, Speed: ${listOfTeam2[3].speed.roundToInt()}," +
+                    " Armor: ${listOfTeam2[3].totalArmor.roundToInt()}"
+            statsText.isVisible = true
+        }
+
+
+
+        enemy5.setOnClickListener {
+            statsText.text = "HP: ${listOfTeam2[4].hp.roundToInt()}, Damage: ${listOfTeam2[4].damage.roundToInt()}, Speed: ${listOfTeam2[4].speed.roundToInt()}," +
+                    " Armor: ${listOfTeam2[4].totalArmor.roundToInt()}"
+            statsText.isVisible = true
+        }
+
+
+
+        backBtn.setOnClickListener {
+            val intent = Intent(this, villageOfHopeMapActivity :: class.java)
+            startActivity(intent)
+        }
+
+
+        fightAgainBtn.setOnClickListener {
+            val intent = Intent(this, battleView :: class.java)
+            startActivity(intent)
+        }
 
 
 
@@ -417,10 +544,11 @@ class battleView : AppCompatActivity() {
         var isWarriorSpiritActive = true
 
 
+        val scope = CoroutineScope(Dispatchers.Default)
 
+        scope.launch {
+            while (!isTeam1Dead && !isTeam2Dead) {
 
-        Timer().scheduleAtFixedRate(object : TimerTask() {
-            override fun run() {
 
                 starter ++
 
@@ -549,7 +677,6 @@ class battleView : AppCompatActivity() {
                     }
 
 
-
                     heroHp = listOfTeam1[0].hp
                     mercenary1Hp = listOfTeam1[1].hp
                     mercenary2Hp = listOfTeam1[2].hp
@@ -581,19 +708,86 @@ class battleView : AppCompatActivity() {
                         updateHp()
                     }
 
+
                     if (isTeam1Dead) {
                         isTimerActive = false
-                    } else if (isTeam2Dead) {
+                    }
+
+                    if (isTeam2Dead) {
                         isTimerActive = false
+                        victoryGold()
+                        save()
                     }
 
 
                 }
+                delay(2000L) // Delay of 1000ms (1 second)
             }
-        }, 0, 2000)
+        }
+
 
 
     }
+
+
+
+    fun victoryGold() {
+
+
+        if (isTeam2Dead) {
+            savedHeroGold += goldVictory
+        }
+
+
+
+
+    }
+
+
+
+
+    fun save() {
+
+
+
+        auth = Firebase.auth
+        val user = auth.currentUser
+
+
+        heroCurrentHp = listOfTeam1[0].hp
+
+
+        var heroData = heroDataClass(heroIconId = savedHeroImage, heroLevel = savedHeroLevel, heroExperience = 1, heroArmorId = savedHeroArmor,
+            heroRobeId = savedHeroRobe, heroGloveId = savedHeroGloves, heroShoesId = savedHeroShoes,
+            heroShieldId = savedHeroShield, heroBeltId = savedHeroBelt,
+            heroHelmetId = savedHeroHelmet, heroWeaponId = savedHeroWeapon,
+            heroInventorySlot1 = savedHeroInventorySlot1, heroInventorySlot2 = savedHeroInventorySlot2,
+            heroInventorySlot3 = savedHeroInventorySlot3, heroInventorySlot4 = savedHeroInventorySlot4,
+            heroInventorySlot5 = savedHeroInventorySlot5, heroGold = savedHeroGold, heroRingId1 = savedHeroRing1,
+            heroRingId2 = savedHeroRing2, heroAmuletId = savedHeroAmulet, heroTotalArmor = savedHeroTotalArmor,
+            itemsAddedVitality = itemsVitality, itemsAddedStrenght = itemsStrenght, itemsAddedSpeed = itemsSpeed,
+            itemsAddedMana = itemsMana, itemWeaponDamage = itemDamage, heroCurrentHp = heroCurrentHp,
+            heroVitality = savedHeroVitality, heroStrenght = savedHeroStrenght, heroSpeed = savedHeroSpeed,
+        heroMana = savedHeroMana, hardSkin = savedHeroHardSkin)
+
+
+        if (user != null) {
+            database.collection("users").document(user.uid).collection("userData").
+            document("Hero").set(heroData)
+
+
+                .addOnCompleteListener {
+
+
+                }
+        }
+
+
+
+    }
+
+
+
 
 
     fun setDungeon() {
@@ -609,18 +803,22 @@ class battleView : AppCompatActivity() {
 
         if (listOfTeam1[1].hp > 0) {
             mercenary1DungeonImg.isVisible = true
+            mercenary1HpTxt.isVisible = true
         }
 
         if (listOfTeam1[2].hp > 0) {
             mercenary2DungeonImg.isVisible = true
+            mercenary2HpTxt.isVisible = true
         }
 
         if (listOfTeam1[3].hp > 0) {
             mercenary3DungeonImg.isVisible = true
+            mercenary3HpTxt.isVisible = true
         }
 
         if (listOfTeam1[4].hp > 0) {
             mercenary4DungeonImg.isVisible = true
+            mercenary4HpTxt.isVisible = true
         }
 
 
@@ -628,27 +826,42 @@ class battleView : AppCompatActivity() {
 
         // enemies of forest dungeon
 
-        listOfTeam2.add(boar)
-        enemy1.setImageResource(R.drawable.snalboar)
-        listOfTeam2.add(character11)
-        listOfTeam2.add(character22)
-        listOfTeam2.add(character33)
-        listOfTeam2.add(character44)
+        if (location == 1) {
+            listOfTeam2.add(boar)
+            enemy1.setImageResource(R.drawable.snalboar)
+            listOfTeam2.add(character11)
+            listOfTeam2.add(character22)
+            listOfTeam2.add(character33)
+            listOfTeam2.add(character44)
+                goldVictory = 1
+        }
+
+
+
+
+
+
+
+
 
         if (listOfTeam2[1].hp > 0) {
             enemy2.isVisible = true
+            enemy2HpTxt.isVisible = true
         }
 
         if (listOfTeam2[2].hp > 0) {
             enemy3.isVisible = true
+            enemy3HpTxt.isVisible = true
         }
 
         if (listOfTeam2[3].hp > 0) {
             enemy4.isVisible = true
+            enemy4HpTxt.isVisible = true
         }
 
         if (listOfTeam2[4].hp > 0) {
             enemy5.isVisible = true
+            enemy5HpTxt.isVisible = true
         }
 
 
