@@ -171,6 +171,7 @@ class heroViewActivity : AppCompatActivity() {
     var savedMRing1 = 0
     var savedMRing2 = 0
     var savedMAmulet = 0
+    var ChS = 0
 
 
 
@@ -216,6 +217,7 @@ class heroViewActivity : AppCompatActivity() {
 
     lateinit var equipButton : Button
     lateinit var removeButton : Button
+    lateinit var heroBtn : Button
 
 
 
@@ -293,6 +295,7 @@ class heroViewActivity : AppCompatActivity() {
 
         equipButton = findViewById(R.id.equipButton)
         removeButton = findViewById(R.id.removeButton)
+        heroBtn = findViewById(R.id.heroBtn)
 
 
 
@@ -360,8 +363,11 @@ class heroViewActivity : AppCompatActivity() {
                             savedHeroInventorySlot5 = savedDataOfUser.heroInventorySlot5
 
 
-                            showHeroItems()   // always update the view ifs when new items are added in game
-                            showHeroInventory()  // always update the view ifs when new items are added in game
+                            if (Ch == 1) {
+                                showHeroItems()   // always update the view ifs when new items are added in game
+                                showHeroInventory()  // always update the view ifs when new items are added in game
+                            }
+
 
 
                         }
@@ -370,19 +376,21 @@ class heroViewActivity : AppCompatActivity() {
         }
 
 
+        var ChSelector = Ch - 1
+        ChS = Ch - 1
 
 
         if (user != null) {
 
             database.collection("users").document(user.uid).collection("userData").
-            document("Mercenaries Data").collection("mercenary1")
+            document("Mercenaries Data").collection("mercenary$ChSelector")
                 .addSnapshotListener { snapshot, e ->
                     if (snapshot != null) {
                         for (document in snapshot.documents) {
 
                             savedDataOfUser = document.toObject()!!
 
-                            if (Ch == 2) {
+                            if (Ch >= 2) {
 
                                 savedMArmor = savedDataOfUser.heroArmorId
                                 savedMRobe = savedDataOfUser.heroRobeId
@@ -396,12 +404,14 @@ class heroViewActivity : AppCompatActivity() {
                                 savedMRing2 = savedDataOfUser.heroRingId2
                                 savedMAmulet = savedDataOfUser.heroAmuletId
 
+
+
+
+
+
+                                showMercenaryItems()   // always update the view ifs when new items are added in game
+                                showHeroInventory()  // always update the view ifs when new items are added in game
                             }
-
-
-
-                            showMercenaryItems()   // always update the view ifs when new items are added in game
-                            showHeroInventory()  // always update the view ifs when new items are added in game
 
 
                         }
@@ -412,6 +422,19 @@ class heroViewActivity : AppCompatActivity() {
 
 
 
+
+
+
+        heroBtn.setOnClickListener {
+            Ch = 1
+
+            val editCh = sharedCh.edit()
+            editCh.putInt("Ch", Ch)
+            editCh.commit()
+
+            val intent = Intent(this, heroViewActivity :: class.java)
+            startActivity(intent)
+        }
 
 
 
@@ -431,17 +454,38 @@ class heroViewActivity : AppCompatActivity() {
 
 
         m2Btn.setOnClickListener {
+            Ch = 3
 
+            val editCh = sharedCh.edit()
+            editCh.putInt("Ch", Ch)
+            editCh.commit()
+
+            val intent = Intent(this, heroViewActivity :: class.java)
+            startActivity(intent)
         }
 
 
         m3Btn.setOnClickListener {
+            Ch = 4
 
+            val editCh = sharedCh.edit()
+            editCh.putInt("Ch", Ch)
+            editCh.commit()
+
+            val intent = Intent(this, heroViewActivity :: class.java)
+            startActivity(intent)
         }
 
 
         m4Btn.setOnClickListener {
+            Ch = 5
 
+            val editCh = sharedCh.edit()
+            editCh.putInt("Ch", Ch)
+            editCh.commit()
+
+            val intent = Intent(this, heroViewActivity :: class.java)
+            startActivity(intent)
         }
 
 
@@ -449,8 +493,15 @@ class heroViewActivity : AppCompatActivity() {
 
         removeButton.setOnClickListener {
 
-            moveToIn()    // no updates
-            save()    // no updates
+            if (Ch == 1) {
+                moveToIn()    // no updates
+                save()    // no updates
+            } else if (Ch >= 2) {
+                moveMinv()    // no updates
+                saveM()     // no updates
+                save()
+            }
+
 
             removeButton.isEnabled = false
 
@@ -461,9 +512,15 @@ class heroViewActivity : AppCompatActivity() {
 
         equipButton.setOnClickListener {
 
-            equip()  // no updates
+            if (Ch == 1) {
+                equip()  // no updates
+                save() // no updates
+            } else if (Ch >= 2) {
+                equipM()
+                saveM()
+                save()
+            }
 
-            save() // no updates
 
 
         }
@@ -800,6 +857,7 @@ class heroViewActivity : AppCompatActivity() {
         auth = Firebase.auth
         val user = auth.currentUser
 
+
         var heroData = mercenary(heroArmorId = savedMArmor,
             heroRobeId = savedMRobe, heroGloveId = savedMGloves, heroShoesId = savedMShoes,
             heroShieldId = savedMShield, heroBeltId = savedMBelt,
@@ -809,7 +867,7 @@ class heroViewActivity : AppCompatActivity() {
 
         if (user != null) {
             database.collection("users").document(user.uid).collection("userData").
-            document("Hero").set(heroData)
+            document("Mercenaries Data").collection("mercenary$ChS").document("Data").set(heroData)
 
 
                 .addOnCompleteListener {
@@ -2708,6 +2766,943 @@ class heroViewActivity : AppCompatActivity() {
 
 
     }
+
+
+
+    fun equipM() {
+
+        if (selectedSlotInShopView == 12) {
+
+            if (inventoryAtributesSlot1.typeItem == 1 && savedMArmor == 0) {
+                savedMArmor = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot1.typeItem == 1 && savedMArmor > 0) {
+                val rememberer = savedMArmor
+                savedMArmor = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = rememberer
+            }
+
+            if (inventoryAtributesSlot1.typeItem == 2 && savedMRobe == 0) {
+                savedMRobe = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot1.typeItem == 2 && savedMRobe > 0) {
+                val rememberer = savedMRobe
+                savedMRobe = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = rememberer
+            }
+
+            if (inventoryAtributesSlot1.typeItem == 3 && savedMGloves == 0) {
+                savedMGloves = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot1.typeItem == 3 && savedMGloves > 0) {
+                val rememberer = savedMGloves
+                savedMGloves = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = rememberer
+            }
+
+            if (inventoryAtributesSlot1.typeItem == 4 && savedMShoes == 0) {
+                savedMShoes = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot1.typeItem == 4 && savedMShoes > 0) {
+                val rememberer = savedMShoes
+                savedMShoes = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = rememberer
+            }
+
+            if (inventoryAtributesSlot1.typeItem == 5 && savedMShield == 0) {
+                savedMShield = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot1.typeItem == 5 && savedMShield > 0) {
+                val rememberer = savedMShield
+                savedMShield = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = rememberer
+            }
+
+            if (inventoryAtributesSlot1.typeItem == 6 && savedMBelt == 0) {
+                savedMBelt = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot1.typeItem == 6 && savedMBelt > 0) {
+                val rememberer = savedMBelt
+                savedMBelt = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = rememberer
+            }
+
+            if (inventoryAtributesSlot1.typeItem == 7 && savedMHelmet == 0) {
+                savedMHelmet = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot1.typeItem == 7 && savedMHelmet > 0) {
+                val rememberer = savedMHelmet
+                savedMHelmet = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = rememberer
+            }
+
+            if (inventoryAtributesSlot1.typeItem == 8 && savedMWeapon == 0) {
+                savedMWeapon = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot1.typeItem == 8 && savedMWeapon > 0) {
+                val rememberer = savedMWeapon
+                savedMWeapon = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = rememberer
+            }
+
+            if (inventoryAtributesSlot1.typeItem == 9 && savedMRing1 == 0) {
+                savedMRing1 = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot1.typeItem == 9 && savedMRing1 > 0) {
+                if (savedMRing2 == 0) {
+                    savedMRing2 = inventoryAtributesSlot1.itemId
+                    savedHeroInventorySlot1 = noIdArmor.itemId
+                } else if (savedMRing2 > 0) {
+                    val rememberer = savedMRing1
+                    savedMRing1 = inventoryAtributesSlot1.itemId
+                    savedHeroInventorySlot1 = rememberer
+                }
+
+            }
+
+
+            if (inventoryAtributesSlot1.typeItem == 10 && savedMAmulet == 0) {
+                savedMAmulet = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot1.typeItem == 10 && savedMAmulet > 0) {
+                val rememberer = savedMAmulet
+                savedMAmulet = inventoryAtributesSlot1.itemId
+                savedHeroInventorySlot1 = rememberer
+            }
+
+
+
+
+
+
+
+        } else if (selectedSlotInShopView == 13) {
+
+            if (inventoryAtributesSlot2.typeItem == 1 && savedMArmor == 0) {
+                savedMArmor = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot2.typeItem == 1 && savedMArmor > 0) {
+                val rememberer = savedMArmor
+                savedMArmor = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = rememberer
+            }
+
+            if (inventoryAtributesSlot2.typeItem == 2 && savedMRobe == 0) {
+                savedMRobe = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot2.typeItem == 2 && savedMRobe > 0) {
+                val rememberer = savedMRobe
+                savedMRobe = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = rememberer
+            }
+
+            if (inventoryAtributesSlot2.typeItem == 3 && savedMGloves == 0) {
+                savedMGloves = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot2.typeItem == 3 && savedMGloves > 0) {
+                val rememberer = savedMGloves
+                savedMGloves = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = rememberer
+            }
+
+            if (inventoryAtributesSlot2.typeItem == 4 && savedMShoes == 0) {
+                savedMShoes = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot2.typeItem == 4 && savedMShoes > 0) {
+                val rememberer = savedMShoes
+                savedMShoes = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = rememberer
+            }
+
+            if (inventoryAtributesSlot2.typeItem == 5 && savedMShield == 0) {
+                savedMShield = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot2.typeItem == 5 && savedMShield > 0) {
+                val rememberer = savedMShield
+                savedMShield = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = rememberer
+            }
+
+            if (inventoryAtributesSlot2.typeItem == 6 && savedMBelt == 0) {
+                savedMBelt = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot2.typeItem == 6 && savedMBelt > 0) {
+                val rememberer = savedMBelt
+                savedMBelt = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = rememberer
+            }
+
+            if (inventoryAtributesSlot2.typeItem == 7 && savedMHelmet == 0) {
+                savedMHelmet = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot2.typeItem == 7 && savedMHelmet > 0) {
+                val rememberer = savedMHelmet
+                savedMHelmet = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = rememberer
+            }
+
+            if (inventoryAtributesSlot2.typeItem == 8 && savedMWeapon == 0) {
+                savedMWeapon = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot2.typeItem == 8 && savedMWeapon > 0) {
+                val rememberer = savedMWeapon
+                savedMWeapon = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = rememberer
+            }
+
+
+            if (inventoryAtributesSlot2.typeItem == 9 && savedMRing1 == 0) {
+                savedMRing1 = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot2.typeItem == 9 && savedMRing1 > 0) {
+                if (savedMRing2 == 0) {
+                    savedMRing2 = inventoryAtributesSlot2.itemId
+                    savedHeroInventorySlot2 = noIdArmor.itemId
+                } else if (savedMRing2 > 0) {
+                    val rememberer = savedMRing1
+                    savedMRing1 = inventoryAtributesSlot2.itemId
+                    savedHeroInventorySlot2 = rememberer
+                }
+
+            }
+
+
+
+
+            if (inventoryAtributesSlot2.typeItem == 10 && savedMAmulet == 0) {
+                savedMAmulet = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot2.typeItem == 10 && savedMAmulet > 0) {
+                val rememberer = savedMAmulet
+                savedMAmulet = inventoryAtributesSlot2.itemId
+                savedHeroInventorySlot2 = rememberer
+            }
+
+
+
+        } else if (selectedSlotInShopView == 14) {
+
+            if (inventoryAtributesSlot3.typeItem == 1 && savedMArmor == 0) {
+                savedMArmor = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot3.typeItem == 1 && savedMArmor > 0) {
+                val rememberer = savedMArmor
+                savedMArmor = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = rememberer
+            }
+
+            if (inventoryAtributesSlot3.typeItem == 2 && savedMRobe == 0) {
+                savedMRobe = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot3.typeItem == 2 && savedMRobe > 0) {
+                val rememberer = savedMRobe
+                savedMRobe = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = rememberer
+                Log.d("!!!", "This is the Id of the slots robe: $savedHeroInventorySlot3")
+            }
+
+            if (inventoryAtributesSlot3.typeItem == 3 && savedMGloves == 0) {
+                savedMGloves = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot3.typeItem == 3 && savedMGloves > 0) {
+                val rememberer = savedMGloves
+                savedMGloves = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = rememberer
+            }
+
+            if (inventoryAtributesSlot3.typeItem == 4 && savedMShoes == 0) {
+                savedMShoes = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot3.typeItem == 4 && savedMShoes > 0) {
+                val rememberer = savedMShoes
+                savedMShoes = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = rememberer
+            }
+
+            if (inventoryAtributesSlot3.typeItem == 5 && savedMShield == 0) {
+                savedMShield = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot3.typeItem == 5 && savedMShield > 0) {
+                val rememberer = savedMShield
+                savedMShield = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = rememberer
+            }
+
+            if (inventoryAtributesSlot3.typeItem == 6 && savedMBelt == 0) {
+                savedMBelt = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot3.typeItem == 6 && savedMBelt > 0) {
+                val rememberer = savedMBelt
+                savedMBelt = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = rememberer
+            }
+
+            if (inventoryAtributesSlot3.typeItem == 7 && savedMHelmet == 0) {
+                savedMHelmet = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot3.typeItem == 7 && savedMHelmet > 0) {
+                val rememberer = savedMHelmet
+                savedMHelmet = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = rememberer
+            }
+
+            if (inventoryAtributesSlot3.typeItem == 8 && savedMWeapon == 0) {
+                savedMWeapon = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot3.typeItem == 8 && savedMWeapon > 0) {
+                val rememberer = savedMWeapon
+                savedMWeapon = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = rememberer
+            }
+
+
+            if (inventoryAtributesSlot3.typeItem == 9 && savedMRing1 == 0) {
+                savedMRing1 = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot3.typeItem == 9 && savedMRing1 > 0) {
+                if (savedMRing2 == 0) {
+                    savedMRing2 = inventoryAtributesSlot3.itemId
+                    savedHeroInventorySlot3 = noIdArmor.itemId
+                } else if (savedMRing2 > 0) {
+                    val rememberer = savedMRing1
+                    savedMRing1 = inventoryAtributesSlot3.itemId
+                    savedHeroInventorySlot3 = rememberer
+                }
+
+            }
+
+
+
+
+            if (inventoryAtributesSlot3.typeItem == 10 && savedMAmulet == 0) {
+                savedMAmulet = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot3.typeItem == 10 && savedMAmulet > 0) {
+                val rememberer = savedMAmulet
+                savedMAmulet = inventoryAtributesSlot3.itemId
+                savedHeroInventorySlot3 = rememberer
+            }
+
+
+
+
+        } else if (selectedSlotInShopView == 15) {
+
+            if (inventoryAtributesSlot4.typeItem == 1 && savedMArmor == 0) {
+                savedMArmor = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot4.typeItem == 1 && savedMArmor > 0) {
+                val rememberer = savedMArmor
+                savedMArmor = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = rememberer
+            }
+
+            if (inventoryAtributesSlot4.typeItem == 2 && savedMRobe == 0) {
+                savedMRobe = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot4.typeItem == 2 && savedMRobe > 0) {
+                val rememberer = savedMRobe
+                savedMRobe = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = rememberer
+            }
+
+            if (inventoryAtributesSlot4.typeItem == 3 && savedMGloves == 0) {
+                savedMGloves = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot4.typeItem == 3 && savedMGloves > 0) {
+                val rememberer = savedMGloves
+                savedMGloves = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = rememberer
+            }
+
+            if (inventoryAtributesSlot4.typeItem == 4 && savedMShoes == 0) {
+                savedMShoes = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot4.typeItem == 4 && savedMShoes > 0) {
+                val rememberer = savedMShoes
+                savedMShoes = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = rememberer
+            }
+
+            if (inventoryAtributesSlot4.typeItem == 5 && savedMShield == 0) {
+                savedMShield = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot4.typeItem == 5 && savedMShield > 0) {
+                val rememberer = savedMShield
+                savedMShield = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = rememberer
+            }
+
+            if (inventoryAtributesSlot4.typeItem == 6 && savedMBelt == 0) {
+                savedMBelt = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot4.typeItem == 6 && savedMBelt > 0) {
+                val rememberer = savedMBelt
+                savedMBelt = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = rememberer
+            }
+
+            if (inventoryAtributesSlot4.typeItem == 7 && savedMHelmet == 0) {
+                savedMHelmet = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot4.typeItem == 7 && savedMHelmet > 0) {
+                val rememberer = savedMHelmet
+                savedMHelmet = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = rememberer
+            }
+
+            if (inventoryAtributesSlot4.typeItem == 8 && savedMWeapon == 0) {
+                savedMWeapon = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot4.typeItem == 8 && savedMWeapon > 0) {
+                val rememberer = savedMWeapon
+                savedMWeapon = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = rememberer
+            }
+
+
+            if (inventoryAtributesSlot4.typeItem == 9 && savedMRing1 == 0) {
+                savedMRing1 = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot4.typeItem == 9 && savedMRing1 > 0) {
+                if (savedMRing2 == 0) {
+                    savedMRing2 = inventoryAtributesSlot4.itemId
+                    savedHeroInventorySlot4 = noIdArmor.itemId
+                } else if (savedMRing2 > 0) {
+                    val rememberer = savedMRing1
+                    savedMRing1 = inventoryAtributesSlot4.itemId
+                    savedHeroInventorySlot4 = rememberer
+                }
+
+            }
+
+
+
+            if (inventoryAtributesSlot4.typeItem == 10 && savedMAmulet == 0) {
+                savedMAmulet = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot4.typeItem == 10 && savedMAmulet > 0) {
+                val rememberer = savedMAmulet
+                savedMAmulet = inventoryAtributesSlot4.itemId
+                savedHeroInventorySlot4 = rememberer
+            }
+
+
+
+
+        } else if (selectedSlotInShopView == 16) {
+
+            if (inventoryAtributesSlot5.typeItem == 1 && savedMArmor == 0) {
+                savedMArmor = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot5.typeItem == 1 && savedMArmor > 0) {
+                val rememberer = savedMArmor
+                savedMArmor = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = rememberer
+            }
+
+            if (inventoryAtributesSlot5.typeItem == 2 && savedMRobe == 0) {
+                savedMRobe = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot5.typeItem == 2 && savedMRobe > 0) {
+                val rememberer = savedMRobe
+                savedMRobe = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = rememberer
+            }
+
+            if (inventoryAtributesSlot5.typeItem == 3 && savedMGloves == 0) {
+                savedMGloves = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot5.typeItem == 3 && savedMGloves > 0) {
+                val rememberer = savedMGloves
+                savedMGloves = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = rememberer
+            }
+
+            if (inventoryAtributesSlot5.typeItem == 4 && savedMShoes == 0) {
+                savedMShoes = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot5.typeItem == 4 && savedMShoes > 0) {
+                val rememberer = savedMShoes
+                savedMShoes = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = rememberer
+            }
+
+            if (inventoryAtributesSlot5.typeItem == 5 && savedMShield == 0) {
+                savedMShield = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot5.typeItem == 5 && savedMShield > 0) {
+                val rememberer = savedMShield
+                savedMShield = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = rememberer
+            }
+
+            if (inventoryAtributesSlot5.typeItem == 6 && savedMBelt == 0) {
+                savedMBelt = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot5.typeItem == 6 && savedMBelt > 0) {
+                val rememberer = savedMBelt
+                savedMBelt = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = rememberer
+            }
+
+            if (inventoryAtributesSlot5.typeItem == 7 && savedMHelmet == 0) {
+                savedMHelmet = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot5.typeItem == 7 && savedMHelmet > 0) {
+                val rememberer = savedMHelmet
+                savedMHelmet = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = rememberer
+            }
+
+            if (inventoryAtributesSlot5.typeItem == 8 && savedMWeapon == 0) {
+                savedMWeapon = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot5.typeItem == 8 && savedMWeapon > 0) {
+                val rememberer = savedMWeapon
+                savedMWeapon = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = rememberer
+            }
+
+
+            if (inventoryAtributesSlot5.typeItem == 9 && savedMRing1 == 0) {
+                savedMRing1 = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot5.typeItem == 9 && savedMRing1 > 0) {
+                if (savedMRing2 == 0) {
+                    savedMRing2 = inventoryAtributesSlot5.itemId
+                    savedHeroInventorySlot5 = noIdArmor.itemId
+                } else if (savedMRing2 > 0) {
+                    val rememberer = savedMRing1
+                    savedMRing1 = inventoryAtributesSlot5.itemId
+                    savedHeroInventorySlot5 = rememberer
+                }
+
+            }
+
+
+
+            if (inventoryAtributesSlot5.typeItem == 10 && savedMAmulet == 0) {
+                savedMAmulet = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = noIdArmor.itemId
+            } else if (inventoryAtributesSlot5.typeItem == 10 && savedMAmulet > 0) {
+                val rememberer = savedMAmulet
+                savedMAmulet = inventoryAtributesSlot5.itemId
+                savedHeroInventorySlot5 = rememberer
+            }
+
+
+
+        }
+
+
+
+
+
+
+    }
+
+
+
+
+
+    fun moveMinv() {
+
+
+
+        if (savedHeroInventorySlot1 > 0 && savedHeroInventorySlot2 > 0 && savedHeroInventorySlot3 > 0
+            && savedHeroInventorySlot4 > 0 && savedHeroInventorySlot5 > 0) {
+            Toast.makeText(this, "Your inventory is full!", Toast.LENGTH_SHORT).show()
+        }
+
+
+
+        if (selectedSlotInShopView == 1) {
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedMArmor
+                savedMArmor = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedMArmor
+                savedMArmor = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedMArmor
+                savedMArmor = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedMArmor
+                savedMArmor = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedMArmor
+                savedMArmor = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+        } else if (selectedSlotInShopView == 2) {
+
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedMRobe
+                savedMRobe = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedMRobe
+                savedMRobe = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedMRobe
+                savedMRobe = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedMRobe
+                savedMRobe = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedMRobe
+                savedMRobe = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+        } else if (selectedSlotInShopView == 3) {
+
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedMGloves
+                savedMGloves = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedMGloves
+                savedMGloves = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedMGloves
+                savedMGloves = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedMGloves
+                savedMGloves = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedMGloves
+                savedMGloves = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+
+        } else if (selectedSlotInShopView == 4) {
+
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedMShoes
+                savedMShoes = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedMShoes
+                savedMShoes = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedMShoes
+                savedMShoes = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedMShoes
+                savedMShoes = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedMShoes
+                savedMShoes = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+
+        } else if (selectedSlotInShopView == 5) {
+
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedMShield
+                savedMShield = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedMShield
+                savedMShield = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedMShield
+                savedMShield = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedMShield
+                savedMShield = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedMShield
+                savedMShield = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+
+        } else if (selectedSlotInShopView == 6) {
+
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedMBelt
+                savedMBelt = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedMBelt
+                savedMBelt = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedMBelt
+                savedMBelt = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedMBelt
+                savedMBelt = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedMBelt
+                savedMBelt = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+
+        } else if (selectedSlotInShopView == 7) {
+
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedMHelmet
+                savedMHelmet = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedMHelmet
+                savedMHelmet = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedMHelmet
+                savedMHelmet = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedMHelmet
+                savedMHelmet = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedMHelmet
+                savedMHelmet = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+
+        } else if (selectedSlotInShopView == 8) {
+
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedMWeapon
+                savedMWeapon = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedMWeapon
+                savedMWeapon = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedMWeapon
+                savedMWeapon = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedMWeapon
+                savedMWeapon = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedMWeapon
+                savedMWeapon = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+
+        } else if (selectedSlotInShopView == 9) {
+
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedMRing1
+                savedMRing1 = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedMRing1
+                savedMRing1 = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedMRing1
+                savedMRing1 = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedMRing1
+                savedMRing1 = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedMRing1
+                savedMRing1 = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+
+        } else if (selectedSlotInShopView == 10) {
+
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedMRing2
+                savedMRing2 = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedMRing2
+                savedMRing2 = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedMRing2
+                savedMRing2 = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedMRing2
+                savedMRing2 = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedMRing2
+                savedMRing2 = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+
+        } else if (selectedSlotInShopView == 11) {
+
+            if (savedHeroInventorySlot1 == 0 && isButtonLogicActive) {
+                var rememberer = savedMAmulet
+                savedMAmulet = 0
+                savedHeroInventorySlot1 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot2 == 0 && isButtonLogicActive) {
+                var rememberer = savedMAmulet
+                savedMAmulet = 0
+                savedHeroInventorySlot2 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot3 == 0 && isButtonLogicActive) {
+                var rememberer = savedMAmulet
+                savedMAmulet = 0
+                savedHeroInventorySlot3 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot4 == 0 && isButtonLogicActive) {
+                var rememberer = savedMAmulet
+                savedMAmulet = 0
+                savedHeroInventorySlot4 = rememberer
+                isButtonLogicActive = false
+            }
+            if (savedHeroInventorySlot5 == 0 && isButtonLogicActive) {
+                var rememberer = savedMAmulet
+                savedMAmulet = 0
+                savedHeroInventorySlot5 = rememberer
+                isButtonLogicActive = false
+            }
+
+
+        }
+
+
+
+
+
+        isButtonLogicActive = true
+
+
+
+
+
+    }
+
+
 
 
 
