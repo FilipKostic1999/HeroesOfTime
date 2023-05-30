@@ -620,8 +620,6 @@ class shopsActivity : AppCompatActivity() {
 
             save()
 
-
-
         }
 
 

@@ -28,6 +28,7 @@ class villageOfHopeMapActivity : AppCompatActivity() {
     lateinit var villageOfHopeForest : TextView
     lateinit var villageOfHopeMapTabTxt : TextView
     lateinit var villageOfHopeMapTabBtn : Button
+    lateinit var mercenaries : TextView
 
 
 
@@ -90,6 +91,7 @@ class villageOfHopeMapActivity : AppCompatActivity() {
         heroViewTxt = findViewById(R.id.heroViewTxt)
         villageOfHopeMapTabTxt = findViewById(R.id.villageOfHopeMapTabTxt)
         villageOfHopeMapTabBtn = findViewById(R.id.villageOfHopeMapTabBtn)
+        mercenaries = findViewById(R.id.mercenaries)
 
 
 
@@ -185,6 +187,11 @@ class villageOfHopeMapActivity : AppCompatActivity() {
 
 
 
+
+        mercenaries.setOnClickListener {
+                val intent = Intent(this, mercenaryActivity :: class.java)
+                startActivity(intent)
+        }
 
 
 
