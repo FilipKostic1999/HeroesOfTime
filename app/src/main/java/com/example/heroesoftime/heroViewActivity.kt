@@ -203,6 +203,21 @@ class heroViewActivity : AppCompatActivity() {
 
 
 
+    var savedHeroVitality = 5
+    var savedHeroStrenght = 5
+    var savedHeroMana = 5
+    var savedHeroSpeed = 5
+
+    var savedHeroWarcry = 0
+    var savedHeroCritical = 1
+    var savedHeroFury = 0
+    var savedHeroPoisonBlade = 0
+    var savedHeroWarriorSpirit = 0
+    var savedHeroTemerary = 0
+    var savedHeroDestructiveSpirit = 0
+    var savedHeroHardSkin = 0
+
+
     var selectedSlotInShopView = 0
     var selectedItemInShopPrice = 0
 
@@ -383,6 +398,23 @@ class heroViewActivity : AppCompatActivity() {
 
                                 savedHeroLevel = savedDataOfUser.heroLevel
                                 savedHeroImage = savedDataOfUser.heroIconId
+
+
+                            savedHeroWarcry = savedDataOfUser.warCry
+                            savedHeroCritical = savedDataOfUser.critical
+                            savedHeroFury = savedDataOfUser.fury
+                            savedHeroPoisonBlade = savedDataOfUser.poisonBlade
+                            savedHeroWarriorSpirit = savedDataOfUser.warriorSpirit
+                            savedHeroTemerary = savedDataOfUser.temerary
+                            savedHeroDestructiveSpirit = savedDataOfUser.destructiveSpirit
+                            savedHeroHardSkin = savedDataOfUser.hardSkin
+
+                            savedHeroVitality = savedDataOfUser.heroVitality
+                            savedHeroStrenght = savedDataOfUser.heroStrenght
+                            savedHeroSpeed = savedDataOfUser.heroSpeed
+                            savedHeroMana = savedDataOfUser.heroMana
+
+
 
                             savedHeroInventorySlot1 = savedDataOfUser.heroInventorySlot1
                             savedHeroInventorySlot2 = savedDataOfUser.heroInventorySlot2
@@ -566,146 +598,290 @@ class heroViewActivity : AppCompatActivity() {
         // logic needed for showing the mercenaries item attributes
 
         heroArmorSlot.setOnClickListener {
-            nameTxt.text = "${heroArmorSlotAtributes.armorName}"
-            armorTxt.text = "Armor: ${heroArmorSlotAtributes.armor}"
-            vitalityTxt.text = "Vitality: ${heroArmorSlotAtributes.vitality}"
-            strenghtTxt.text = "Strenght: ${heroArmorSlotAtributes.strenght}"
-            speedTxt.text = "Speed: ${heroArmorSlotAtributes.speed}"
-            manaTxt.text = "Mana: ${heroArmorSlotAtributes.mana}"
-            priceTxt.text = "Price: ${heroArmorSlotAtributes.price/2}"
 
-            selectedSlotInShopView = 1
+            if (Ch == 1) {
+                nameTxt.text = "${heroArmorSlotAtributes.armorName}"
+                armorTxt.text = "Armor: ${heroArmorSlotAtributes.armor}"
+                vitalityTxt.text = "Vitality: ${heroArmorSlotAtributes.vitality}"
+                strenghtTxt.text = "Strenght: ${heroArmorSlotAtributes.strenght}"
+                speedTxt.text = "Speed: ${heroArmorSlotAtributes.speed}"
+                manaTxt.text = "Mana: ${heroArmorSlotAtributes.mana}"
+                priceTxt.text = "Price: ${heroArmorSlotAtributes.price / 2}"
 
-            selectedItemInShopPrice = heroArmorSlotAtributes.price
+                selectedSlotInShopView = 1
 
-            removeButton.isEnabled = true
-            equipButton.isEnabled = false
+                selectedItemInShopPrice = heroArmorSlotAtributes.price
+
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            } else if (Ch > 1) {
+                nameTxt.text = "${heroArmorSlotAtributesm.armorName}"
+                armorTxt.text = "Armor: ${heroArmorSlotAtributesm.armor}"
+                vitalityTxt.text = "Vitality: ${heroArmorSlotAtributesm.vitality}"
+                strenghtTxt.text = "Strenght: ${heroArmorSlotAtributesm.strenght}"
+                speedTxt.text = "Speed: ${heroArmorSlotAtributesm.speed}"
+                manaTxt.text = "Mana: ${heroArmorSlotAtributesm.mana}"
+                priceTxt.text = "Price: ${heroArmorSlotAtributesm.price / 2}"
+
+                selectedSlotInShopView = 1
+
+                selectedItemInShopPrice = heroArmorSlotAtributesm.price
+
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            }
 
         }
 
         heroRobeSlot.setOnClickListener {
-            nameTxt.text = "${heroRobeSlotAtributes.armorName}"
-            armorTxt.text = "Armor: ${heroRobeSlotAtributes.armor}"
-            vitalityTxt.text = "Vitality: ${heroRobeSlotAtributes.vitality}"
-            strenghtTxt.text = "Strenght: ${heroRobeSlotAtributes.strenght}"
-            speedTxt.text = "Speed: ${heroRobeSlotAtributes.speed}"
-            manaTxt.text = "Mana: ${heroRobeSlotAtributes.mana}"
-            priceTxt.text = "Price: ${heroRobeSlotAtributes.price/2}"
 
-            selectedSlotInShopView = 2
+            if (Ch == 1) {
+                nameTxt.text = "${heroRobeSlotAtributes.armorName}"
+                armorTxt.text = "Armor: ${heroRobeSlotAtributes.armor}"
+                vitalityTxt.text = "Vitality: ${heroRobeSlotAtributes.vitality}"
+                strenghtTxt.text = "Strenght: ${heroRobeSlotAtributes.strenght}"
+                speedTxt.text = "Speed: ${heroRobeSlotAtributes.speed}"
+                manaTxt.text = "Mana: ${heroRobeSlotAtributes.mana}"
+                priceTxt.text = "Price: ${heroRobeSlotAtributes.price / 2}"
 
-            selectedItemInShopPrice = heroRobeSlotAtributes.price
+                selectedSlotInShopView = 2
 
-            removeButton.isEnabled = true
-            equipButton.isEnabled = false
+                selectedItemInShopPrice = heroRobeSlotAtributes.price
+
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            } else if (Ch > 1) {
+                nameTxt.text = "${heroRobeSlotAtributesm.armorName}"
+                armorTxt.text = "Armor: ${heroRobeSlotAtributesm.armor}"
+                vitalityTxt.text = "Vitality: ${heroRobeSlotAtributesm.vitality}"
+                strenghtTxt.text = "Strenght: ${heroRobeSlotAtributesm.strenght}"
+                speedTxt.text = "Speed: ${heroRobeSlotAtributesm.speed}"
+                manaTxt.text = "Mana: ${heroRobeSlotAtributesm.mana}"
+                priceTxt.text = "Price: ${heroRobeSlotAtributesm.price / 2}"
+
+                selectedSlotInShopView = 2
+
+                selectedItemInShopPrice = heroRobeSlotAtributesm.price
+
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            }
 
         }
 
         heroGloveSlot.setOnClickListener {
-            nameTxt.text = "${heroGloveSlotAtributes.armorName}"
-            armorTxt.text = "Armor: ${heroGloveSlotAtributes.armor}"
-            vitalityTxt.text = "Vitality: ${heroGloveSlotAtributes.vitality}"
-            strenghtTxt.text = "Strenght: ${heroGloveSlotAtributes.strenght}"
-            speedTxt.text = "Speed: ${heroGloveSlotAtributes.speed}"
-            manaTxt.text = "Mana: ${heroGloveSlotAtributes.mana}"
-            priceTxt.text = "Price: ${heroGloveSlotAtributes.price/2}"
 
-            selectedSlotInShopView = 3
+            if (Ch == 1) {
+                nameTxt.text = "${heroGloveSlotAtributes.armorName}"
+                armorTxt.text = "Armor: ${heroGloveSlotAtributes.armor}"
+                vitalityTxt.text = "Vitality: ${heroGloveSlotAtributes.vitality}"
+                strenghtTxt.text = "Strenght: ${heroGloveSlotAtributes.strenght}"
+                speedTxt.text = "Speed: ${heroGloveSlotAtributes.speed}"
+                manaTxt.text = "Mana: ${heroGloveSlotAtributes.mana}"
+                priceTxt.text = "Price: ${heroGloveSlotAtributes.price / 2}"
 
-            selectedItemInShopPrice = heroGloveSlotAtributes.price
+                selectedSlotInShopView = 3
 
-            removeButton.isEnabled = true
-            equipButton.isEnabled = false
+                selectedItemInShopPrice = heroGloveSlotAtributes.price
+
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            } else if (Ch > 1) {
+                nameTxt.text = "${heroGloveSlotAtributesm.armorName}"
+                armorTxt.text = "Armor: ${heroGloveSlotAtributesm.armor}"
+                vitalityTxt.text = "Vitality: ${heroGloveSlotAtributesm.vitality}"
+                strenghtTxt.text = "Strenght: ${heroGloveSlotAtributesm.strenght}"
+                speedTxt.text = "Speed: ${heroGloveSlotAtributesm.speed}"
+                manaTxt.text = "Mana: ${heroGloveSlotAtributesm.mana}"
+                priceTxt.text = "Price: ${heroGloveSlotAtributesm.price / 2}"
+
+                selectedSlotInShopView = 3
+
+                selectedItemInShopPrice = heroGloveSlotAtributesm.price
+
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            }
 
         }
 
         heroShoesSlot.setOnClickListener {
-            nameTxt.text = "${heroShoesSlotAtributes.armorName}"
-            armorTxt.text = "Armor: ${heroShoesSlotAtributes.armor}"
-            vitalityTxt.text = "Vitality: ${heroShoesSlotAtributes.vitality}"
-            strenghtTxt.text = "Strenght: ${heroShoesSlotAtributes.strenght}"
-            speedTxt.text = "Speed: ${heroShoesSlotAtributes.speed}"
-            manaTxt.text = "Mana: ${heroShoesSlotAtributes.mana}"
-            priceTxt.text = "Price: ${heroShoesSlotAtributes.price/2}"
 
-            selectedSlotInShopView = 4
+            if (Ch == 1) {
+                nameTxt.text = "${heroShoesSlotAtributes.armorName}"
+                armorTxt.text = "Armor: ${heroShoesSlotAtributes.armor}"
+                vitalityTxt.text = "Vitality: ${heroShoesSlotAtributes.vitality}"
+                strenghtTxt.text = "Strenght: ${heroShoesSlotAtributes.strenght}"
+                speedTxt.text = "Speed: ${heroShoesSlotAtributes.speed}"
+                manaTxt.text = "Mana: ${heroShoesSlotAtributes.mana}"
+                priceTxt.text = "Price: ${heroShoesSlotAtributes.price / 2}"
 
-            selectedItemInShopPrice = heroShoesSlotAtributes.price
+                selectedSlotInShopView = 4
 
-            removeButton.isEnabled = true
-            equipButton.isEnabled = false
+                selectedItemInShopPrice = heroShoesSlotAtributes.price
+
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            } else if (Ch > 1) {
+                nameTxt.text = "${heroShoesSlotAtributesm.armorName}"
+                armorTxt.text = "Armor: ${heroShoesSlotAtributesm.armor}"
+                vitalityTxt.text = "Vitality: ${heroShoesSlotAtributesm.vitality}"
+                strenghtTxt.text = "Strenght: ${heroShoesSlotAtributesm.strenght}"
+                speedTxt.text = "Speed: ${heroShoesSlotAtributesm.speed}"
+                manaTxt.text = "Mana: ${heroShoesSlotAtributesm.mana}"
+                priceTxt.text = "Price: ${heroShoesSlotAtributesm.price / 2}"
+
+                selectedSlotInShopView = 4
+
+                selectedItemInShopPrice = heroShoesSlotAtributesm.price
+
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            }
 
         }
 
         heroShieldSlot.setOnClickListener {
-            nameTxt.text = "${heroShieldSlotAtributes.armorName}"
-            armorTxt.text = "Armor: ${heroShieldSlotAtributes.armor}"
-            vitalityTxt.text = "Vitality: ${heroShieldSlotAtributes.vitality}"
-            strenghtTxt.text = "Strenght: ${heroShieldSlotAtributes.strenght}"
-            speedTxt.text = "Speed: ${heroShieldSlotAtributes.speed}"
-            manaTxt.text = "Mana: ${heroShieldSlotAtributes.mana}"
-            priceTxt.text = "Price: ${heroShieldSlotAtributes.price/2}"
 
-            selectedSlotInShopView = 5
+            if (Ch == 1) {
+                nameTxt.text = "${heroShieldSlotAtributes.armorName}"
+                armorTxt.text = "Armor: ${heroShieldSlotAtributes.armor}"
+                vitalityTxt.text = "Vitality: ${heroShieldSlotAtributes.vitality}"
+                strenghtTxt.text = "Strenght: ${heroShieldSlotAtributes.strenght}"
+                speedTxt.text = "Speed: ${heroShieldSlotAtributes.speed}"
+                manaTxt.text = "Mana: ${heroShieldSlotAtributes.mana}"
+                priceTxt.text = "Price: ${heroShieldSlotAtributes.price / 2}"
 
-            selectedItemInShopPrice = heroShieldSlotAtributes.price
+                selectedSlotInShopView = 5
 
-            removeButton.isEnabled = true
-            equipButton.isEnabled = false
+                selectedItemInShopPrice = heroShieldSlotAtributes.price
+
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            } else if (Ch > 1) {
+                nameTxt.text = "${heroShieldSlotAtributesm.armorName}"
+                armorTxt.text = "Armor: ${heroShieldSlotAtributesm.armor}"
+                vitalityTxt.text = "Vitality: ${heroShieldSlotAtributesm.vitality}"
+                strenghtTxt.text = "Strenght: ${heroShieldSlotAtributesm.strenght}"
+                speedTxt.text = "Speed: ${heroShieldSlotAtributesm.speed}"
+                manaTxt.text = "Mana: ${heroShieldSlotAtributesm.mana}"
+                priceTxt.text = "Price: ${heroShieldSlotAtributesm.price / 2}"
+
+                selectedSlotInShopView = 5
+
+                selectedItemInShopPrice = heroShieldSlotAtributesm.price
+
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            }
 
         }
 
         heroBeltSlot.setOnClickListener {
-            nameTxt.text = "${heroBeltSlotAtributes.armorName}"
-            armorTxt.text = "Armor: ${heroBeltSlotAtributes.armor}"
-            vitalityTxt.text = "Vitality: ${heroBeltSlotAtributes.vitality}"
-            strenghtTxt.text = "Strenght: ${heroBeltSlotAtributes.strenght}"
-            speedTxt.text = "Speed: ${heroBeltSlotAtributes.speed}"
-            manaTxt.text = "Mana: ${heroBeltSlotAtributes.mana}"
-            priceTxt.text = "Price: ${heroBeltSlotAtributes.price/2}"
 
-            selectedSlotInShopView = 6
+            if (Ch == 1) {
+                nameTxt.text = "${heroBeltSlotAtributes.armorName}"
+                armorTxt.text = "Armor: ${heroBeltSlotAtributes.armor}"
+                vitalityTxt.text = "Vitality: ${heroBeltSlotAtributes.vitality}"
+                strenghtTxt.text = "Strenght: ${heroBeltSlotAtributes.strenght}"
+                speedTxt.text = "Speed: ${heroBeltSlotAtributes.speed}"
+                manaTxt.text = "Mana: ${heroBeltSlotAtributes.mana}"
+                priceTxt.text = "Price: ${heroBeltSlotAtributes.price / 2}"
 
-            selectedItemInShopPrice = heroBeltSlotAtributes.price
+                selectedSlotInShopView = 6
 
-            removeButton.isEnabled = true
-            equipButton.isEnabled = false
+                selectedItemInShopPrice = heroBeltSlotAtributes.price
+
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            } else if (Ch > 1) {
+                nameTxt.text = "${heroBeltSlotAtributesm.armorName}"
+                armorTxt.text = "Armor: ${heroBeltSlotAtributesm.armor}"
+                vitalityTxt.text = "Vitality: ${heroBeltSlotAtributesm.vitality}"
+                strenghtTxt.text = "Strenght: ${heroBeltSlotAtributesm.strenght}"
+                speedTxt.text = "Speed: ${heroBeltSlotAtributesm.speed}"
+                manaTxt.text = "Mana: ${heroBeltSlotAtributesm.mana}"
+                priceTxt.text = "Price: ${heroBeltSlotAtributesm.price / 2}"
+
+                selectedSlotInShopView = 6
+
+                selectedItemInShopPrice = heroBeltSlotAtributesm.price
+
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            }
 
         }
 
         heroHelmetSlot.setOnClickListener {
-            nameTxt.text = "${heroHelmetSlotAtributes.armorName}"
-            armorTxt.text = "Armor: ${heroHelmetSlotAtributes.armor}"
-            vitalityTxt.text = "Vitality: ${heroHelmetSlotAtributes.vitality}"
-            strenghtTxt.text = "Strenght: ${heroHelmetSlotAtributes.strenght}"
-            speedTxt.text = "Speed: ${heroHelmetSlotAtributes.speed}"
-            manaTxt.text = "Mana: ${heroHelmetSlotAtributes.mana}"
-            priceTxt.text = "Price: ${heroHelmetSlotAtributes.price/2}"
 
-            selectedSlotInShopView = 7
+            if (Ch == 1) {
+                nameTxt.text = "${heroHelmetSlotAtributes.armorName}"
+                armorTxt.text = "Armor: ${heroHelmetSlotAtributes.armor}"
+                vitalityTxt.text = "Vitality: ${heroHelmetSlotAtributes.vitality}"
+                strenghtTxt.text = "Strenght: ${heroHelmetSlotAtributes.strenght}"
+                speedTxt.text = "Speed: ${heroHelmetSlotAtributes.speed}"
+                manaTxt.text = "Mana: ${heroHelmetSlotAtributes.mana}"
+                priceTxt.text = "Price: ${heroHelmetSlotAtributes.price / 2}"
 
-            selectedItemInShopPrice = heroHelmetSlotAtributes.price
+                selectedSlotInShopView = 7
 
-            removeButton.isEnabled = true
-            equipButton.isEnabled = false
+                selectedItemInShopPrice = heroHelmetSlotAtributes.price
+
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            } else if (Ch > 1) {
+                nameTxt.text = "${heroHelmetSlotAtributesm.armorName}"
+                armorTxt.text = "Armor: ${heroHelmetSlotAtributesm.armor}"
+                vitalityTxt.text = "Vitality: ${heroHelmetSlotAtributesm.vitality}"
+                strenghtTxt.text = "Strenght: ${heroHelmetSlotAtributesm.strenght}"
+                speedTxt.text = "Speed: ${heroHelmetSlotAtributesm.speed}"
+                manaTxt.text = "Mana: ${heroHelmetSlotAtributesm.mana}"
+                priceTxt.text = "Price: ${heroHelmetSlotAtributesm.price / 2}"
+
+                selectedSlotInShopView = 7
+
+                selectedItemInShopPrice = heroHelmetSlotAtributesm.price
+
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            }
 
         }
 
         heroWeaponSlot.setOnClickListener {
-            nameTxt.text = "${heroWeaponSlotAtributes.weaponName}"
-            armorTxt.text = "Damage: ${heroWeaponSlotAtributes.damage}"
-            vitalityTxt.text = "Vitality: ${heroWeaponSlotAtributes.vitality}"
-            strenghtTxt.text = "Strenght: ${heroWeaponSlotAtributes.strenght}"
-            speedTxt.text = "Speed: ${heroWeaponSlotAtributes.speed}"
-            manaTxt.text = "Mana: ${heroWeaponSlotAtributes.mana}"
-            priceTxt.text = "Price: ${heroWeaponSlotAtributes.price/2}"
 
-            selectedSlotInShopView = 8
+            if (Ch == 1) {
+                nameTxt.text = "${heroWeaponSlotAtributes.weaponName}"
+                armorTxt.text = "Damage: ${heroWeaponSlotAtributes.damage}"
+                vitalityTxt.text = "Vitality: ${heroWeaponSlotAtributes.vitality}"
+                strenghtTxt.text = "Strenght: ${heroWeaponSlotAtributes.strenght}"
+                speedTxt.text = "Speed: ${heroWeaponSlotAtributes.speed}"
+                manaTxt.text = "Mana: ${heroWeaponSlotAtributes.mana}"
+                priceTxt.text = "Price: ${heroWeaponSlotAtributes.price / 2}"
 
-            selectedItemInShopPrice = heroWeaponSlotAtributes.price
+                selectedSlotInShopView = 8
 
-            removeButton.isEnabled = true
-            equipButton.isEnabled = false
+                selectedItemInShopPrice = heroWeaponSlotAtributes.price
+
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            } else if (Ch > 1) {
+                nameTxt.text = "${heroWeaponSlotAtributesm.weaponName}"
+                armorTxt.text = "Damage: ${heroWeaponSlotAtributesm.damage}"
+                vitalityTxt.text = "Vitality: ${heroWeaponSlotAtributesm.vitality}"
+                strenghtTxt.text = "Strenght: ${heroWeaponSlotAtributesm.strenght}"
+                speedTxt.text = "Speed: ${heroWeaponSlotAtributesm.speed}"
+                manaTxt.text = "Mana: ${heroWeaponSlotAtributesm.mana}"
+                priceTxt.text = "Price: ${heroWeaponSlotAtributesm.price / 2}"
+
+                selectedSlotInShopView = 8
+
+                selectedItemInShopPrice = heroWeaponSlotAtributesm.price
+
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            }
 
         }
 
@@ -713,20 +889,37 @@ class heroViewActivity : AppCompatActivity() {
         heroRingSlot1.setOnClickListener {
 
 
-            nameTxt.text = "${heroRingSlot1Attributes.armorName}"
-            armorTxt.text = "Armor: ${heroRingSlot1Attributes.armor}"
-            vitalityTxt.text = "Vitality: ${heroRingSlot1Attributes.vitality}"
-            strenghtTxt.text = "Strenght: ${heroRingSlot1Attributes.strenght}"
-            speedTxt.text = "Speed: ${heroRingSlot1Attributes.speed}"
-            manaTxt.text = "Mana: ${heroRingSlot1Attributes.mana}"
-            priceTxt.text = "Price: ${heroRingSlot1Attributes.price/2}"
+            if (Ch == 1) {
+                nameTxt.text = "${heroRingSlot1Attributes.armorName}"
+                armorTxt.text = "Armor: ${heroRingSlot1Attributes.armor}"
+                vitalityTxt.text = "Vitality: ${heroRingSlot1Attributes.vitality}"
+                strenghtTxt.text = "Strenght: ${heroRingSlot1Attributes.strenght}"
+                speedTxt.text = "Speed: ${heroRingSlot1Attributes.speed}"
+                manaTxt.text = "Mana: ${heroRingSlot1Attributes.mana}"
+                priceTxt.text = "Price: ${heroRingSlot1Attributes.price / 2}"
 
-            selectedSlotInShopView = 9
+                selectedSlotInShopView = 9
 
-            selectedItemInShopPrice = heroRingSlot1Attributes.price
+                selectedItemInShopPrice = heroRingSlot1Attributes.price
 
-            removeButton.isEnabled = true
-            equipButton.isEnabled = false
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            } else if (Ch > 1) {
+                nameTxt.text = "${heroWeaponSlotAtributesm.weaponName}"
+                armorTxt.text = "Damage: ${heroWeaponSlotAtributesm.damage}"
+                vitalityTxt.text = "Vitality: ${heroWeaponSlotAtributesm.vitality}"
+                strenghtTxt.text = "Strenght: ${heroWeaponSlotAtributesm.strenght}"
+                speedTxt.text = "Speed: ${heroWeaponSlotAtributesm.speed}"
+                manaTxt.text = "Mana: ${heroWeaponSlotAtributesm.mana}"
+                priceTxt.text = "Price: ${heroWeaponSlotAtributesm.price / 2}"
+
+                selectedSlotInShopView = 8
+
+                selectedItemInShopPrice = heroWeaponSlotAtributesm.price
+
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            }
 
         }
 
@@ -734,20 +927,37 @@ class heroViewActivity : AppCompatActivity() {
 
         heroRingSlot2.setOnClickListener {
 
-            nameTxt.text = "${heroRingSlot2Attributes.armorName}"
-            armorTxt.text = "Armor: ${heroRingSlot2Attributes.armor}"
-            vitalityTxt.text = "Vitality: ${heroRingSlot2Attributes.vitality}"
-            strenghtTxt.text = "Strenght: ${heroRingSlot2Attributes.strenght}"
-            speedTxt.text = "Speed: ${heroRingSlot2Attributes.speed}"
-            manaTxt.text = "Mana: ${heroRingSlot2Attributes.mana}"
-            priceTxt.text = "Price: ${heroRingSlot2Attributes.price/2}"
+            if (Ch == 1) {
+                nameTxt.text = "${heroRingSlot2Attributes.armorName}"
+                armorTxt.text = "Armor: ${heroRingSlot2Attributes.armor}"
+                vitalityTxt.text = "Vitality: ${heroRingSlot2Attributes.vitality}"
+                strenghtTxt.text = "Strenght: ${heroRingSlot2Attributes.strenght}"
+                speedTxt.text = "Speed: ${heroRingSlot2Attributes.speed}"
+                manaTxt.text = "Mana: ${heroRingSlot2Attributes.mana}"
+                priceTxt.text = "Price: ${heroRingSlot2Attributes.price / 2}"
 
-            selectedSlotInShopView = 10
+                selectedSlotInShopView = 10
 
-            selectedItemInShopPrice = heroRingSlot2Attributes.price
+                selectedItemInShopPrice = heroRingSlot2Attributes.price
 
-            removeButton.isEnabled = true
-            equipButton.isEnabled = false
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            } else if (Ch > 1) {
+                nameTxt.text = "${heroRingSlot2Attributesm.armorName}"
+                armorTxt.text = "Armor: ${heroRingSlot2Attributesm.armor}"
+                vitalityTxt.text = "Vitality: ${heroRingSlot2Attributesm.vitality}"
+                strenghtTxt.text = "Strenght: ${heroRingSlot2Attributesm.strenght}"
+                speedTxt.text = "Speed: ${heroRingSlot2Attributesm.speed}"
+                manaTxt.text = "Mana: ${heroRingSlot2Attributesm.mana}"
+                priceTxt.text = "Price: ${heroRingSlot2Attributesm.price / 2}"
+
+                selectedSlotInShopView = 10
+
+                selectedItemInShopPrice = heroRingSlot2Attributesm.price
+
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            }
 
         }
 
@@ -755,20 +965,37 @@ class heroViewActivity : AppCompatActivity() {
 
         heroAmuletSlot.setOnClickListener {
 
-            nameTxt.text = "${heroAmuletSlotAttributes.armorName}"
-            armorTxt.text = "Armor: ${heroAmuletSlotAttributes.armor}"
-            vitalityTxt.text = "Vitality: ${heroAmuletSlotAttributes.vitality}"
-            strenghtTxt.text = "Strenght: ${heroAmuletSlotAttributes.strenght}"
-            speedTxt.text = "Speed: ${heroAmuletSlotAttributes.speed}"
-            manaTxt.text = "Mana: ${heroAmuletSlotAttributes.mana}"
-            priceTxt.text = "Price: ${heroAmuletSlotAttributes.price/2}"
+            if (Ch == 1) {
+                nameTxt.text = "${heroAmuletSlotAttributes.armorName}"
+                armorTxt.text = "Armor: ${heroAmuletSlotAttributes.armor}"
+                vitalityTxt.text = "Vitality: ${heroAmuletSlotAttributes.vitality}"
+                strenghtTxt.text = "Strenght: ${heroAmuletSlotAttributes.strenght}"
+                speedTxt.text = "Speed: ${heroAmuletSlotAttributes.speed}"
+                manaTxt.text = "Mana: ${heroAmuletSlotAttributes.mana}"
+                priceTxt.text = "Price: ${heroAmuletSlotAttributes.price / 2}"
 
-            selectedSlotInShopView = 11
+                selectedSlotInShopView = 11
 
-            selectedItemInShopPrice = heroAmuletSlotAttributes.price
+                selectedItemInShopPrice = heroAmuletSlotAttributes.price
 
-            removeButton.isEnabled = true
-            equipButton.isEnabled = false
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            } else if (Ch > 1) {
+                nameTxt.text = "${heroAmuletSlotAttributesm.armorName}"
+                armorTxt.text = "Armor: ${heroAmuletSlotAttributesm.armor}"
+                vitalityTxt.text = "Vitality: ${heroAmuletSlotAttributesm.vitality}"
+                strenghtTxt.text = "Strenght: ${heroAmuletSlotAttributesm.strenght}"
+                speedTxt.text = "Speed: ${heroAmuletSlotAttributesm.speed}"
+                manaTxt.text = "Mana: ${heroAmuletSlotAttributesm.mana}"
+                priceTxt.text = "Price: ${heroAmuletSlotAttributesm.price / 2}"
+
+                selectedSlotInShopView = 11
+
+                selectedItemInShopPrice = heroAmuletSlotAttributesm.price
+
+                removeButton.isEnabled = true
+                equipButton.isEnabled = false
+            }
 
         }
 
@@ -983,6 +1210,44 @@ class heroViewActivity : AppCompatActivity() {
 
 
 
+        var itemsVitality = heroArmorSlotAtributes.vitality.toDouble() + heroRobeSlotAtributes.vitality.toDouble() +
+                heroGloveSlotAtributes.vitality.toDouble() + heroShoesSlotAtributes.vitality.toDouble() +
+                heroShieldSlotAtributes.vitality.toDouble() + heroBeltSlotAtributes.vitality.toDouble() +
+                heroHelmetSlotAtributes.vitality.toDouble() + heroWeaponSlotAtributes.vitality.toDouble() +
+                heroRingSlot1Attributes.vitality.toDouble() + heroRingSlot2Attributes.vitality.toDouble() +
+                heroAmuletSlotAttributes.vitality.toDouble()
+
+
+        var itemsStrenght = heroArmorSlotAtributes.strenght.toDouble() + heroRobeSlotAtributes.strenght.toDouble() +
+                heroGloveSlotAtributes.strenght.toDouble() + heroShoesSlotAtributes.strenght.toDouble() +
+                heroShieldSlotAtributes.strenght.toDouble() + heroBeltSlotAtributes.strenght.toDouble() +
+                heroHelmetSlotAtributes.strenght.toDouble() + heroWeaponSlotAtributes.strenght.toDouble() +
+                heroRingSlot1Attributes.strenght.toDouble() + heroRingSlot2Attributes.strenght.toDouble() +
+                heroAmuletSlotAttributes.strenght.toDouble()
+
+
+        var itemsMana = heroArmorSlotAtributes.mana.toDouble() + heroRobeSlotAtributes.mana.toDouble() +
+                heroGloveSlotAtributes.mana.toDouble() + heroShoesSlotAtributes.mana.toDouble() +
+                heroShieldSlotAtributes.mana.toDouble() + heroBeltSlotAtributes.mana.toDouble() +
+                heroHelmetSlotAtributes.mana.toDouble() + heroWeaponSlotAtributes.mana.toDouble() +
+                heroRingSlot1Attributes.mana.toDouble() + heroRingSlot2Attributes.mana.toDouble() +
+                heroAmuletSlotAttributes.mana.toDouble()
+
+
+        var itemsSpeed = heroArmorSlotAtributes.speed.toDouble() + heroRobeSlotAtributes.speed.toDouble() +
+                heroGloveSlotAtributes.speed.toDouble() + heroShoesSlotAtributes.speed.toDouble() +
+                heroShieldSlotAtributes.speed.toDouble() + heroBeltSlotAtributes.speed.toDouble() +
+                heroHelmetSlotAtributes.speed.toDouble() + heroWeaponSlotAtributes.speed.toDouble() +
+                heroRingSlot1Attributes.speed.toDouble() + heroRingSlot2Attributes.speed.toDouble() +
+                heroAmuletSlotAttributes.speed.toDouble()
+
+
+
+        var itemDamage = heroWeaponSlotAtributes.damage.toDouble()
+
+
+
+
         auth = Firebase.auth
         val user = auth.currentUser
 
@@ -993,7 +1258,12 @@ class heroViewActivity : AppCompatActivity() {
             heroInventorySlot1 = savedHeroInventorySlot1, heroInventorySlot2 = savedHeroInventorySlot2,
             heroInventorySlot3 = savedHeroInventorySlot3, heroInventorySlot4 = savedHeroInventorySlot4,
             heroInventorySlot5 = savedHeroInventorySlot5, heroGold = savedHeroGold, heroRingId1 = savedHeroRing1,
-            heroRingId2 = savedHeroRing2, heroAmuletId = savedHeroAmulet, heroTotalArmor = totalArmor)
+            heroRingId2 = savedHeroRing2, heroAmuletId = savedHeroAmulet, heroTotalArmor = totalArmor,
+        itemsAddedVitality = itemsVitality, itemsAddedSpeed = itemsSpeed, itemsAddedStrenght = itemsStrenght,
+        itemWeaponDamage = itemDamage, itemsAddedMana = itemsMana, heroVitality = savedHeroVitality,
+        heroStrenght = savedHeroStrenght, heroSpeed = savedHeroSpeed, heroMana = savedHeroMana,
+        warCry = savedHeroWarcry, warriorSpirit = savedHeroWarriorSpirit, poisonBlade = savedHeroPoisonBlade,
+        critical = savedHeroCritical, fury = savedHeroFury, temerary = savedHeroTemerary, hardSkin = savedHeroHardSkin)
 
 
         if (user != null) {

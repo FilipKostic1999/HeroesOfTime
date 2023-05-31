@@ -165,7 +165,7 @@ class heroAvatarActivity : AppCompatActivity() {
                 heroRobeId = 0, heroGloveId = 0, heroShoesId = 0,
                 heroShieldId = 0, heroBeltId = 0,
                 heroHelmetId = 0, heroWeaponId = 0, heroRingId1 = 0,
-                heroRingId2 = 0, heroAmuletId = 0, heroCurrentHp = 0.0,
+                heroRingId2 = 0, heroAmuletId = 0, heroCurrentHp = 160.0,
                 heroName = "mercenary1", heroSpeed = 34, heroStrenght = 25, heroVitality = 16,
             critical = 4)
 
@@ -187,7 +187,7 @@ class heroAvatarActivity : AppCompatActivity() {
             heroRobeId = 0, heroGloveId = 0, heroShoesId = 0,
             heroShieldId = 0, heroBeltId = 0,
             heroHelmetId = 0, heroWeaponId = 0, heroRingId1 = 0,
-            heroRingId2 = 0, heroAmuletId = 0, heroCurrentHp = 0.0,
+            heroRingId2 = 0, heroAmuletId = 0, heroCurrentHp = 160.0,
             heroName = "mercenary1", heroSpeed = 34, heroStrenght = 25, heroVitality = 16,
             critical = 4)
 
@@ -210,7 +210,7 @@ class heroAvatarActivity : AppCompatActivity() {
             heroRobeId = 0, heroGloveId = 0, heroShoesId = 0,
             heroShieldId = 0, heroBeltId = 0,
             heroHelmetId = 0, heroWeaponId = 0, heroRingId1 = 0,
-            heroRingId2 = 0, heroAmuletId = 0, heroCurrentHp = 0.0,
+            heroRingId2 = 0, heroAmuletId = 0, heroCurrentHp = 160.0,
             heroName = "mercenary1", heroSpeed = 34, heroStrenght = 25, heroVitality = 16,
             critical = 4)
 
@@ -233,7 +233,7 @@ class heroAvatarActivity : AppCompatActivity() {
             heroRobeId = 0, heroGloveId = 0, heroShoesId = 0,
             heroShieldId = 0, heroBeltId = 0,
             heroHelmetId = 0, heroWeaponId = 0, heroRingId1 = 0,
-            heroRingId2 = 0, heroAmuletId = 0, heroCurrentHp = 0.0,
+            heroRingId2 = 0, heroAmuletId = 0, heroCurrentHp = 160.0,
             heroName = "mercenary1", heroSpeed = 34, heroStrenght = 25, heroVitality = 16,
             critical = 4)
 

@@ -146,6 +146,27 @@ class battleView : AppCompatActivity() {
 
 
 
+    var savedMArmor = 0
+    var savedMRobe = 0
+    var savedMGloves = 0
+    var savedMShoes = 0
+    var savedMShield = 0
+    var savedMBelt = 0
+    var savedMHelmet = 0
+    var savedMWeapon = 0
+    var savedMRing1 = 0
+    var savedMRing2 = 0
+    var savedMAmulet = 0
+
+    var savedMHp : Double = 0.0
+    var savedMVitality = 0
+    var savedMStrenght = 0
+    var savedMSpeed = 0
+    var savedMMana = 0
+    var critical = 0
+
+
+
     lateinit var auth: FirebaseAuth
     lateinit var savedDataOfUser: heroDataClass
     lateinit var database: FirebaseFirestore
@@ -486,6 +507,81 @@ class battleView : AppCompatActivity() {
                     }
                 }
         }
+
+
+
+
+
+        if (user != null) {
+
+            database.collection("users").document(user.uid).collection("userData").
+            document("Mercenaries Data").collection("mercenary1")
+                .addSnapshotListener { snapshot, e ->
+                    if (snapshot != null) {
+                        for (document in snapshot.documents) {
+
+                            savedDataOfUser = document.toObject()!!
+
+
+                                savedMArmor = savedDataOfUser.heroArmorId
+                                savedMRobe = savedDataOfUser.heroRobeId
+                                savedMGloves = savedDataOfUser.heroGloveId
+                                savedMShoes = savedDataOfUser.heroShoesId
+                                savedMShield = savedDataOfUser.heroShieldId
+                                savedMBelt = savedDataOfUser.heroBeltId
+                                savedMHelmet = savedDataOfUser.heroHelmetId
+                                savedMWeapon = savedDataOfUser.heroWeaponId
+                                savedMRing1 = savedDataOfUser.heroRingId1
+                                savedMRing2 = savedDataOfUser.heroRingId2
+                                savedMAmulet = savedDataOfUser.heroAmuletId
+
+
+                                savedMHp = savedDataOfUser.heroCurrentHp
+                                savedMVitality = savedDataOfUser.heroVitality
+                                savedMStrenght = savedDataOfUser.heroStrenght
+                                savedMSpeed = savedDataOfUser.heroSpeed
+                                savedMMana = savedDataOfUser.heroMana
+                                critical = savedDataOfUser.critical
+
+
+
+
+                            listOfTeam1[1].totalArmor = savedDataOfUser.heroTotalArmor
+                            listOfTeam1[1].hp = heroCurrentHp
+                            listOfTeam1[1].damage = savedDataOfUser.itemWeaponDamage + (savedDataOfUser.heroStrenght.toDouble() +
+                                    savedDataOfUser.itemsAddedStrenght)/2
+                            listOfTeam1[1].speed = savedDataOfUser.itemsAddedSpeed + savedDataOfUser.itemsAddedSpeed
+                            listOfTeam1[1].criticalChance = savedDataOfUser.critical*4.0
+
+
+                            if (listOfTeam1[1].hp > 0) {
+                                mercenary1DungeonImg.isVisible = true
+                                mercenary1HpTxt.isVisible = true
+                            }
+
+                            if (listOfTeam1[2].hp > 0) {
+                                mercenary2DungeonImg.isVisible = true
+                                mercenary2HpTxt.isVisible = true
+                            }
+
+                            if (listOfTeam1[3].hp > 0) {
+                                mercenary3DungeonImg.isVisible = true
+                                mercenary3HpTxt.isVisible = true
+                            }
+
+                            if (listOfTeam1[4].hp > 0) {
+                                mercenary4DungeonImg.isVisible = true
+                                mercenary4HpTxt.isVisible = true
+                            }
+
+
+
+
+                        }
+                    }
+                }
+        }
+
 
 
 
