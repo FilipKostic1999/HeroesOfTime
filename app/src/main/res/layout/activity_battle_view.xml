@@ -21,8 +21,8 @@
 
     <ImageView
         android:id="@+id/enemy1"
-        android:layout_width="160dp"
-        android:layout_height="137dp"
+        android:layout_width="142dp"
+        android:layout_height="113dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.649"

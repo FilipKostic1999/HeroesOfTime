@@ -29,6 +29,11 @@ class villageOfHopeMapActivity : AppCompatActivity() {
     lateinit var villageOfHopeMapTabTxt : TextView
     lateinit var villageOfHopeMapTabBtn : Button
     lateinit var mercenaries : TextView
+    lateinit var villageOfHopeMountain : TextView
+    lateinit var villageOfHopeCaves : TextView
+    lateinit var villageOfHopeCamp2 : TextView
+    lateinit var villageOfHopeCamp : TextView
+    lateinit var villageOfHopeLake : TextView
 
 
 
@@ -92,6 +97,11 @@ class villageOfHopeMapActivity : AppCompatActivity() {
         villageOfHopeMapTabTxt = findViewById(R.id.villageOfHopeMapTabTxt)
         villageOfHopeMapTabBtn = findViewById(R.id.villageOfHopeMapTabBtn)
         mercenaries = findViewById(R.id.mercenaries)
+        villageOfHopeMountain = findViewById(R.id.villageOfHopeMountain)
+        villageOfHopeCamp = findViewById(R.id.villageOfHopeCamp)
+        villageOfHopeCamp2 = findViewById(R.id.villageOfHopeCamp2)
+        villageOfHopeCaves = findViewById(R.id.villageOfHopeCaves)
+        villageOfHopeLake = findViewById(R.id.villageOfHopeLake)
 
 
 
@@ -188,6 +198,74 @@ class villageOfHopeMapActivity : AppCompatActivity() {
 
 
 
+
+        villageOfHopeCamp2.setOnClickListener {
+
+            villageOfHopeMapTabTxt.text = "There are minor criminals here"
+            Location = 4
+
+            val editLocation = sharedLocation.edit()
+            editLocation.putInt("Location", Location)
+            editLocation.commit()
+
+        }
+
+
+
+
+        villageOfHopeCamp.setOnClickListener {
+
+            villageOfHopeMapTabTxt.text = "There are assassins here"
+            Location = 5
+
+            val editLocation = sharedLocation.edit()
+            editLocation.putInt("Location", Location)
+            editLocation.commit()
+
+
+        }
+
+
+
+
+        villageOfHopeLake.setOnClickListener {
+            villageOfHopeMapTabTxt.text = "There are many small bears here"
+            Location = 6
+
+            val editLocation = sharedLocation.edit()
+            editLocation.putInt("Location", Location)
+            editLocation.commit()
+
+        }
+
+
+
+
+
+        villageOfHopeCaves.setOnClickListener {
+            villageOfHopeMapTabTxt.text = "There are small bears and wolves here"
+            Location = 3
+
+            val editLocation = sharedLocation.edit()
+            editLocation.putInt("Location", Location)
+            editLocation.commit()
+        }
+
+
+
+
+        villageOfHopeMountain.setOnClickListener {
+            villageOfHopeMapTabTxt.text = "Forest, there are small wolves and boars here"
+            Location = 2
+
+            val editLocation = sharedLocation.edit()
+            editLocation.putInt("Location", Location)
+            editLocation.commit()
+
+        }
+
+
+
         mercenaries.setOnClickListener {
                 val intent = Intent(this, mercenaryActivity :: class.java)
                 startActivity(intent)
@@ -198,11 +276,10 @@ class villageOfHopeMapActivity : AppCompatActivity() {
 
         villageOfHopeMapTabBtn.setOnClickListener {
 
-            if (Location == 1) {
+            if (Location >= 1) {
                 val intent = Intent(this, battleView :: class.java)
                 startActivity(intent)
             }
-
         }
 
 

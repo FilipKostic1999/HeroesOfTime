@@ -40,7 +40,21 @@ class battleView : AppCompatActivity() {
 
 
     var hero = character(100.0, 10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
-    var boar = character(100.0, 18.0, 100.0, 40.0, 50.0, 50.0, 0.0, 0.0)
+    var smalBoar = character(100.0, 18.0, 100.0, 40.0, 50.0, 50.0, 0.0, 0.0)
+    var smalWolf = character(140.0, 18.0, 100.0, 40.0, 50.0, 50.0, 0.0, 0.0)
+    var smalWolf2 = character(140.0, 18.0, 100.0, 40.0, 50.0, 50.0, 0.0, 0.0)
+    var smalBear = character(140.0, 18.0, 100.0, 40.0, 50.0, 50.0, 0.0, 0.0)
+    var smalBear2 = character(140.0, 18.0, 100.0, 40.0, 50.0, 50.0, 0.0, 0.0)
+    var smalBear3 = character(140.0, 18.0, 100.0, 40.0, 50.0, 50.0, 0.0, 0.0)
+    var bandit1 = character(140.0, 18.0, 100.0, 40.0, 50.0, 50.0, 0.0, 0.0)
+    var bandit2 = character(140.0, 18.0, 100.0, 40.0, 50.0, 50.0, 0.0, 0.0)
+    var bandit3 = character(140.0, 18.0, 100.0, 40.0, 50.0, 50.0, 0.0, 0.0)
+    var asassin1 = character(140.0, 18.0, 100.0, 40.0, 50.0, 50.0, 0.0, 0.0)
+    var asassin2 = character(140.0, 18.0, 100.0, 40.0, 50.0, 50.0, 0.0, 0.0)
+    var asassin3 = character(140.0, 18.0, 100.0, 40.0, 50.0, 50.0, 0.0, 0.0)
+
+
+
 
     var randomCh = 0
 
@@ -164,6 +178,81 @@ class battleView : AppCompatActivity() {
     var savedMSpeed = 0
     var savedMMana = 0
     var critical = 0
+
+
+
+
+
+    var savedM2Armor = 0
+    var savedM2Robe = 0
+    var savedM2Gloves = 0
+    var savedM2Shoes = 0
+    var savedM2Shield = 0
+    var savedM2Belt = 0
+    var savedM2Helmet = 0
+    var savedM2Weapon = 0
+    var savedM2Ring1 = 0
+    var savedM2Ring2 = 0
+    var savedM2Amulet = 0
+
+    var savedM2Hp : Double = 0.0
+    var savedM2Vitality = 0
+    var savedM2Strenght = 0
+    var savedM2Speed = 0
+    var savedM2Mana = 0
+    var criticalM2 = 0
+
+
+
+
+    var savedM3Armor = 0
+    var savedM3Robe = 0
+    var savedM3Gloves = 0
+    var savedM3Shoes = 0
+    var savedM3Shield = 0
+    var savedM3Belt = 0
+    var savedM3Helmet = 0
+    var savedM3Weapon = 0
+    var savedM3Ring1 = 0
+    var savedM3Ring2 = 0
+    var savedM3Amulet = 0
+
+    var savedM3Hp : Double = 0.0
+    var savedM3Vitality = 0
+    var savedM3Strenght = 0
+    var savedM3Speed = 0
+    var savedM3Mana = 0
+    var criticalM3 = 0
+
+
+
+
+    var savedM4Armor = 0
+    var savedM4Robe = 0
+    var savedM4Gloves = 0
+    var savedM4Shoes = 0
+    var savedM4Shield = 0
+    var savedM4Belt = 0
+    var savedM4Helmet = 0
+    var savedM4Weapon = 0
+    var savedM4Ring1 = 0
+    var savedM4Ring2 = 0
+    var savedM4Amulet = 0
+
+    var savedM4Hp : Double = 0.0
+    var savedM4Vitality = 0
+    var savedM4Strenght = 0
+    var savedM4Speed = 0
+    var savedM4Mana = 0
+    var criticalM4 = 0
+
+
+
+
+
+
+
+
 
 
 
@@ -547,7 +636,7 @@ class battleView : AppCompatActivity() {
 
 
                             listOfTeam1[1].totalArmor = savedDataOfUser.heroTotalArmor
-                            listOfTeam1[1].hp = heroCurrentHp
+                            listOfTeam1[1].hp = savedDataOfUser.heroCurrentHp
                             listOfTeam1[1].damage = savedDataOfUser.itemWeaponDamage + (savedDataOfUser.heroStrenght.toDouble() +
                                     savedDataOfUser.itemsAddedStrenght)/2
                             listOfTeam1[1].speed = savedDataOfUser.itemsAddedSpeed + savedDataOfUser.itemsAddedSpeed
@@ -574,6 +663,8 @@ class battleView : AppCompatActivity() {
                                 mercenary4HpTxt.isVisible = true
                             }
 
+                            mercenary1HpTxt.text = "${listOfTeam1[1].hp.roundToInt()} HP"
+
 
 
 
@@ -581,6 +672,202 @@ class battleView : AppCompatActivity() {
                     }
                 }
         }
+
+
+
+
+
+
+
+        if (user != null) {
+
+            database.collection("users").document(user.uid).collection("userData").
+            document("Mercenaries Data").collection("mercenary2")
+                .addSnapshotListener { snapshot, e ->
+                    if (snapshot != null) {
+                        for (document in snapshot.documents) {
+
+                            savedDataOfUser = document.toObject()!!
+
+
+                            savedM2Armor = savedDataOfUser.heroArmorId
+                            savedM2Robe = savedDataOfUser.heroRobeId
+                            savedM2Gloves = savedDataOfUser.heroGloveId
+                            savedM2Shoes = savedDataOfUser.heroShoesId
+                            savedM2Shield = savedDataOfUser.heroShieldId
+                            savedM2Belt = savedDataOfUser.heroBeltId
+                            savedM2Helmet = savedDataOfUser.heroHelmetId
+                            savedM2Weapon = savedDataOfUser.heroWeaponId
+                            savedM2Ring1 = savedDataOfUser.heroRingId1
+                            savedM2Ring2 = savedDataOfUser.heroRingId2
+                            savedM2Amulet = savedDataOfUser.heroAmuletId
+
+
+                            savedM2Hp = savedDataOfUser.heroCurrentHp
+                            savedM2Vitality = savedDataOfUser.heroVitality
+                            savedM2Strenght = savedDataOfUser.heroStrenght
+                            savedM2Speed = savedDataOfUser.heroSpeed
+                            savedM2Mana = savedDataOfUser.heroMana
+                            criticalM2 = savedDataOfUser.critical
+
+
+
+
+                            listOfTeam1[2].totalArmor = savedDataOfUser.heroTotalArmor
+                            listOfTeam1[2].hp = savedDataOfUser.heroCurrentHp
+                            listOfTeam1[2].damage = savedDataOfUser.itemWeaponDamage + (savedDataOfUser.heroStrenght.toDouble() +
+                                    savedDataOfUser.itemsAddedStrenght)/2
+                            listOfTeam1[2].speed = savedDataOfUser.itemsAddedSpeed + savedDataOfUser.itemsAddedSpeed
+                            listOfTeam1[2].criticalChance = savedDataOfUser.critical*4.0
+
+
+                            if (listOfTeam1[2].hp > 0) {
+                                mercenary2DungeonImg.isVisible = true
+                                mercenary2HpTxt.isVisible = true
+                            }
+
+
+                            mercenary2HpTxt.text = "${listOfTeam1[2].hp.roundToInt()} HP"
+
+
+
+
+                        }
+                    }
+                }
+        }
+
+
+
+
+        if (user != null) {
+
+            database.collection("users").document(user.uid).collection("userData").
+            document("Mercenaries Data").collection("mercenary3")
+                .addSnapshotListener { snapshot, e ->
+                    if (snapshot != null) {
+                        for (document in snapshot.documents) {
+
+                            savedDataOfUser = document.toObject()!!
+
+
+                            savedM3Armor = savedDataOfUser.heroArmorId
+                            savedM3Robe = savedDataOfUser.heroRobeId
+                            savedM3Gloves = savedDataOfUser.heroGloveId
+                            savedM3Shoes = savedDataOfUser.heroShoesId
+                            savedM3Shield = savedDataOfUser.heroShieldId
+                            savedM3Belt = savedDataOfUser.heroBeltId
+                            savedM3Helmet = savedDataOfUser.heroHelmetId
+                            savedM3Weapon = savedDataOfUser.heroWeaponId
+                            savedM3Ring1 = savedDataOfUser.heroRingId1
+                            savedM3Ring2 = savedDataOfUser.heroRingId2
+                            savedM3Amulet = savedDataOfUser.heroAmuletId
+
+
+                            savedM3Hp = savedDataOfUser.heroCurrentHp
+                            savedM3Vitality = savedDataOfUser.heroVitality
+                            savedM3Strenght = savedDataOfUser.heroStrenght
+                            savedM3Speed = savedDataOfUser.heroSpeed
+                            savedM3Mana = savedDataOfUser.heroMana
+                            criticalM3 = savedDataOfUser.critical
+
+
+
+
+                            listOfTeam1[3].totalArmor = savedDataOfUser.heroTotalArmor
+                            listOfTeam1[3].hp = savedDataOfUser.heroCurrentHp
+                            listOfTeam1[3].damage = savedDataOfUser.itemWeaponDamage + (savedDataOfUser.heroStrenght.toDouble() +
+                                    savedDataOfUser.itemsAddedStrenght)/2
+                            listOfTeam1[3].speed = savedDataOfUser.itemsAddedSpeed + savedDataOfUser.itemsAddedSpeed
+                            listOfTeam1[3].criticalChance = savedDataOfUser.critical*4.0
+
+
+                            if (listOfTeam1[3].hp > 0) {
+                                mercenary3DungeonImg.isVisible = true
+                                mercenary3HpTxt.isVisible = true
+                            }
+
+
+                            mercenary3HpTxt.text = "${listOfTeam1[3].hp.roundToInt()} HP"
+
+
+
+
+                        }
+                    }
+                }
+        }
+
+
+
+
+        if (user != null) {
+
+            database.collection("users").document(user.uid).collection("userData").
+            document("Mercenaries Data").collection("mercenary4")
+                .addSnapshotListener { snapshot, e ->
+                    if (snapshot != null) {
+                        for (document in snapshot.documents) {
+
+                            savedDataOfUser = document.toObject()!!
+
+
+                            savedM4Armor = savedDataOfUser.heroArmorId
+                            savedM4Robe = savedDataOfUser.heroRobeId
+                            savedM4Gloves = savedDataOfUser.heroGloveId
+                            savedM4Shoes = savedDataOfUser.heroShoesId
+                            savedM4Shield = savedDataOfUser.heroShieldId
+                            savedM4Belt = savedDataOfUser.heroBeltId
+                            savedM4Helmet = savedDataOfUser.heroHelmetId
+                            savedM4Weapon = savedDataOfUser.heroWeaponId
+                            savedM4Ring1 = savedDataOfUser.heroRingId1
+                            savedM4Ring2 = savedDataOfUser.heroRingId2
+                            savedM4Amulet = savedDataOfUser.heroAmuletId
+
+
+                            savedM4Hp = savedDataOfUser.heroCurrentHp
+                            savedM4Vitality = savedDataOfUser.heroVitality
+                            savedM4Strenght = savedDataOfUser.heroStrenght
+                            savedM4Speed = savedDataOfUser.heroSpeed
+                            savedM4Mana = savedDataOfUser.heroMana
+                            criticalM4 = savedDataOfUser.critical
+
+
+
+
+                            listOfTeam1[4].totalArmor = savedDataOfUser.heroTotalArmor
+                            listOfTeam1[4].hp = savedDataOfUser.heroCurrentHp
+                            listOfTeam1[4].damage = savedDataOfUser.itemWeaponDamage + (savedDataOfUser.heroStrenght.toDouble() +
+                                    savedDataOfUser.itemsAddedStrenght)/2
+                            listOfTeam1[4].speed = savedDataOfUser.itemsAddedSpeed + savedDataOfUser.itemsAddedSpeed
+                            listOfTeam1[4].criticalChance = savedDataOfUser.critical*4.0
+
+
+                            if (listOfTeam1[4].hp > 0) {
+                                mercenary4DungeonImg.isVisible = true
+                                mercenary4HpTxt.isVisible = true
+                            }
+
+
+                            mercenary4HpTxt.text = "${listOfTeam1[4].hp.roundToInt()} HP"
+
+
+
+
+                        }
+                    }
+                }
+        }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -897,25 +1184,6 @@ class battleView : AppCompatActivity() {
         listOfTeam1.add(character3)
         listOfTeam1.add(character4)
 
-        if (listOfTeam1[1].hp > 0) {
-            mercenary1DungeonImg.isVisible = true
-            mercenary1HpTxt.isVisible = true
-        }
-
-        if (listOfTeam1[2].hp > 0) {
-            mercenary2DungeonImg.isVisible = true
-            mercenary2HpTxt.isVisible = true
-        }
-
-        if (listOfTeam1[3].hp > 0) {
-            mercenary3DungeonImg.isVisible = true
-            mercenary3HpTxt.isVisible = true
-        }
-
-        if (listOfTeam1[4].hp > 0) {
-            mercenary4DungeonImg.isVisible = true
-            mercenary4HpTxt.isVisible = true
-        }
 
 
 
@@ -923,7 +1191,7 @@ class battleView : AppCompatActivity() {
         // enemies of forest dungeon
 
         if (location == 1) {
-            listOfTeam2.add(boar)
+            listOfTeam2.add(smalBoar)
             enemy1.setImageResource(R.drawable.snalboar)
             listOfTeam2.add(character11)
             listOfTeam2.add(character22)
@@ -933,10 +1201,79 @@ class battleView : AppCompatActivity() {
         }
 
 
+        // enemies of forest dungeon
+
+        if (location == 2) {
+            listOfTeam2.add(smalWolf)
+            enemy1.setImageResource(R.drawable.smalwolf)
+            listOfTeam2.add(smalBoar)
+            enemy2.setImageResource(R.drawable.snalboar)
+            listOfTeam2.add(character22)
+            listOfTeam2.add(character33)
+            listOfTeam2.add(character44)
+            goldVictory = 7
+        }
+
+
+// enemies of forest dungeon
+
+        if (location == 3) {
+            listOfTeam2.add(smalBear)
+            enemy1.setImageResource(R.drawable.smalbear)
+            listOfTeam2.add(smalWolf)
+            enemy2.setImageResource(R.drawable.smalwolf)
+            listOfTeam2.add(smalWolf2)
+            enemy3.setImageResource(R.drawable.smalwolf)
+            listOfTeam2.add(character33)
+            listOfTeam2.add(character44)
+            goldVictory = 1
+        }
 
 
 
+        if (location == 4) {
+            listOfTeam2.add(bandit1)
+            enemy1.setImageResource(R.drawable.bandit)
+            listOfTeam2.add(bandit2)
+            enemy2.setImageResource(R.drawable.bandit)
+            listOfTeam2.add(bandit3)
+            enemy3.setImageResource(R.drawable.bandit)
+            listOfTeam2.add(character33)
+            listOfTeam2.add(character44)
+            goldVictory = 1
+        }
 
+
+
+        if (location == 5) {
+            listOfTeam2.add(asassin1)
+            enemy1.setImageResource(R.drawable.asassins)
+            listOfTeam2.add(asassin2)
+            enemy2.setImageResource(R.drawable.asassins)
+            listOfTeam2.add(asassin3)
+            enemy3.setImageResource(R.drawable.asassins)
+            listOfTeam2.add(bandit1)
+            enemy4.setImageResource(R.drawable.bandit)
+            listOfTeam2.add(bandit2)
+            enemy5.setImageResource(R.drawable.bandit)
+            goldVictory = 1
+        }
+
+
+
+        if (location == 6) {
+            listOfTeam2.add(smalBear)
+            enemy1.setImageResource(R.drawable.smalbear)
+            listOfTeam2.add(smalBear2)
+            enemy2.setImageResource(R.drawable.smalbear)
+            listOfTeam2.add(smalBear3)
+            enemy3.setImageResource(R.drawable.smalbear)
+            listOfTeam2.add(character33)
+            enemy4.setImageResource(R.drawable.bandit)
+            listOfTeam2.add(character44)
+            enemy5.setImageResource(R.drawable.bandit)
+            goldVictory = 1
+        }
 
 
 
