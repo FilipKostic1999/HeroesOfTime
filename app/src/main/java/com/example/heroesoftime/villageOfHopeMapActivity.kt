@@ -34,6 +34,11 @@ class villageOfHopeMapActivity : AppCompatActivity() {
     lateinit var villageOfHopeCamp2 : TextView
     lateinit var villageOfHopeCamp : TextView
     lateinit var villageOfHopeLake : TextView
+    lateinit var vofhopeMHp : TextView
+    lateinit var vofhopeMmana2 : TextView
+    lateinit var vofhopeMHExp : TextView
+    lateinit var diamondsAmount : TextView
+    lateinit var level : TextView
 
 
 
@@ -102,6 +107,11 @@ class villageOfHopeMapActivity : AppCompatActivity() {
         villageOfHopeCamp2 = findViewById(R.id.villageOfHopeCamp2)
         villageOfHopeCaves = findViewById(R.id.villageOfHopeCaves)
         villageOfHopeLake = findViewById(R.id.villageOfHopeLake)
+        vofhopeMHp = findViewById(R.id.vofhopeMHp)
+        vofhopeMmana2 = findViewById(R.id.vofhopeMmana2)
+        vofhopeMHExp = findViewById(R.id.vofhopeMHExp)
+        diamondsAmount = findViewById(R.id.diamondsAmount)
+        level = findViewById(R.id.level)
 
 
 
@@ -175,6 +185,16 @@ class villageOfHopeMapActivity : AppCompatActivity() {
                             savedHeroGold = savedDataOfUser.heroGold
                             heroImage = savedDataOfUser.heroIconId
                             goldTxt.text = "$savedHeroGold"
+
+                            var displayhp = (savedDataOfUser.heroVitality + savedDataOfUser.itemsAddedVitality)*10
+                            var displayMana = (savedDataOfUser.heroMana + savedDataOfUser.itemsAddedMana)*10
+
+                            vofhopeMHp.text = "HP: ${savedDataOfUser.heroCurrentHp}/$displayhp"
+                            vofhopeMmana2.text = "MP: ${savedDataOfUser.heroCurrentMana}/$displayMana"
+                            vofhopeMHExp.text = "Exp: ${savedDataOfUser.heroExperience}"
+                            diamondsAmount.text = "${savedDataOfUser.heroDiamonds}"
+                            level.text = "${savedDataOfUser.heroLevel}"
+
 
                             if (heroImage == 1) {
                                 heroSavedImg.setImageResource(R.drawable.malewarrior)

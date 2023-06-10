@@ -156,6 +156,7 @@ class battleView : AppCompatActivity() {
     var savedHeroInventorySlot5 = 0
     var savedHeroLevel = 1
     var savedHeroImage = 1
+    var heroCurrentMana = 0
     var snapshotAllow = false
 
 
@@ -248,7 +249,16 @@ class battleView : AppCompatActivity() {
 
 
 
-
+    var progres1 : Int =  0
+    var progres2 : Int =  0
+    var progres3 : Int =  0
+    var progres4 : Int =  0
+    var progres5 : Int =  0
+    var progres6 : Int =  0
+    var progres7 : Int =  0
+    var progres8 : Int =  0
+    var progres9 : Int =  0
+    var progres10 : Int =  0
 
 
 
@@ -257,6 +267,7 @@ class battleView : AppCompatActivity() {
 
 
     lateinit var auth: FirebaseAuth
+    lateinit var savedtavern : missions
     lateinit var savedDataOfUser: heroDataClass
     lateinit var database: FirebaseFirestore
     lateinit var data: fightingHp
@@ -408,6 +419,7 @@ class battleView : AppCompatActivity() {
                             itemsMana = savedDataOfUser.itemsAddedMana
                             itemDamage = savedDataOfUser.itemWeaponDamage
                             heroCurrentHp = savedDataOfUser.heroCurrentHp
+                            heroCurrentMana = savedDataOfUser.heroCurrentMana
 
 
                             // apply armor to hero and mercenaries
@@ -458,7 +470,10 @@ class battleView : AppCompatActivity() {
 
                             // apply warcry hp increase to hero
 
-                            listOfTeam1[0].hp += ((listOfTeam1[0].hp * (2.0 * savedHeroWarcry))/100.0)
+                            if (savedDataOfUser.heroMana >= ((listOfTeam1[0].hp * (2.0 * savedHeroWarcry))/100.0)) {
+                                listOfTeam1[0].hp += ((listOfTeam1[0].hp * (2.0 * savedHeroWarcry))/100.0)
+                                heroCurrentMana -= ((listOfTeam1[0].hp * (2.0 * savedHeroWarcry))/100.0).roundToInt()
+                            }
 
                             // fury
 
@@ -864,6 +879,35 @@ class battleView : AppCompatActivity() {
 
 
 
+        if (user != null) {
+
+            database.collection("users").document(user.uid).collection("userData")
+                .document("VillageOfHopeM").collection("Missions")
+                .addSnapshotListener { snapshot, e ->
+                    if (snapshot != null) {
+                        for (document in snapshot.documents) {
+
+                            savedtavern = document.toObject()!!
+
+                            progres1 = savedtavern.mission1
+                            progres2 = savedtavern.mission2
+                            progres3 = savedtavern.mission3
+                            progres4 = savedtavern.mission4
+                            progres5 = savedtavern.mission5
+                            progres6 = savedtavern.mission6
+                            progres7 = savedtavern.mission7
+                            progres8 = savedtavern.mission8
+                            progres9 = savedtavern.mission9
+                            progres10 = savedtavern.mission10
+
+
+
+
+                        }
+                    }
+                }
+        }
+
 
 
 
@@ -924,6 +968,12 @@ class battleView : AppCompatActivity() {
 
 
 
+
+
+
+
+
+
         var isWarriorSpiritActive = true
 
 
@@ -938,8 +988,11 @@ class battleView : AppCompatActivity() {
                 if (starter > 1) {
 
                     if (listOfTeam1[0].hp < (listOfTeam1[0].vitality) && listOfTeam1[0].hp > 0 && isWarriorSpiritActive) {
-                        listOfTeam1[0].hp += ((savedHeroWarriorSpirit.toDouble() * 3) * (listOfTeam1[0].vitality * 10))/100
-                        isWarriorSpiritActive = false
+                        if (heroCurrentMana >= ((savedHeroWarriorSpirit.toDouble() * 3) * (listOfTeam1[0].vitality * 10))/100) {
+                            listOfTeam1[0].hp += ((savedHeroWarriorSpirit.toDouble() * 3) * (listOfTeam1[0].vitality * 10))/100
+                            heroCurrentMana -= (((savedHeroWarriorSpirit.toDouble() * 3) * (listOfTeam1[0].vitality * 10))/100).roundToInt()
+                            isWarriorSpiritActive = false
+                        }
                     }
 
                     for (teamOneCharacter in listOfTeam1) {
@@ -1098,6 +1151,7 @@ class battleView : AppCompatActivity() {
 
                     if (isTeam2Dead) {
                         isTimerActive = false
+                        saveMissionsVillageOfHope()
                         victoryGold()
                         save()
                     }
@@ -1111,6 +1165,77 @@ class battleView : AppCompatActivity() {
 
 
     }
+
+
+
+
+
+
+
+
+
+
+
+    fun saveMissionsVillageOfHope() {
+
+        auth = Firebase.auth
+        val user = auth.currentUser
+
+
+        if (location == 1 && !isTeam1Dead && progres1 > -1) {
+            progres1 += 1
+        }
+        if (location == 2 && !isTeam1Dead && progres2 > -1) {
+            progres2 += 1
+        }
+        if (location == 4 && !isTeam1Dead && progres3 > -1) {
+            progres3 += 3
+        }
+        if (location == 7 && !isTeam1Dead && progres4 > -1) {
+            progres4 += 1
+        }
+        if (location == 6 && !isTeam1Dead && progres5 > -1) {
+            progres5 += 3
+        }
+        if (location == 5 && !isTeam1Dead && progres6 > -1) {
+            progres6 += 3
+        }
+        if (location == 5 && !isTeam1Dead && progres7 > -1) {
+            progres7 += 3
+        }
+        if (location == 8 && !isTeam1Dead && progres8 > -1) {
+            progres8 += 1
+        }
+        if (location == 4 && !isTeam1Dead && progres9 > -1) {
+            progres9 += 3
+        }
+        if (location == 9 && !isTeam1Dead && progres10 > -1) {
+            progres10 += 1
+        }
+
+
+
+
+        var heroData = missions(mission1 = progres1, mission2 = progres2, mission3 = progres3, mission4 = progres4,
+            mission5 = progres5, mission6 = progres6, mission7 = progres7, mission8 = progres8, mission9 = progres9, mission10 = progres10)
+
+
+        if (user != null) {
+            database.collection("users").document(user.uid).collection("userData").
+            document("VillageOfHopeM").collection("Missions").document("Data").set(heroData)
+
+
+                .addOnCompleteListener {
+
+
+                }
+        }
+
+
+
+    }
+
+
 
 
 

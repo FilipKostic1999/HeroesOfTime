@@ -19,10 +19,57 @@ class villageOfHopeActivity : AppCompatActivity() {
     lateinit var villageOfHopeWeaponShop : TextView
     lateinit var villageOfHopeRingShop : TextView
     lateinit var heroViewTxt : TextView
+    lateinit var villageOfHopeTavern : TextView
+    lateinit var vofhopeMHp : TextView
+    lateinit var vofhopeMmana2 : TextView
+    lateinit var vofhopeMHExp : TextView
+    lateinit var diamondsAmount : TextView
+    lateinit var level : TextView
 
 
     lateinit var goldTxt : TextView
     lateinit var heroSavedImage : ImageView
+
+
+
+    var savedHeroTotalArmor = 0.0
+    var savedHeroVitality = 5
+    var savedHeroStrenght = 5
+    var savedHeroMana = 5
+    var savedHeroSpeed = 5
+
+    var savedHeroWarcry = 0
+    var savedHeroCritical = 1
+    var savedHeroFury = 0
+    var savedHeroPoisonBlade = 0
+    var savedHeroWarriorSpirit = 0
+    var savedHeroTemerary = 0
+    var savedHeroDestructiveSpirit = 0
+    var savedHeroHardSkin = 0
+
+
+
+
+
+    var savedHeroArmor = 0
+    var savedHeroRobe = 0
+    var savedHeroGloves = 0
+    var savedHeroShoes = 0
+    var savedHeroShield = 0
+    var savedHeroBelt = 0
+    var savedHeroHelmet = 0
+    var savedHeroWeapon = 0
+    var savedHeroRing1 = 0
+    var savedHeroRing2 = 0
+    var savedHeroAmulet = 0
+    var savedHeroInventorySlot1 = 0
+    var savedHeroInventorySlot2 = 0
+    var savedHeroInventorySlot3 = 0
+    var savedHeroInventorySlot4 = 0
+    var savedHeroInventorySlot5 = 0
+    var savedHeroLevel = 1
+    var selectedDungeon = 0
+
 
 
 
@@ -47,6 +94,13 @@ class villageOfHopeActivity : AppCompatActivity() {
         goldTxt = findViewById(R.id.goldTxt)
         heroSavedImage = findViewById(R.id.heroSavedImage)
         heroViewTxt = findViewById(R.id.heroViewTxt)
+        villageOfHopeTavern = findViewById(R.id.villageOfHopeTavern)
+        vofhopeMHp = findViewById(R.id.vofhopeMHp)
+        vofhopeMmana2 = findViewById(R.id.vofhopeMmana2)
+        vofhopeMHExp = findViewById(R.id.vofhopeMHExp)
+        diamondsAmount = findViewById(R.id.diamondsAmount)
+        level = findViewById(R.id.level)
+
 
 
 
@@ -115,6 +169,16 @@ class villageOfHopeActivity : AppCompatActivity() {
 
 
 
+        villageOfHopeTavern.setOnClickListener {
+            val intent = Intent(this, tavern :: class.java)
+            startActivity(intent)
+        }
+
+
+
+
+
+
         if (user != null) {
 
             database.collection("users").document(user.uid).collection("userData")
@@ -125,8 +189,56 @@ class villageOfHopeActivity : AppCompatActivity() {
                             savedDataOfUser = document.toObject()!!
 
                             savedHeroGold = savedDataOfUser.heroGold
+
+                            savedHeroArmor = savedDataOfUser.heroArmorId
+                            savedHeroRobe = savedDataOfUser.heroRobeId
+                            savedHeroGloves = savedDataOfUser.heroGloveId
+                            savedHeroShoes = savedDataOfUser.heroShoesId
+                            savedHeroShield = savedDataOfUser.heroShieldId
+                            savedHeroBelt = savedDataOfUser.heroBeltId
+                            savedHeroHelmet = savedDataOfUser.heroHelmetId
+                            savedHeroWeapon = savedDataOfUser.heroWeaponId
+                            savedHeroRing1 = savedDataOfUser.heroRingId1
+                            savedHeroRing2 = savedDataOfUser.heroRingId2
+                            savedHeroAmulet = savedDataOfUser.heroAmuletId
+
+                            savedHeroLevel = savedDataOfUser.heroLevel
+
+                            savedHeroInventorySlot1 = savedDataOfUser.heroInventorySlot1
+                            savedHeroInventorySlot2 = savedDataOfUser.heroInventorySlot2
+                            savedHeroInventorySlot3 = savedDataOfUser.heroInventorySlot3
+                            savedHeroInventorySlot4 = savedDataOfUser.heroInventorySlot4
+                            savedHeroInventorySlot5 = savedDataOfUser.heroInventorySlot5
+
+
+                            savedHeroWarcry = savedDataOfUser.warCry
+                            savedHeroCritical = savedDataOfUser.critical
+                            savedHeroFury = savedDataOfUser.fury
+                            savedHeroPoisonBlade = savedDataOfUser.poisonBlade
+                            savedHeroWarriorSpirit = savedDataOfUser.warriorSpirit
+                            savedHeroTemerary = savedDataOfUser.temerary
+                            savedHeroDestructiveSpirit = savedDataOfUser.destructiveSpirit
+                            savedHeroHardSkin = savedDataOfUser.hardSkin
+
+                            savedHeroVitality = savedDataOfUser.heroVitality
+                            savedHeroStrenght = savedDataOfUser.heroStrenght
+                            savedHeroSpeed = savedDataOfUser.heroSpeed
+                            savedHeroMana = savedDataOfUser.heroMana
+
+
+                            savedHeroGold = savedDataOfUser.heroGold
                             heroImage = savedDataOfUser.heroIconId
                             goldTxt.text = "$savedHeroGold"
+
+                            var displayhp = (savedDataOfUser.heroVitality + savedDataOfUser.itemsAddedVitality)*10
+                            var displayMana = (savedDataOfUser.heroMana + savedDataOfUser.itemsAddedMana)*10
+
+                            vofhopeMHp.text = "HP: ${savedDataOfUser.heroCurrentHp}/$displayhp"
+                            vofhopeMmana2.text = "MP: ${savedDataOfUser.heroCurrentMana}/$displayMana"
+                            vofhopeMHExp.text = "Exp: ${savedDataOfUser.heroExperience}"
+                            diamondsAmount.text = "${savedDataOfUser.heroDiamonds}"
+                            level.text = "${savedDataOfUser.heroLevel}"
+
 
                             if (heroImage == 1) {
                                 heroSavedImage.setImageResource(R.drawable.malewarrior)

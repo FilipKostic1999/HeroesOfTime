@@ -1,5 +1,6 @@
 package com.example.heroesoftime
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -249,6 +250,17 @@ class heroViewActivity : AppCompatActivity() {
     lateinit var inventorySlot5 : ImageView
 
 
+    lateinit var heroHp : TextView
+    lateinit var heroDamage : TextView
+    lateinit var heroArmor : TextView
+    lateinit var heroStrenght : TextView
+    lateinit var heroSpeed : TextView
+    lateinit var heroMana : TextView
+
+
+
+
+
     lateinit var armorTxt : TextView
     lateinit var vitalityTxt : TextView
     lateinit var speedTxt : TextView
@@ -256,6 +268,7 @@ class heroViewActivity : AppCompatActivity() {
     lateinit var manaTxt : TextView
     lateinit var priceTxt : TextView
     lateinit var nameTxt : TextView
+    lateinit var heroHpCurrent : TextView
 
 
     lateinit var equipButton : Button
@@ -283,6 +296,7 @@ class heroViewActivity : AppCompatActivity() {
 
 
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hero_view)
@@ -321,6 +335,21 @@ class heroViewActivity : AppCompatActivity() {
         heroRingSlot2 = findViewById(R.id.heroRingSlot2)
         heroAmuletSlot = findViewById(R.id.heroAmuletSlot)
 
+
+        armorTxt = findViewById(R.id.armorTxt)
+        vitalityTxt = findViewById(R.id.vitalityTxt)
+        speedTxt = findViewById(R.id.speedTxt)
+        strenghtTxt = findViewById(R.id.strenghtTxt)
+        manaTxt = findViewById(R.id.manaTxt)
+        priceTxt = findViewById(R.id.priceTxt)
+        nameTxt = findViewById(R.id.nameTxt)
+        heroArmor = findViewById(R.id.heroArmor)
+        heroHp = findViewById(R.id.heroHp)
+        heroStrenght = findViewById(R.id.heroStrenght)
+        heroSpeed = findViewById(R.id.heroSpeed)
+        heroMana = findViewById(R.id.heroMana)
+        heroDamage = findViewById(R.id.heroDamage)
+        heroHpCurrent = findViewById(R.id.heroHpCurrent)
 
 
         m1Btn = findViewById(R.id.m1Btn)
@@ -423,6 +452,32 @@ class heroViewActivity : AppCompatActivity() {
                             savedHeroInventorySlot5 = savedDataOfUser.heroInventorySlot5
 
 
+                            if (Ch == 1) {
+
+                                var hpnumber =
+                                    (savedDataOfUser.heroVitality + savedDataOfUser.itemsAddedVitality)
+                                var herodmg =
+                                    (savedDataOfUser.itemWeaponDamage + (savedDataOfUser.heroStrenght / 2))
+                                var heroar = savedDataOfUser.heroTotalArmor
+                                var herostr =
+                                    savedDataOfUser.heroStrenght + savedDataOfUser.itemsAddedStrenght
+                                var herosp =
+                                    savedDataOfUser.heroSpeed + savedDataOfUser.itemsAddedSpeed
+                                var heroma =
+                                    savedDataOfUser.heroMana + savedDataOfUser.itemsAddedMana
+                                var herohpN = savedDataOfUser.heroCurrentHp
+                                var vita = hpnumber * 10
+
+                                heroHp.text = "Vitality: $hpnumber"
+                                heroDamage.text = "Damage: $herodmg"
+                                heroArmor.text = "Armor: $heroar"
+                                heroStrenght.text = "Strenght: $herostr"
+                                heroSpeed.text = "Speed: $herosp"
+                                heroMana.text = "Mana: $heroma"
+                                heroHpCurrent.text = "HP: $herohpN / $vita"
+
+                            }
+
 
                                 showHeroItems()   // always update the view ifs when new items are added in game
                                 showHeroInventory()  // always update the view ifs when new items are added in game
@@ -472,6 +527,27 @@ class heroViewActivity : AppCompatActivity() {
                                 critical = savedDataOfUser.critical
 
 
+                                var hpnumber =
+                                    (savedDataOfUser.heroVitality + savedDataOfUser.itemsAddedVitality)
+                                var herodmg =
+                                    (savedDataOfUser.itemWeaponDamage + (savedDataOfUser.heroStrenght / 2))
+                                var heroar = savedDataOfUser.heroTotalArmor
+                                var herostr =
+                                    savedDataOfUser.heroStrenght + savedDataOfUser.itemsAddedStrenght
+                                var herosp =
+                                    savedDataOfUser.heroSpeed + savedDataOfUser.itemsAddedSpeed
+                                var heroma =
+                                    savedDataOfUser.heroMana + savedDataOfUser.itemsAddedMana
+                                var herohpN = savedDataOfUser.heroCurrentHp
+                                var vita = hpnumber * 10
+
+                                heroHp.text = "Vitality: $hpnumber"
+                                heroDamage.text = "Damage: $herodmg"
+                                heroArmor.text = "Armor: $heroar"
+                                heroStrenght.text = "Strenght: $herostr"
+                                heroSpeed.text = "Speed: $herosp"
+                                heroMana.text = "Mana: $heroma"
+                                heroHpCurrent.text = "HP: $herohpN / $vita"
 
 
 

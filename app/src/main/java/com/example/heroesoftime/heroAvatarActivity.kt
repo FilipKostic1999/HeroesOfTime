@@ -131,6 +131,7 @@ class heroAvatarActivity : AppCompatActivity() {
 
             shopSetUp()
             mercenaries()
+            missionsVillageOfHope()
             save()
 
 
@@ -148,6 +149,35 @@ class heroAvatarActivity : AppCompatActivity() {
 
 
     }
+
+
+
+    fun missionsVillageOfHope() {
+
+        auth = Firebase.auth
+        val user = auth.currentUser
+
+        var heroData = missions(mission1 = 0)
+
+
+        if (user != null) {
+            database.collection("users").document(user.uid).collection("userData").
+                document("VillageOfHopeM").collection("Missions").document("Data").set(heroData)
+
+
+                .addOnCompleteListener {
+
+
+                }
+        }
+
+
+
+
+
+    }
+
+
 
 
 
@@ -341,7 +371,8 @@ class heroAvatarActivity : AppCompatActivity() {
             heroInventorySlot3 = 0, heroInventorySlot4 = 0,
             heroInventorySlot5 = 0, heroGold = 0, heroRingId1 = 0,
             heroRingId2 = 0, heroAmuletId = 0, hardSkin = 0, heroCurrentHp = 100.0, heroCurrentMana = 100,
-        heroName = heroNameTxt, heroSpeed = 10, heroStrenght = 10, heroVitality = 10, heroMana = 10, itemWeaponDamage = 3.0)
+        heroName = heroNameTxt, heroSpeed = 10, heroStrenght = 10, heroVitality = 10, heroMana = 10, itemWeaponDamage = 3.0,
+        heroTotalArmor = 13.0, itemsAddedVitality = 2.0)
 
 
         if (user != null) {

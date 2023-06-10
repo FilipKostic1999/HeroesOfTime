@@ -51,6 +51,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.335" />
 
+
+    <TextView
+        android:id="@+id/heroAttributesTxt"
+        android:layout_width="79dp"
+        android:layout_height="31dp"
+        android:text="Attributes"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.185"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.536" />
+
     <TextView
         android:id="@+id/level"
         android:layout_width="40dp"
@@ -144,5 +159,43 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.049"
         app:srcCompat="@drawable/malewarrior" />
+
+
+    <TextView
+        android:id="@+id/vofhopeMHp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HP: 100/100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.481"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.025" />
+
+    <TextView
+        android:id="@+id/vofhopeMmana2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MP: 100/100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.066" />
+
+    <TextView
+        android:id="@+id/vofhopeMHExp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Exp: 100/100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.484"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.114" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

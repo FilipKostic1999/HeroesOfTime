@@ -297,6 +297,19 @@
         app:layout_constraintVertical_bias="0.252" />
 
     <TextView
+        android:id="@+id/heroHpCurrent"
+        android:layout_width="155dp"
+        android:layout_height="38dp"
+        android:text="HP:"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.111"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.16" />
+
+    <TextView
         android:id="@+id/heroDamage"
         android:layout_width="155dp"
         android:layout_height="38dp"
