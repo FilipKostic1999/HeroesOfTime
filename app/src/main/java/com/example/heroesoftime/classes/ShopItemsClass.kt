@@ -1,4 +1,4 @@
-package com.example.heroesoftime
+package com.example.heroesoftime.classes
 
 import com.google.firebase.firestore.DocumentId
 

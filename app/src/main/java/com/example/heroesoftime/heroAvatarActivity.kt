@@ -7,6 +7,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.core.view.isVisible
+import com.example.heroesoftime.classes.heroDataClass
+import com.example.heroesoftime.classes.mercenary
+import com.example.heroesoftime.classes.missions
+import com.example.heroesoftime.classes.shopItemsClass
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore

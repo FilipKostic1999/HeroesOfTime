@@ -9,6 +9,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.example.heroesoftime.classes.armorClass
+import com.example.heroesoftime.classes.heroDataClass
+import com.example.heroesoftime.classes.mercenary
+import com.example.heroesoftime.classes.shopItemsClass
+import com.example.heroesoftime.classes.weaponClass
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore

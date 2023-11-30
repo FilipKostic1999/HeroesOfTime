@@ -1,6 +1,5 @@
 package com.example.heroesoftime
 
-import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,15 +7,17 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.isVisible
+import com.example.heroesoftime.classes.armorClass
+import com.example.heroesoftime.classes.heroAttributesData
+import com.example.heroesoftime.classes.heroDataClass
+import com.example.heroesoftime.classes.shopItemsClass
+import com.example.heroesoftime.classes.weaponClass
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import org.w3c.dom.Text
-import java.util.*
 import kotlin.collections.ArrayList
 
 class shopsActivity : AppCompatActivity() {

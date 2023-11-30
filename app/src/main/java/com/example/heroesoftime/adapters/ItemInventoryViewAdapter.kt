@@ -1,5 +1,4 @@
-package com.example.heroesoftime
-
+package com.example.heroesoftime.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,21 +7,25 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.heroesoftime.R
+import com.example.heroesoftime.classes.armorClass
 
+class itemInventoryViewAdapter(private val armorList: ArrayList<armorClass>) :
+    RecyclerView.Adapter<itemInventoryViewAdapter.ArmorViewHolder>() {
 
+    private var onEquipClickListener: OnEquipClickListener? = null
+    private var onSellClickListener: OnSellClickListener? = null
 
+    interface OnEquipClickListener {
+        fun onEquipClick(item: armorClass)
+    }
 
-class itemShopViewAdapter(private val armorList: ArrayList<armorClass>) :
-    RecyclerView.Adapter<itemShopViewAdapter.ArmorViewHolder>() {
-
-    private var onBuyClickListener: OnBuyClickListener? = null
-
-    interface OnBuyClickListener {
-        fun onBuyClick(armor: armorClass)
+    interface OnSellClickListener {
+        fun onSellClick(item: armorClass)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArmorViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_armor_shop_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.inventory_item, parent, false)
         return ArmorViewHolder(view)
     }
 
@@ -35,21 +38,28 @@ class itemShopViewAdapter(private val armorList: ArrayList<armorClass>) :
         return armorList.size
     }
 
-    fun setOnBuyClickListener(listener: OnBuyClickListener) {
-        onBuyClickListener = listener
+    fun setOnEquipClickListener(listener: OnEquipClickListener) {
+        onEquipClickListener = listener
     }
+
+    fun setOnSellClickListener(listener: OnSellClickListener) {
+        onSellClickListener = listener
+    }
+
 
     inner class ArmorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val nameImageViewArmor: ImageView = itemView.findViewById(R.id.armorDefaultImg)
         private val armorData: TextView = itemView.findViewById(R.id.armorDataTxt)
-        private val buyBtn: Button = itemView.findViewById(R.id.buyBtn)
+        private val equipBtn: Button = itemView.findViewById(R.id.equipBtn)
+        private val sellBtn: Button = itemView.findViewById(R.id.sellBtn)
 
-        fun bind(armor: armorClass) {
-            armorData.text = "${armor.armorName}, armor: ${armor.armor}, vitality: ${armor.vitality}," +
-                    " strength: ${armor.strenght}, speed: ${armor.speed}, mana: ${armor.mana}," +
-                    " price: ${armor.price} gold"
 
-            when (armor.itemId) {
+        fun bind(item: armorClass) {
+            armorData.text = "${item.armorName}, armor: ${item.armor}, vitality: ${item.vitality}," +
+                    " strength: ${item.strenght}, speed: ${item.speed}, mana: ${item.mana}," +
+                    " price: ${item.price} gold"
+
+            when (item.itemId) {
                 in 1..4 -> nameImageViewArmor.setImageResource(R.drawable.leatherarmor)
                 in 5..6 -> nameImageViewArmor.setImageResource(R.drawable.rareleatherarmor)
                 in 7..10 -> nameImageViewArmor.setImageResource(R.drawable.leatherrobe)
@@ -81,13 +91,16 @@ class itemShopViewAdapter(private val armorList: ArrayList<armorClass>) :
                 }
             }
 
-            buyBtn.setOnClickListener {
-                onBuyClickListener?.onBuyClick(armor)
+            equipBtn.setOnClickListener {
+                onEquipClickListener?.onEquipClick(item)
+            }
+
+            sellBtn.setOnClickListener {
+                onSellClickListener?.onSellClick(item)
             }
         }
 
 
     }
 }
-
 
