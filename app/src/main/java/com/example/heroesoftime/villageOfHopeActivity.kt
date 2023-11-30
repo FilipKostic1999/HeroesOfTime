@@ -123,7 +123,7 @@ class villageOfHopeActivity : AppCompatActivity() {
             editShopType.putInt("SelectorShopType", selectedShopType)
             editShopType.commit()
 
-            val intent = Intent(this, shopsActivity :: class.java)
+            val intent = Intent(this, shopsActivity2 :: class.java)
             startActivity(intent)
 
         }
