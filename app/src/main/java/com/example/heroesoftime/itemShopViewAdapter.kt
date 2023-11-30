@@ -11,13 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 
+
 class itemShopViewAdapter(private val armorList: ArrayList<armorClass>) :
     RecyclerView.Adapter<itemShopViewAdapter.ArmorViewHolder>() {
 
     private var onBuyClickListener: OnBuyClickListener? = null
 
     interface OnBuyClickListener {
-        fun onBuyClick(price: Int)
+        fun onBuyClick(armor: armorClass)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArmorViewHolder {
@@ -81,10 +82,12 @@ class itemShopViewAdapter(private val armorList: ArrayList<armorClass>) :
             }
 
             buyBtn.setOnClickListener {
-                onBuyClickListener?.onBuyClick(armor.price)
+                onBuyClickListener?.onBuyClick(armor)
             }
         }
 
 
     }
 }
+
+

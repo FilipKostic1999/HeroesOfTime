@@ -207,7 +207,7 @@ class shopsActivity2 : AppCompatActivity(), itemShopViewAdapter.OnBuyClickListen
                     if (snapshot != null) {
                         for (document in snapshot.documents) {
                             savedDataOfUser = document.toObject()!!
-                            var heroData = savedDataOfUser
+                            heroData = savedDataOfUser
                         }
                     }
                 }
@@ -239,7 +239,7 @@ class shopsActivity2 : AppCompatActivity(), itemShopViewAdapter.OnBuyClickListen
 
         if (user != null) {
             database.collection("users").document(user.uid).collection("userData")
-                .document("Shop1").collection("ArmorShop").add(heroData)
+                .document("Hero").set(heroData)
                 .addOnSuccessListener {
 
                 }
@@ -249,15 +249,48 @@ class shopsActivity2 : AppCompatActivity(), itemShopViewAdapter.OnBuyClickListen
 
 
 
-    override fun onBuyClick(price: Int) {
-        if (heroData.heroGold >= price) {
-            heroData.heroGold -= price
-            Toast.makeText(this, "You have ${heroData.heroGold} gold left", Toast.LENGTH_SHORT).show()
+
+    override fun onBuyClick(armor: armorClass) {
+        if (heroData.heroGold >= armor.price) {
+            heroData.heroGold -= armor.price
+
+            database = Firebase.firestore
+            auth = Firebase.auth
+            val user = auth.currentUser
+            var isOneItemDeleted = false
+
+
+            if (user != null) {
+                val userId = user.uid
+                val armorShopCollection = database.collection("users").document(userId)
+                    .collection("userData").document("Shop1").collection("ArmorShop")
+                armorShopCollection.get()
+                    .addOnSuccessListener { documents ->
+                        for (document in documents) {
+                            savedArmorShopItems = document.toObject()!!
+                            if (savedArmorShopItems.itemId == armor.itemId && savedArmorShopItems.armorName
+                                == armor.armorName && savedArmorShopItems.armor == armor.armor
+                                && savedArmorShopItems.vitality == armor.vitality
+                                && savedArmorShopItems.strenght == armor.strenght
+                                && savedArmorShopItems.mana == armor.mana
+                                && savedArmorShopItems.speed == armor.speed
+                                && savedArmorShopItems.price == armor.price
+                                && savedArmorShopItems.typeItem == armor.typeItem && !isOneItemDeleted) {
+                                armorShopCollection.document(document.id).delete()
+                                isOneItemDeleted = true
+                            }
+                        }
+                    }
+            }
             saveHeroData()
         } else {
             Toast.makeText(this, "Not enough money", Toast.LENGTH_SHORT).show()
         }
     }
+
+
+
+
 
 
 
