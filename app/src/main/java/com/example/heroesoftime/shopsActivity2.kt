@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -133,6 +134,8 @@ class shopsActivity2 : AppCompatActivity(), itemShopViewAdapter.OnBuyClickListen
 
 
     lateinit var refreshBtn: Button
+    lateinit var removeButton: Button
+
 
     lateinit var heroArmorSlot : ImageView
     lateinit var heroHelmetSlot : ImageView
@@ -146,6 +149,8 @@ class shopsActivity2 : AppCompatActivity(), itemShopViewAdapter.OnBuyClickListen
     lateinit var heroRingSlot2 : ImageView
     lateinit var heroAmuletSlot : ImageView
 
+    lateinit var genTxt: TextView
+
 
 
     var heroData = heroDataClass("", 0, 0, 0, "", 0,
@@ -158,6 +163,8 @@ class shopsActivity2 : AppCompatActivity(), itemShopViewAdapter.OnBuyClickListen
         0.0, 0.0)
 
 
+    var selectedArorObject = armorClass(66, "Rare Amulet", 0, 2, 0, 4, 0, 110, 10)
+
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -166,6 +173,8 @@ class shopsActivity2 : AppCompatActivity(), itemShopViewAdapter.OnBuyClickListen
 
 
         refreshBtn = findViewById(R.id.refreshBtn)
+        removeButton = findViewById(R.id.removeButton)
+        removeButton.isEnabled = false
         heroArmorSlot = findViewById(R.id.heroArmorSlot)
         heroHelmetSlot = findViewById(R.id.heroHelmetSlot)
         heroBeltSlot = findViewById(R.id.heroBeltSlot)
@@ -177,6 +186,9 @@ class shopsActivity2 : AppCompatActivity(), itemShopViewAdapter.OnBuyClickListen
         heroRingSlot1 = findViewById(R.id.heroRingSlot1)
         heroRingSlot2 = findViewById(R.id.heroRingSlot2)
         heroAmuletSlot = findViewById(R.id.heroAmuletSlot)
+        genTxt = findViewById(R.id.genTxt)
+
+
 
 
 
@@ -371,6 +383,197 @@ class shopsActivity2 : AppCompatActivity(), itemShopViewAdapter.OnBuyClickListen
             generateRandomArmorItems()
         }
 
+        removeButton.setOnClickListener {
+            if (user != null) {
+                database.collection("users").document(user.uid)
+                    .collection("userData").document("inventory")
+                    .collection("itemsInventory").add(selectedArorObject)
+                    .addOnSuccessListener { documents ->
+                        if (selectedArorObject.typeItem == 1) {
+                            heroData.heroArmorId = 0
+                            saveHeroData()
+                        } else if (selectedArorObject.typeItem == 2) {
+                            heroData.heroRobeId = 0
+                            saveHeroData()
+                        } else if (selectedArorObject.typeItem == 2) {
+                            heroData.heroRobeId = 0
+                            saveHeroData()
+                        } else if (selectedArorObject.typeItem == 2) {
+                            heroData.heroRobeId = 0
+                            saveHeroData()
+                        } else if (selectedArorObject.typeItem == 2) {
+                            heroData.heroRobeId = 0
+                            saveHeroData()
+                        } else if (selectedArorObject.typeItem == 2) {
+                            heroData.heroRobeId = 0
+                            saveHeroData()
+                        } else if (selectedArorObject.typeItem == 2) {
+                            heroData.heroRobeId = 0
+                            saveHeroData()
+                        } else if (selectedArorObject.typeItem == 2) {
+                            heroData.heroRobeId = 0
+                            saveHeroData()
+                        } else if (selectedArorObject.typeItem == 2) {
+                            heroData.heroRobeId = 0
+                            saveHeroData()
+                        } else if (selectedArorObject.typeItem == 2) {
+                            heroData.heroRobeId = 0
+                            saveHeroData()
+                        } else if (selectedArorObject.typeItem == 2) {
+                            heroData.heroRobeId = 0
+                            saveHeroData()
+                        }
+                    }
+            }
+
+            removeButton.isEnabled = false
+        }
+
+
+        heroArmorSlot.setOnClickListener {
+            removeButton.isEnabled = true
+            for (item in allGameArmors) {
+                if (heroData.heroArmorId == item.itemId) {
+                    genTxt.text = "${item.armorName}, armor: ${item.armor}, vitality: ${item.vitality}," +
+                            " strength: ${item.strenght}, speed: ${item.speed}, mana: ${item.mana}," +
+                            " price: ${item.price} gold"
+                    selectedArorObject = armorClass(item.itemId, item.armorName, item.armor,
+                        item.vitality, item.speed, item.mana, item.strenght,
+                        item.price, item.typeItem)
+                }
+            }
+        }
+        heroHelmetSlot.setOnClickListener {
+            removeButton.isEnabled = true
+            for (item in allGameArmors) {
+                if (heroData.heroHelmetId == item.itemId) {
+                    genTxt.text = "${item.armorName}, armor: ${item.armor}, vitality: ${item.vitality}," +
+                            " strength: ${item.strenght}, speed: ${item.speed}, mana: ${item.mana}," +
+                            " price: ${item.price} gold"
+                    selectedArorObject = armorClass(item.itemId, item.armorName, item.armor,
+                        item.vitality, item.speed, item.mana, item.strenght,
+                        item.price, item.typeItem)
+                }
+            }
+        }
+        heroBeltSlot.setOnClickListener {
+            removeButton.isEnabled = true
+            for (item in allGameArmors) {
+                if (heroData.heroBeltId == item.itemId) {
+                    genTxt.text = "${item.armorName}, armor: ${item.armor}, vitality: ${item.vitality}," +
+                            " strength: ${item.strenght}, speed: ${item.speed}, mana: ${item.mana}," +
+                            " price: ${item.price} gold"
+                    selectedArorObject = armorClass(item.itemId, item.armorName, item.armor,
+                        item.vitality, item.speed, item.mana, item.strenght,
+                        item.price, item.typeItem)
+                }
+            }
+        }
+        heroShoesSlot.setOnClickListener {
+            removeButton.isEnabled = true
+            for (item in allGameArmors) {
+                if (heroData.heroShoesId == item.itemId) {
+                    genTxt.text = "${item.armorName}, armor: ${item.armor}, vitality: ${item.vitality}," +
+                            " strength: ${item.strenght}, speed: ${item.speed}, mana: ${item.mana}," +
+                            " price: ${item.price} gold"
+                    selectedArorObject = armorClass(item.itemId, item.armorName, item.armor,
+                        item.vitality, item.speed, item.mana, item.strenght,
+                        item.price, item.typeItem)
+                }
+            }
+        }
+        heroRobeSlot.setOnClickListener {
+            removeButton.isEnabled = true
+            for (item in allGameArmors) {
+                if (heroData.heroRobeId == item.itemId) {
+                    genTxt.text = "${item.armorName}, armor: ${item.armor}, vitality: ${item.vitality}," +
+                            " strength: ${item.strenght}, speed: ${item.speed}, mana: ${item.mana}," +
+                            " price: ${item.price} gold"
+                    selectedArorObject = armorClass(item.itemId, item.armorName, item.armor,
+                        item.vitality, item.speed, item.mana, item.strenght,
+                        item.price, item.typeItem)
+                }
+            }
+        }
+        heroShieldSlot.setOnClickListener {
+            removeButton.isEnabled = true
+            for (item in allGameArmors) {
+                if (heroData.heroShieldId == item.itemId) {
+                    genTxt.text = "${item.armorName}, armor: ${item.armor}, vitality: ${item.vitality}," +
+                            " strength: ${item.strenght}, speed: ${item.speed}, mana: ${item.mana}," +
+                            " price: ${item.price} gold"
+                    selectedArorObject = armorClass(item.itemId, item.armorName, item.armor,
+                        item.vitality, item.speed, item.mana, item.strenght,
+                        item.price, item.typeItem)
+                }
+            }
+        }
+        heroGloveSlot.setOnClickListener {
+            removeButton.isEnabled = true
+            for (item in allGameArmors) {
+                if (heroData.heroGloveId == item.itemId) {
+                    genTxt.text = "${item.armorName}, armor: ${item.armor}, vitality: ${item.vitality}," +
+                            " strength: ${item.strenght}, speed: ${item.speed}, mana: ${item.mana}," +
+                            " price: ${item.price} gold"
+                    selectedArorObject = armorClass(item.itemId, item.armorName, item.armor,
+                        item.vitality, item.speed, item.mana, item.strenght,
+                        item.price, item.typeItem)
+                }
+            }
+        }
+        heroWeaponSlot.setOnClickListener {
+            removeButton.isEnabled = true
+            for (item in allGameArmors) {
+                if (heroData.heroWeaponId == item.itemId) {
+                    genTxt.text = "${item.armorName}, armor: ${item.armor}, vitality: ${item.vitality}," +
+                            " strength: ${item.strenght}, speed: ${item.speed}, mana: ${item.mana}," +
+                            " price: ${item.price} gold"
+                    selectedArorObject = armorClass(item.itemId, item.armorName, item.armor,
+                        item.vitality, item.speed, item.mana, item.strenght,
+                        item.price, item.typeItem)
+                }
+            }
+        }
+        heroRingSlot1.setOnClickListener {
+            removeButton.isEnabled = true
+            for (item in allGameArmors) {
+                if (heroData.heroRingId1 == item.itemId) {
+                    genTxt.text = "${item.armorName}, armor: ${item.armor}, vitality: ${item.vitality}," +
+                            " strength: ${item.strenght}, speed: ${item.speed}, mana: ${item.mana}," +
+                            " price: ${item.price} gold"
+                    selectedArorObject = armorClass(item.itemId, item.armorName, item.armor,
+                        item.vitality, item.speed, item.mana, item.strenght,
+                        item.price, item.typeItem)
+                }
+            }
+        }
+        heroRingSlot2.setOnClickListener {
+            removeButton.isEnabled = true
+            for (item in allGameArmors) {
+                if (heroData.heroRingId2 == item.itemId) {
+                    genTxt.text = "${item.armorName}, armor: ${item.armor}, vitality: ${item.vitality}," +
+                            " strength: ${item.strenght}, speed: ${item.speed}, mana: ${item.mana}," +
+                            " price: ${item.price} gold"
+                    selectedArorObject = armorClass(item.itemId, item.armorName, item.armor,
+                        item.vitality, item.speed, item.mana, item.strenght,
+                        item.price, item.typeItem)
+                }
+            }
+        }
+        heroAmuletSlot.setOnClickListener {
+            removeButton.isEnabled = true
+            for (item in allGameArmors) {
+                if (heroData.heroAmuletId == item.itemId) {
+                    genTxt.text = "${item.armorName}, armor: ${item.armor}, vitality: ${item.vitality}," +
+                            " strength: ${item.strenght}, speed: ${item.speed}, mana: ${item.mana}," +
+                            " price: ${item.price} gold"
+                    selectedArorObject = armorClass(item.itemId, item.armorName, item.armor,
+                        item.vitality, item.speed, item.mana, item.strenght,
+                        item.price, item.typeItem)
+                }
+            }
+        }
+
 
 
 
@@ -379,6 +582,7 @@ class shopsActivity2 : AppCompatActivity(), itemShopViewAdapter.OnBuyClickListen
     }
 
 
+    // No updates required
     fun saveHeroData() {
 
         database = Firebase.firestore
@@ -400,6 +604,7 @@ class shopsActivity2 : AppCompatActivity(), itemShopViewAdapter.OnBuyClickListen
 
 
 
+    // No updates required
     override fun onBuyClick(armor: armorClass) {
         if (heroData.heroGold >= armor.price) {
             heroData.heroGold -= armor.price
@@ -448,7 +653,7 @@ class shopsActivity2 : AppCompatActivity(), itemShopViewAdapter.OnBuyClickListen
 
 
 
-    // Copy to the other shops, no updates required
+    // No updates required
     override fun onEquipClick(item: armorClass) {
 
         database = Firebase.firestore
@@ -817,8 +1022,39 @@ class shopsActivity2 : AppCompatActivity(), itemShopViewAdapter.OnBuyClickListen
 
 
 
+    // No updates required
     override fun onSellClick(item: armorClass) {
+        database = Firebase.firestore
+        auth = Firebase.auth
+        val user = auth.currentUser
+        var isOneItemDeleted = false
+        heroData.heroGold += item.price/2
+        if (user != null) {
+            val userId = user.uid
+            val itemsInventoryCollection = database.collection("users").document(userId)
+                .collection("userData").document("inventory")
+                .collection("itemsInventory")
+            itemsInventoryCollection.get()
+                .addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        savedItemInventory = document.toObject()!!
+                        if (savedItemInventory.itemId == item.itemId && savedItemInventory.armorName
+                            == item.armorName && savedItemInventory.armor == item.armor
+                            && savedItemInventory.vitality == item.vitality
+                            && savedItemInventory.strenght == item.strenght
+                            && savedItemInventory.mana == item.mana
+                            && savedItemInventory.speed == item.speed
+                            && savedItemInventory.price == item.price
+                            && savedItemInventory.typeItem == item.typeItem && !isOneItemDeleted) {
+                            itemsInventoryCollection.document(document.id).delete()
+                            isOneItemDeleted = true
+                        }
+                    }
 
+                    saveHeroData()
+
+                }
+        }
     }
 
 
